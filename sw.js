@@ -3,7 +3,7 @@
    - Imagens das estampas e dos aparelhos: usa a cópia guardada (abre rápido e gasta menos dados).
    - Banco de dados (Supabase) e versao.json: nunca guarda, sempre vai na internet.
    - Avisos (push) de pedido novo: mostra a notificação e abre o app ao tocar. */
-const PAGINAS = "clube-paginas-v1", IMAGENS = "clube-imagens-v2", EXTERNOS = "clube-externos-v1";
+const PAGINAS = "clube-paginas-v1", IMAGENS = "clube-imagens-v3", EXTERNOS = "clube-externos-v1";
 
 self.addEventListener("install", () => self.skipWaiting());
 self.addEventListener("activate", e => e.waitUntil((async () => {
