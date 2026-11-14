@@ -468,3 +468,26 @@ a.cat-entrada{text-decoration:none}
 }
 .clube .prod .fone{right:16px;width:84px}.clube .prod .capa{right:82px}
 .clube .txt{max-width:50%}.clube .prod .capa{width:76px;right:78px}.clube .prod .fone{width:82px}
+/* banner: sem a frase; "CLUBE" e o logo maiores */
+.clube{min-height:184px}
+.clube .txt{max-width:58%;gap:12px}
+.clube h1{font-size:40px}
+.clube h1 em{font-size:.62em;letter-spacing:.2em;margin-bottom:6px}
+.clube h1 .logo{width:100%;max-width:200px}
+.clube .prod .fone{width:74px;right:14px;bottom:10px}
+.clube .prod .capa{width:68px;right:68px;bottom:6px}
+@media (max-width:360px){.clube h1{font-size:34px}.clube .prod .fone{width:66px}.clube .prod .capa{width:60px;right:60px}}
+.clube h1 .logo{width:178px;max-width:none}@media (max-width:360px){.clube h1 .logo{width:150px}}
+
+/* "Mandar para o cliente" na tela da loja */
+.enviar-links{display:grid;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);padding:12px 14px}
+.enviar-links>b{font-size:15px}
+.enviar-links>small{color:var(--muted);font-size:13px;font-weight:600;margin-top:-6px}
+.el-linha{display:flex;align-items:center;gap:8px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:8px}
+.el-linha span{flex:1;min-width:140px;font-weight:700;font-size:14px}
+.el-linha button,.el-linha a{display:inline-flex;align-items:center;gap:6px}
+.el-linha svg{width:16px;height:16px}
+.el-linha .wbtn.mini{padding:9px 12px;font-size:14px}
+.el-linha{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.el-linha span{grid-column:1/-1;min-width:0}
+.el-linha button,.el-linha a{justify-content:center;padding:10px 12px;font-size:14px}

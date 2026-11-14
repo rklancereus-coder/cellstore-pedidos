@@ -185,3 +185,22 @@ async function ativarAvisos() {
     desenhar();
   } catch (e) { erroTela(e); }
 }
+
+/* ---------- links para mandar ao cliente ---------- */
+// endereço do site sem ?v=… nem #…; "#estampas" abre direto o catálogo de estampas
+function linkCliente(qual) { const base = new URL("./", location.href).href; return qual === "aparelhos" ? base + "aparelhos/" : base + "#estampas"; }
+const MSG_CLIENTE = {
+  estampas: l => `Olá! 😊 Aqui está o catálogo de estampas da Cell Store para a sua capinha personalizada:\n${l}\nEscolha a que mais gostar e me mande o código (ex.: FLO-005).`,
+  aparelhos: l => `Olá! 😊 Aqui estão os celulares da Cell Store:\n${l}\nToque no modelo para ver a ficha completa. Qualquer dúvida é só me chamar!`,
+};
+function blocoLinksCliente() {
+  const linha = (q, nome) => `<div class="el-linha"><span>${nome}</span><button type="button" class="soft mini" data-copiar-link="${q}">${ICON_COPIAR_LINK}Copiar link</button><a class="wbtn mini" href="https://wa.me/?text=${encodeURIComponent(MSG_CLIENTE[q](linkCliente(q)))}" target="_blank" rel="noopener">${ICON.chat}WhatsApp</a></div>`;
+  return `<div class="enviar-links"><b>Mandar para o cliente</b><small>O cliente abre direto no celular, sem precisar de app nem senha.</small>${linha("estampas", "Catálogo de estampas")}${linha("aparelhos", "Catálogo de aparelhos")}</div>`;
+}
+const ICON_COPIAR_LINK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>';
+document.addEventListener("click", async e => {
+  const b = e.target.closest("[data-copiar-link]"); if (!b) return;
+  const l = linkCliente(b.dataset.copiarLink);
+  if (await copiarTexto(l)) toast("Link copiado! É só colar na conversa com o cliente.");
+  else { modal(`<h2>Copie o link</h2><input value="${esc(l)}" id="lcop" readonly onclick="this.select()"><button class="btn soft" onclick="fecharModal()">Fechar</button>`, () => $("lcop").select()); }
+});
