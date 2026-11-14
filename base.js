@@ -192,8 +192,9 @@ async function ativarAvisos() {
 }
 
 /* ---------- links para mandar ao cliente ---------- */
-// endereço do site sem ?v=… nem #…; "#estampas" abre direto o catálogo de estampas
-function linkCliente(qual) { const base = new URL("./", location.href).href; return qual === "aparelhos" ? base + "aparelhos/" : base + "#estampas"; }
+// links curtos (Bitly) para mandar ao cliente; quando houver domínio próprio, é só trocar aqui
+const LINKS_CURTOS = { portal: "https://bit.ly/portal-cellstore", estampas: "https://bit.ly/cellstore-estampas", aparelhos: "https://bit.ly/cellstore-celulares", sos: "https://bit.ly/cellstore-sos" };
+function linkCliente(qual) { return LINKS_CURTOS[qual] || LINKS_CURTOS.portal; }
 const MSG_CLIENTE = {
   estampas: l => `Olá! 😊 Aqui está o catálogo de estampas da Cell Store para a sua capinha personalizada:\n${l}\nEscolha a que mais gostar e me mande o código (ex.: FLO-005).`,
   aparelhos: l => `Olá! 😊 Aqui estão os celulares da Cell Store:\n${l}\nToque no modelo para ver a ficha completa. Qualquer dúvida é só me chamar!`,
