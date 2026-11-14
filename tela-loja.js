@@ -10,6 +10,7 @@ function telaLogin() {
     <div class="err" id="err" hidden></div>
     <button class="btn primary" type="submit" id="bentrar">Entrar</button>
    </form>
+   <button type="button" class="cat-entrada" id="bcatpub"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span><span class="tx"><b>Ver catálogo de estampas</b><small>${window.DEMO_CATALOGO ? window.DEMO_CATALOGO.itens.length.toLocaleString("pt-BR") + " estampas · " : ""}não precisa entrar</small></span><span class="seta">›</span></button>
    ${api.modo === "demo" ? `<div class="aviso"><b>Modo demonstração.</b> Os dados ficam só neste navegador. Usuários de teste: <b>loja01</b> a <b>loja07</b> e <b>lojaon</b> (senha 1234), <b>fabrica</b>, <b>logistica</b> e <b>admin</b> (senha igual ao usuário).</div>` : ""}
   </div>`;
   const erro = m => { const x = $("err"); x.textContent = m; x.hidden = false; };
@@ -28,6 +29,7 @@ function telaLogin() {
     const sinc = () => { const v = $("usuario").value; $("senha").inputMode = v === "admin" ? "text" : "numeric"; };
     $("usuario").onchange = () => { sinc(); if ($("usuario").value) $("senha").focus(); }; sinc();
   })();
+  $("bcatpub").onclick = catalogoPublico;
   $("flogin").onsubmit = async e => {
     e.preventDefault();
     const u = $("usuario").value.trim(), s = $("senha").value;
@@ -144,6 +146,23 @@ function abrirCatalogo(aoEscolher) {
     grade();
     const sel = document.querySelector("[data-ctema].on"); if (sel) sel.scrollIntoView({ block: "nearest", inline: "center" });
   }, "box-cat");
+}
+/* catálogo aberto na tela de entrada (sem login): usa a lista local de estampas */
+function catalogoPublico() {
+  if (!S.catalogo.size && window.DEMO_CATALOGO) {
+    const cat = window.DEMO_CATALOGO;
+    S.temas = cat.temas.map((n, i) => ({ pasta_id: "T" + i, nome: n, ordem: i }));
+    cat.itens.forEach(([codigo, arquivo_id, t]) => S.catalogo.set(normCod(codigo), { codigo, arquivo_id, tema: cat.temas[t], pasta_id: "T" + t, ativo: true }));
+  }
+  abrirCatalogo(cod => {
+    const c = acharCat(cod); if (!c) return;
+    modal(`<div class="cat-topo"><h2>${esc(c.codigo)}</h2><button class="cat-x" id="vfechar" aria-label="Fechar">×</button></div>
+      <img class="cat-grande" src="${imgDrive(c.arquivo_id, 600)}" alt="Estampa ${esc(c.codigo)}">
+      <p class="hint" style="text-align:center;margin:0">Coleção <b>${esc(c.tema)}</b>. Para pedir, informe o código <b>${esc(c.codigo)}</b>.</p>
+      <button class="btn soft" id="vvoltar">‹ Voltar ao catálogo</button>`, () => {
+      $("vfechar").onclick = fecharModal; $("vvoltar").onclick = catalogoPublico;
+    }, "box-ver");
+  });
 }
 function msgCat() {
   const c = acharCat(w.codigo);
