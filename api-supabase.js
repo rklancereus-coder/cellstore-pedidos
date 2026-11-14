@@ -136,7 +136,7 @@ function criarApiSupabase(cfg) {
     async usuarios(acao, d = {}) { const r = await funcao("admin-usuarios", { acao, ...d }); return acao === "listar" ? r.usuarios : r; },
     async salvarPreco(chave, valor) { ok(await sb.from("precos").update({ valor: Number(valor), atualizado_em: new Date().toISOString() }).eq("chave", chave)); },
     async salvarModelo(m) { m.id ? ok(await sb.from("modelos").update({ nome: m.nome, marca: m.marca, ativo: m.ativo }).eq("id", m.id)) : ok(await sb.from("modelos").insert({ nome: m.nome.trim(), marca: m.marca || "" })); },
-    async salvarLoja(l) { l.id ? ok(await sb.from("lojas").update({ nome: l.nome, ativa: l.ativa, whatsapp: l.whatsapp ?? "" }).eq("id", l.id)) : ok(await sb.from("lojas").insert({ nome: l.nome.trim(), ordem: S.lojas.length })); },
+    async salvarLoja(l) { l.id ? ok(await sb.from("lojas").update({ nome: l.nome, ativa: l.ativa, whatsapp: l.whatsapp ?? "", online: !!l.online }).eq("id", l.id)) : ok(await sb.from("lojas").insert({ nome: l.nome.trim(), ordem: S.lojas.length })); },
     async salvarTema(t) { ok(await sb.from("temas").update({ prefixo: t.prefixo, ativo: t.ativo, nome_exibicao: t.nome_exibicao || null }).eq("pasta_id", t.pasta_id)); },
     async sincronizarCatalogo() { return funcao("sync-catalogo", {}); },
     // manutenção: espaço usado, limpeza de fotos antigas e cópia de segurança

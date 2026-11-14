@@ -44,7 +44,7 @@ function cardFab(p) {
   if (p.pers === "catalogo") det = `Estampa <b>${esc(p.codigo)}</b>`;
   if (p.pers === "foto") det = p.foto_path ? (p.foto_alerta ? `Foto anexada <span class="tag warn">pode sair pixelada</span>` : "Foto anexada") : `<span class="tag urg">Aguardando foto no WhatsApp</span>`;
   return `<article class="card ${p.urgente && ABERTOS.includes(p.status) ? "urg" : ""}">
-   <div class="hd"><b>${esc(nomeLoja(p.loja_id))}</b><span class="num">${nro(p.id)}</span>${!p.visto_fabrica && ABERTOS.includes(p.status) ? `<span class="tag new">${p.editado ? "Editado" : "Novo"}</span>` : p.editado && p.status === "recebido" ? `<span class="tag">Editado</span>` : ""}${p.urgente ? `<span class="tag urg">Urgente</span>` : ""}${atraso ? `<span class="tag urg">Atrasado</span>` : ""}${p.exemplo ? `<span class="tag">exemplo</span>` : ""}<span class="right">${brl(p.valor_total)}</span></div>
+   <div class="hd"><b>${esc(rotuloLoja(p))}</b><span class="num">${nro(p.id)}</span>${!p.visto_fabrica && ABERTOS.includes(p.status) ? `<span class="tag new">${p.editado ? "Editado" : "Novo"}</span>` : p.editado && p.status === "recebido" ? `<span class="tag">Editado</span>` : ""}${p.urgente ? `<span class="tag urg">Urgente</span>` : ""}${atraso ? `<span class="tag urg">Atrasado</span>` : ""}${p.exemplo ? `<span class="tag">exemplo</span>` : ""}<span class="right">${brl(p.valor_total)}</span></div>
    <div class="row-media">${miniatura(p)}<div>
     <div class="what">${p.qtd > 1 ? p.qtd + "× " : ""}${PROD[p.produto]}${p.produto !== "popsocket" ? " · " + esc(p.celular) : ""}</div>
     <div class="sub">${PERS[p.pers]} · ${det}</div>
@@ -73,7 +73,7 @@ function abaProducao() {
      ${ps.map(p => `<label class="ficha">${p.status === "recebido" ? `<input type="checkbox" data-sel="${p.id}" checked>` : `<span class="tag" style="background:var(--warn-soft);color:var(--warn)">Em produção</span>`}
        <div class="row-media">${miniatura(p)}<div>
         <div class="big">${p.pers === "foto" ? "FOTO" : esc(p.codigo)}${p.pers === "nome" ? ` · “${esc(p.texto_nome)}”` : ""}${p.qtd > 1 ? ` · ${p.qtd}×` : ""}</div>
-        <div class="sub">${esc(nomeLoja(p.loja_id))} · ${nro(p.id)} · entrega <b>${fmtD(p.entrega)}</b>${p.urgente ? ` · <b style="color:var(--urg)">URGENTE</b>` : ""}${p.pers === "foto" && !p.foto_path ? ` · <b style="color:var(--urg)">sem foto ainda</b>` : ""}</div>
+        <div class="sub">${esc(rotuloLoja(p))} · ${nro(p.id)} · entrega <b>${fmtD(p.entrega)}</b>${p.urgente ? ` · <b style="color:var(--urg)">URGENTE</b>` : ""}${p.pers === "foto" && !p.foto_path ? ` · <b style="color:var(--urg)">sem foto ainda</b>` : ""}</div>
         ${p.obs ? `<div class="sub">Obs.: ${esc(p.obs)}</div>` : ""}${p.compra && p.compra.status !== "entregue" ? `<div class="sub" style="color:var(--warn)">Capinha lisa ainda com a logística (${CST[p.compra.status][0].toLowerCase()})</div>` : ""}
        </div></div>${p.status === "producao" ? `<button class="primary mini noprint" data-av="${p.id}">Pronto →</button>` : "<span></span>"}</label>`).join("")}
    </section>`).join("")}`;
@@ -82,11 +82,12 @@ function abaProducao() {
 /* ---- Envios: romaneio por loja ---- */
 function abaEnvios() {
   const prontos = S.pedidos.filter(p => p.status === "pronto");
-  const porLoja = S.lojas.map(l => ({ l, ps: prontos.filter(p => p.loja_id === l.id) })).filter(x => x.ps.length);
+  // separa pela loja para onde a capinha vai (pedidos da loja online vão para a loja de retirada)
+  const porLoja = S.lojas.map(l => ({ l, ps: prontos.filter(p => destinoLoja(p) === l.id) })).filter(x => x.ps.length);
   const roms = S.romaneios.slice().sort((a, b) => b.id - a.id).slice(0, 30);
   return `<h2>Prontos para enviar</h2>
    ${porLoja.length ? porLoja.map(({ l, ps }) => `<section class="card" style="margin-top:12px"><div class="hd"><h3>${esc(l.nome)}</h3><span class="tag">${ps.length} pedido${ps.length > 1 ? "s" : ""}</span></div>
-     ${ps.map(p => `<label class="hd" style="gap:10px"><input type="checkbox" data-rom="${l.id}" value="${p.id}" checked style="width:20px;height:20px;accent-color:var(--accent)"><span class="num">${nro(p.id)}</span><span class="sub">${descr(p)}${p.produto !== "popsocket" ? " · " + esc(p.celular) : ""} · ${esc(p.cliente) || "—"}</span></label>`).join("")}
+     ${ps.map(p => `<label class="hd" style="gap:10px"><input type="checkbox" data-rom="${l.id}" value="${p.id}" checked style="width:20px;height:20px;accent-color:var(--accent)"><span class="num">${nro(p.id)}</span><span class="sub">${p.retirada_loja_id ? `<b>${esc(nomeLoja(p.loja_id))}</b> · ` : ""}${descr(p)}${p.produto !== "popsocket" ? " · " + esc(p.celular) : ""} · ${esc(p.cliente) || "—"}</span></label>`).join("")}
      <button class="btn primary" data-gerar="${l.id}" style="padding:12px">Gerar romaneio e enviar para ${esc(l.nome)}</button></section>`).join("")
     : `<div class="empty" style="margin-top:12px">Nenhum pedido pronto. Quando você marcar pedidos como <b>Pronto</b>, eles aparecem aqui separados por loja.</div>`}
    <h2 style="margin-top:28px">Remessas enviadas</h2>

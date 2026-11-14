@@ -60,7 +60,7 @@ let abaLoja = "andamento", buscaLoja = "", tela = "inicio";
 function telaLoja() {
   if (tela === "novo") return renderPasso();
   if (tela === "enviado") return renderEnviado();
-  const meus = S.pedidos.filter(p => p.loja_id === S.perfil.loja_id);
+  const meus = S.pedidos.filter(p => p.loja_id === S.perfil.loja_id || p.retirada_loja_id === S.perfil.loja_id);
   const q = semAcento(buscaLoja).trim(), qn = soNumeros(buscaLoja);
   const bate = p => !q || semAcento(p.cliente).includes(q) || (qn.length >= 3 && soNumeros(p.whats).includes(qn)) || (qn && String(p.id) === qn);
   const and = meus.filter(p => ABERTOS.includes(p.status) && bate(p)).sort((a, b) => (a.status === "na_loja" ? -1 : 0) - (b.status === "na_loja" ? -1 : 0) || a.entrega.localeCompare(b.entrega));
@@ -80,7 +80,7 @@ function telaLoja() {
     </div>
     ${blocoLinksCliente()}
     ${chegando.map(r => { const n = S.pedidos.filter(p => p.romaneio_id === r.id).length; return `<div class="chegando"><b>Remessa ${nro(r.id)} a caminho: ${n} pedido${n > 1 ? "s" : ""}</b><span class="sub">Quando chegar, confira as capinhas e toque em recebi.</span><button class="btn primary" data-receber="${r.id}" style="padding:12px">Conferi e recebi</button></div>`; }).join("")}
-    ${naLoja ? `<div class="card" style="border-color:var(--s-loja)"><b style="color:var(--s-loja)">${naLoja} pedido${naLoja > 1 ? "s" : ""} na loja esperando o cliente.</b><span class="sub">Use o botão “Avisar cliente” em cada pedido.</span></div>` : ""}
+    ${naLoja ? `<div class="card" style="border-color:var(--s-loja)"><b style="color:var(--s-loja)">${naLoja} pedido${naLoja > 1 ? "s" : ""} ${lojaEhOnline(S.perfil.loja_id) ? "já na loja de retirada" : "na loja"} esperando o cliente.</b><span class="sub">Use o botão “Avisar cliente” em cada pedido.</span></div>` : ""}
    </div>
    <h2>Seus pedidos</h2>
    <div class="busca" style="margin-top:12px"><label for="bl" hidden>Buscar</label>${ICON.lupa}<input id="bl" type="search" placeholder="Buscar por nome ou telefone do cliente" value="${esc(buscaLoja)}"></div>
@@ -99,18 +99,20 @@ function telaLoja() {
 }
 function cardLoja(p) {
   const [nome, cor] = ST[p.status], idx = FLUXO.indexOf(p.status);
-  const aviso = p.whats ? waLink(p.whats, `Oi${p.cliente ? " " + p.cliente.split(" ")[0] : ""}! Sua capinha personalizada já chegou na ${S.perfil.nome}. Pode vir buscar quando quiser! 😊`) : "";
+  const deOutra = p.loja_id !== S.perfil.loja_id;            // pedido da loja online que o cliente retira aqui
+  const ondeBusca = p.retirada_loja_id ? nomeLoja(p.retirada_loja_id) : S.perfil.nome;
+  const aviso = p.whats ? waLink(p.whats, `Oi${p.cliente ? " " + p.cliente.split(" ")[0] : ""}! Sua capinha personalizada já chegou na ${ondeBusca}. Pode passar lá para buscar quando quiser! 😊`) : "";
   return `<article class="card ${p.urgente && ABERTOS.includes(p.status) ? "urg" : ""}" style="--c:var(${cor})">
-   <div class="hd"><span class="num">${nro(p.id)}</span>${p.urgente ? `<span class="tag urg">Urgente</span>` : ""}${p.exemplo ? `<span class="tag">exemplo</span>` : ""}<span class="right">${brl(p.valor_total)}</span></div>
+   <div class="hd"><span class="num">${nro(p.id)}</span>${p.urgente ? `<span class="tag urg">Urgente</span>` : ""}${p.exemplo ? `<span class="tag">exemplo</span>` : ""}${deOutra ? `<span class="tag on">Pedido da ${esc(nomeLoja(p.loja_id))} · retirada aqui</span>` : `<span class="right">${brl(p.valor_total)}</span>`}</div>
    <div class="row-media">${miniatura(p)}<div><div class="what">${descr(p)}</div>
-   <div class="sub">${p.produto !== "popsocket" ? `<b>${esc(p.celular)}</b> · ` : ""}Cliente <b>${esc(p.cliente) || "—"}</b> · Entrega <b>${fmtD(p.entrega)}</b></div></div></div>
+   <div class="sub">${p.produto !== "popsocket" ? `<b>${esc(p.celular)}</b> · ` : ""}Cliente <b>${esc(p.cliente) || "—"}</b> · Entrega <b>${fmtD(p.entrega)}</b>${!deOutra && p.retirada_loja_id ? ` · Retira na <b>${esc(nomeLoja(p.retirada_loja_id))}</b>` : ""}</div></div></div>
    ${linhaLisa(p)}
    <div class="stline">${nome}</div>
    ${p.status !== "cancelado" ? `<div class="track">${FLUXO.map((s, i) => `<i class="${i <= idx ? "on" : ""}"></i>`).join("")}</div>` : ""}
    <div class="acts">
-    ${p.status === "recebido" ? `<button class="edit" data-edit="${p.id}">${ICON.lapis} Editar</button><button class="link" data-cancel="${p.id}">Cancelar pedido</button>` : ""}
-    ${["producao", "pronto"].includes(p.status) ? `<span class="sub">Já está em produção. Para mudar algo, fale com a fábrica.</span>` : ""}
-    ${p.status === "na_loja" ? `${aviso ? `<a class="wbtn" href="${aviso}" target="_blank" rel="noopener">${ICON.chat} Avisar cliente</a>` : ""}<button class="edit" data-entregue="${p.id}">${ICON.ok} Entregue ao cliente</button>` : ""}
+    ${p.status === "recebido" && !deOutra ? `<button class="edit" data-edit="${p.id}">${ICON.lapis} Editar</button><button class="link" data-cancel="${p.id}">Cancelar pedido</button>` : ""}
+    ${["producao", "pronto"].includes(p.status) && !deOutra ? `<span class="sub">Já está em produção. Para mudar algo, fale com a fábrica.</span>` : ""}
+    ${p.status === "na_loja" ? `${aviso ? `<a class="wbtn" href="${aviso}" target="_blank" rel="noopener">${ICON.chat} Avisar cliente</a>` : ""}${p.retirada_loja_id && !deOutra ? `<span class="sub">A ${esc(nomeLoja(p.retirada_loja_id))} entrega ao cliente.</span>` : `<button class="edit" data-entregue="${p.id}">${ICON.ok} Entregue ao cliente</button>`}` : ""}
    </div>
   </article>`;
 }
@@ -124,10 +126,10 @@ function confirmar(titulo, texto, botao, fn) {
 /* ---------- LOJA: assistente de pedido ---------- */
 let w, passo, ultimo = null, enviando = false;
 const PASSOS = ["O que o cliente quer?", "Qual personalização?", "Detalhes da capinha", "Cliente e entrega", "Confira e envie"];
-function novoPedido() { w = { produto: null, pers: null, celular: "", codigo: "", texto_nome: "", foto: null, foto_path: null, foto_whats: false, vendedor: ls.get("vend-" + S.perfil.id) || "", cliente: "", whats: "", qtd: 1, entrega: addDias(hoje(), 3), urgente: false, obs: "", origem: null, compra: null }; passo = 1; }
+function novoPedido() { w = { produto: null, pers: null, celular: "", codigo: "", texto_nome: "", foto: null, foto_path: null, foto_whats: false, vendedor: ls.get("vend-" + S.perfil.id) || "", cliente: "", whats: "", qtd: 1, entrega: addDias(hoje(), 3), urgente: false, obs: "", origem: null, compra: null, retirada: null }; passo = 1; }
 function editarPedido(id) {
   const p = S.pedidos.find(x => x.id === id); if (!p || p.status !== "recebido") return;
-  w = { id, produto: p.produto, pers: p.pers, celular: p.celular, codigo: p.codigo || "", texto_nome: p.texto_nome || "", foto: null, foto_path: p.foto_path, foto_whats: p.foto_whats, vendedor: p.vendedor, cliente: p.cliente, whats: p.whats, qtd: p.qtd, entrega: p.entrega, urgente: p.urgente, obs: p.obs, origem: p.origem_lisa, compra: p.compra ? { cor: p.compra.cor, precisa_ate: p.compra.precisa_ate } : null };
+  w = { id, produto: p.produto, pers: p.pers, celular: p.celular, codigo: p.codigo || "", texto_nome: p.texto_nome || "", foto: null, foto_path: p.foto_path, foto_whats: p.foto_whats, vendedor: p.vendedor, cliente: p.cliente, whats: p.whats, qtd: p.qtd, entrega: p.entrega, urgente: p.urgente, obs: p.obs, origem: p.origem_lisa, compra: p.compra ? { cor: p.compra.cor, precisa_ate: p.compra.precisa_ate } : null, retirada: p.retirada_loja_id || null };
   passo = 1; tela = "novo"; desenhar();
 }
 function blocoCat(titulo) {
@@ -286,6 +288,7 @@ function renderPasso() {
      <label class="f"><span>Seu nome (vendedor)</span><input id="vendedor" value="${esc(w.vendedor)}" placeholder="Quem está fazendo o pedido"></label>
      <div class="row"><label class="f"><span>Nome do cliente</span><input id="cliente" value="${esc(w.cliente)}"></label>
      <label class="f"><span>WhatsApp do cliente <em>(para avisar quando chegar)</em></span><input id="whats" inputmode="tel" value="${esc(w.whats)}" placeholder="(11) 90000-0000"></label></div>
+     ${lojaEhOnline(S.perfil.loja_id) ? `<div class="f"><span>Cliente vai retirar em</span><div class="pills" id="retiradas">${lojasFisicas().map(l => `<button type="button" data-ret="${l.id}" class="${w.retirada === l.id ? "on" : ""}">${esc(l.nome)}</button>`).join("")}</div><span class="hint">A capinha vai para esta loja, e o cliente busca lá.</span></div>` : ""}
      <div class="f"><span>Quantidade</span><div class="qty"><button type="button" id="menos" aria-label="Diminuir">−</button><b id="q">${w.qtd}</b><button type="button" id="mais" aria-label="Aumentar">+</button></div></div>
      <div class="f"><span>Entregar na loja até</span><div class="pills" id="atalhos">${[[d1, "Amanhã"], [d2, "Em 2 dias"], [d3, "Em 3 dias"]].map(([d, n]) => `<button type="button" data-d="${d}" class="${w.entrega === d ? "on" : ""}">${n}</button>`).join("")}</div><input type="date" id="entrega" value="${w.entrega}" min="${hoje()}"></div>
      <label class="toggle" for="urgente"><input type="checkbox" id="urgente" ${w.urgente ? "checked" : ""} style="accent-color:var(--urg)"> É urgente</label>
@@ -298,7 +301,7 @@ function renderPasso() {
     const L = [["Produto", PROD[w.produto]], ["Personalização", PERS[w.pers]], w.produto !== "popsocket" && ["Celular", esc(w.celular)],
       w.pers === "nome" && ["Nome", `“${esc(w.texto_nome)}”`], w.pers !== "foto" && c && ["Estampa", `${esc(c.codigo)} · ${esc(c.tema)}`],
       w.pers === "foto" && ["Foto", w.foto_whats && !w.foto && !w.foto_path ? "Cliente vai mandar pelo WhatsApp" : (w.foto && w.foto.alerta ? "Anexada (pode sair pixelada)" : "Anexada")],
-      ["Quantidade", w.qtd], ["Cliente", esc(w.cliente) || "—"], ["Entrega", fmtD(w.entrega) + (w.urgente ? ` · <span style="color:var(--urg)">urgente</span>` : "")],
+      ["Quantidade", w.qtd], ["Cliente", esc(w.cliente) || "—"], lojaEhOnline(S.perfil.loja_id) && ["Retirada", esc(nomeLoja(w.retirada))], ["Entrega", fmtD(w.entrega) + (w.urgente ? ` · <span style="color:var(--urg)">urgente</span>` : "")],
       w.produto !== "popsocket" && ["Capinha lisa", w.origem === "logistica" ? `Logística · ${esc(w.produto === "aveludada" ? w.compra.cor : "Transparente")} · chegar até ${fmtD(w.compra.precisa_ate)}` : "Enviando da loja"],
       ["Vendedor", esc(w.vendedor)], w.obs && ["Obs.", esc(w.obs)]].filter(Boolean);
     const img = w.foto ? w.foto.previa : null;
@@ -342,6 +345,7 @@ function ligarPasso() {
     $("menos").onclick = () => { w.qtd = Math.max(1, w.qtd - 1); $("q").textContent = w.qtd; };
     $("mais").onclick = () => { w.qtd = Math.min(50, w.qtd + 1); $("q").textContent = w.qtd; };
     $$("#atalhos button").forEach(b => b.onclick = () => { guardar(); w.entrega = b.dataset.d; desenhar(); });
+    $$("[data-ret]").forEach(b => b.onclick = () => { guardar(); w.retirada = b.dataset.ret; desenhar(); });
     $("entrega").onchange = () => { guardar(); desenhar(); };
     $$("[data-orig]").forEach(b => b.onclick = () => { guardar(); w.origem = b.dataset.orig; if (w.origem === "logistica") { w.compra = w.compra || {}; if (!w.compra.precisa_ate) { const d = addDias(w.entrega, -1); w.compra.precisa_ate = d < hoje() ? hoje() : d; } } desenhar(); });
     $$("#pcores button").forEach(b => b.onclick = () => { guardar(); w.compra.cor = b.textContent; desenhar(); });
@@ -366,6 +370,7 @@ function validar() {
   }
   if (passo === 4) {
     if (!w.vendedor) return "Digite seu nome de vendedor.";
+    if (lojaEhOnline(S.perfil.loja_id) && !w.retirada) return "Escolha em qual loja o cliente vai retirar.";
     if (!w.entrega) return "Escolha a data de entrega.";
     if (w.entrega < hoje() && !w.id) return "A data de entrega já passou.";
     if (w.produto !== "popsocket") {
@@ -384,7 +389,8 @@ async function enviar() {
     vendedor: w.vendedor, cliente: w.cliente, whats: w.whats, produto: w.produto, celular: w.produto === "popsocket" ? "" : w.celular, pers: w.pers,
     codigo: w.pers === "foto" ? null : c.codigo, arquivo_id: w.pers === "foto" ? null : c.arquivo_id, texto_nome: w.pers === "nome" ? w.texto_nome : null,
     foto_whats: w.pers === "foto" && w.foto_whats && !w.foto, foto_alerta: !!(w.foto && w.foto.alerta) || (!w.foto && !!w.foto_path && (S.pedidos.find(p => p.id === w.id) || {}).foto_alerta === true),
-    qtd: w.qtd, entrega: w.entrega, urgente: w.urgente, obs: w.obs, origem_lisa: w.produto === "popsocket" ? null : w.origem
+    qtd: w.qtd, entrega: w.entrega, urgente: w.urgente, obs: w.obs, origem_lisa: w.produto === "popsocket" ? null : w.origem,
+    retirada_loja_id: lojaEhOnline(S.perfil.loja_id) ? w.retirada : null
   };
   const compra = w.produto !== "popsocket" && w.origem === "logistica" ? { cor: w.produto === "aveludada" ? w.compra.cor : "Transparente", precisa_ate: w.compra.precisa_ate } : null;
   const foto = w.pers !== "foto" ? null : (w.foto ? { blob: w.foto.blob, previa: w.foto.previa } : (w.foto_path && !w.foto_whats ? "manter" : null));

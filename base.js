@@ -74,6 +74,11 @@ const ICON = {
 /* ---------- estado ---------- */
 const S = { perfil: null, lojas: [], precos: {}, modelos: [], temas: [], catalogo: new Map(), pedidos: [], compras: [], romaneios: [], fotos: {} };
 const nomeLoja = id => (S.lojas.find(l => l.id === id) || {}).nome || "—";
+// loja online (Loja ON): vende pelo WhatsApp e o cliente retira numa loja física (retirada_loja_id)
+const lojaEhOnline = id => !!(S.lojas.find(l => l.id === id) || {}).online;
+const lojasFisicas = () => S.lojas.filter(l => l.ativa && !l.online);
+const destinoLoja = p => p.retirada_loja_id || p.loja_id;                 // para onde a capinha vai (romaneio)
+const rotuloLoja = p => nomeLoja(p.loja_id) + (p.retirada_loja_id ? ` → retira na ${nomeLoja(p.retirada_loja_id)}` : "");
 const papel = () => S.perfil && S.perfil.papel;
 const eFabrica = () => ["fabrica", "admin"].includes(papel());
 

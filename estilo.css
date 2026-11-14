@@ -491,3 +491,4 @@ a.cat-entrada{text-decoration:none}
 .el-linha{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .el-linha span{grid-column:1/-1;min-width:0}
 .el-linha button,.el-linha a{justify-content:center;padding:10px 12px;font-size:14px}
+.tag.on{background:color-mix(in srgb,var(--s-loja) 18%,transparent);color:var(--s-loja)}
