@@ -325,3 +325,9 @@ tfoot td{font-weight:800;border-bottom:0}
 .cat-col .tx{padding:10px 12px 12px;display:grid;gap:4px;min-width:0}
 .cat-col b{font-weight:800;font-size:15px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cat-col small{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;font-weight:600}
+/* código da estampa com botão copiar */
+.cod-copiar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:stretch;background:var(--sunk);border:2px dashed var(--accent);border-radius:16px;padding:8px 8px 8px 16px}
+.cod-copiar .cod{align-self:center;font-size:30px;font-weight:900;letter-spacing:.02em;font-variant-numeric:tabular-nums;user-select:all;-webkit-user-select:all;overflow-wrap:anywhere}
+.cod-copiar button{display:flex;align-items:center;gap:8px;padding:0 18px;font-weight:800;font-size:16px;border-radius:12px}
+.cod-copiar button svg{width:20px;height:20px}
+.cod-copiar button.ok{background:var(--ok);box-shadow:none}

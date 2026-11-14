@@ -167,6 +167,12 @@ function abrirCatalogo(aoEscolher, manter) {
     desenharCat();
   }, "box-cat");
 }
+const ICON_COPIAR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>';
+const ICON_OK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>';
+async function copiarTexto(t) {
+  try { await navigator.clipboard.writeText(t); return true; } catch (e) { }
+  try { const x = document.createElement("textarea"); x.value = t; x.style.cssText = "position:fixed;opacity:0"; document.body.appendChild(x); x.select(); const ok = document.execCommand("copy"); x.remove(); return ok; } catch (e) { return false; }
+}
 /* catálogo aberto na tela de entrada (sem login): usa a lista local de estampas */
 function catalogoPublico(manter) {
   if (!S.catalogo.size && window.DEMO_CATALOGO) {
@@ -179,8 +185,13 @@ function catalogoPublico(manter) {
     const nome = NOME_COLECAO[c.codigo.split("-")[0]] || c.tema;
     modal(`<div class="cat-topo"><button type="button" class="cat-voltar" id="vvoltar">‹ ${esc(nome)}</button><h2>${esc(c.codigo)}</h2><button class="cat-x" id="vfechar" aria-label="Fechar">×</button></div>
       <img class="cat-grande" src="${imgDrive(c.arquivo_id, 600)}" alt="Estampa ${esc(c.codigo)}">
-      <p class="hint" style="text-align:center;margin:0">Para pedir, informe o código <b>${esc(c.codigo)}</b>.</p>`, () => {
+      <p class="hint" style="text-align:center;margin:0">Para pedir, informe o código:</p>
+      <div class="cod-copiar"><span class="cod" id="vcod">${esc(c.codigo)}</span><button type="button" class="primary" id="vcopiar">${ICON_COPIAR}<span>Copiar</span></button></div>`, () => {
       $("vfechar").onclick = fecharModal; $("vvoltar").onclick = () => catalogoPublico(true);
+      $("vcopiar").onclick = async () => {
+        if (await copiarTexto(c.codigo)) { $("vcopiar").classList.add("ok"); $("vcopiar").innerHTML = `${ICON_OK}<span>Copiado</span>`; toast(`Código ${c.codigo} copiado`); }
+        else { const r = document.createRange(); r.selectNodeContents($("vcod")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); toast("Selecionei o código: é só copiar"); }
+      };
     }, "box-ver");
   }, manter === true);
 }
