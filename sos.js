@@ -103,7 +103,7 @@ function mensagemSos() {
   const per = SOS.periodos.find(x => x[0] === sos.periodo);
   const Q = (SOS.perguntas[sos.problema] || []).filter(([k]) => sos.resp[k]).map(([k, t]) => `• ${t} ${sos.resp[k]}`);
   return [
-    "Olá! Vim pelo *SOS Celular* do Clube Cell Store e quero um orçamento de conserto.\n",
+    "Olá! Vim pelo *SOS Celular* do Portal Cell Store e quero um orçamento de conserto.\n",
     `📱 *Aparelho:* ${sos.naoSei ? sos.modeloTexto + " (não sei o modelo)" : sos.modelo}`,
     `🔧 *Problema:* ${prob ? prob[2] : ""}`,
     ...Q,

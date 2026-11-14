@@ -156,7 +156,7 @@ function botaoInstalar(classe = "") {
   return `<button type="button" class="instalar ${classe}" ${pedidoInstalar || ehIOS ? "" : "hidden"}>${ICON_INSTALAR}Instalar o app</button>`;
 }
 addEventListener("beforeinstallprompt", e => { e.preventDefault(); pedidoInstalar = e; document.querySelectorAll(".instalar").forEach(b => b.hidden = false); });
-addEventListener("appinstalled", () => { pedidoInstalar = null; document.querySelectorAll(".instalar").forEach(b => b.hidden = true); toast("App instalado! Procure o ícone Clube Cell Store na tela do aparelho.", 4500); });
+addEventListener("appinstalled", () => { pedidoInstalar = null; document.querySelectorAll(".instalar").forEach(b => b.hidden = true); toast("App instalado! Procure o ícone Portal Cell Store na tela do aparelho.", 4500); });
 document.addEventListener("click", async e => {
   const b = e.target.closest(".instalar"); if (!b) return;
   if (pedidoInstalar) { pedidoInstalar.prompt(); try { await pedidoInstalar.userChoice; } catch (er) { } pedidoInstalar = null; return; }

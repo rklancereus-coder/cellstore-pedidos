@@ -545,3 +545,28 @@ a.cat-entrada{text-decoration:none}
 .sos-modelos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .sos-modelos button{padding:14px 12px;font-size:15px;text-align:left}
 .sos-rodape:empty{display:none}
+
+/* ===== Portal Cell Store: banner fino só com a marca + cartões compactos (cabe sem rolar no celular) ===== */
+.login.inicio{gap:12px;margin-top:0}
+.portal{position:relative;display:grid;justify-items:start;gap:6px;padding:16px 18px 18px;border-radius:var(--r-xl);
+  background:radial-gradient(ellipse closest-side at 85% 40%,rgba(255,45,143,.22),transparent),radial-gradient(ellipse closest-side at 60% 110%,rgba(62,230,255,.25),transparent),linear-gradient(135deg,#ffe4f1 0%,#f3eafb 50%,#dff6fc 100%);
+  box-shadow:inset 0 0 0 1px rgba(216,27,122,.12)}
+.portal em{font-style:normal;font-weight:900;font-size:14px;letter-spacing:.32em;background:linear-gradient(90deg,#3ee6ff,#ff2d8f);-webkit-background-clip:text;background-clip:text;color:transparent}
+.portal .logo{width:210px;background:var(--fg)}
+@media (prefers-color-scheme: dark){.portal{background:radial-gradient(ellipse 55% 140% at 100% 30%,rgba(255,45,143,.22),transparent 70%),radial-gradient(ellipse 60% 120% at 70% 120%,rgba(62,230,255,.16),transparent 70%),linear-gradient(135deg,rgba(255,255,255,.03),rgba(255,255,255,.01));box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}}
+.inicio .cat-entrada{min-height:0;padding:12px 16px 12px 4px;grid-template-columns:104px minmax(0,1fr) auto;border-radius:var(--r-l)}
+.inicio .cat-entrada .fan{height:96px}
+.inicio .cat-entrada .fan img{width:40px;left:32px;top:6px}
+.inicio .cat-entrada .fan img:nth-child(1){transform:translate(-26px,5px) rotate(-12deg)}
+.inicio .cat-entrada .fan img:nth-child(3){transform:translate(26px,5px) rotate(12deg)}
+.inicio .cat-entrada.fones .fan img{width:52px;left:26px;top:12px}
+.inicio .cat-entrada.fones .fan img:nth-child(1){transform:translate(-22px,5px) rotate(-10deg)}
+.inicio .cat-entrada.fones .fan img:nth-child(3){transform:translate(22px,5px) rotate(10deg)}
+.inicio .cat-entrada.sos .fan img{width:42px;left:30px;top:4px;transform:rotate(-8deg)}
+.inicio .cat-entrada.sos .sos-selo{left:54px;top:52px;width:32px;height:32px}
+.inicio .cat-entrada.sos .sos-selo svg{width:17px;height:17px}
+.inicio .cat-entrada .tag{font-size:11px;padding:4px 9px;margin-bottom:5px}
+.inicio .cat-entrada b{font-size:18px}
+.inicio .cat-entrada small{font-size:12.5px;margin-top:2px}
+.inicio .cat-entrada .seta{width:34px;height:34px;font-size:22px}
+.inicio .inicio-rodape{margin-top:2px}

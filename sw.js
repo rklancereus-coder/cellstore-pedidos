@@ -1,4 +1,4 @@
-/* Clube Cell Store: service worker (app instalável).
+/* Portal Cell Store: service worker (app instalável).
    - Páginas, scripts e estilos: tenta a internet primeiro (sempre a versão mais nova); sem internet, usa a cópia guardada.
    - Imagens das estampas e dos aparelhos: usa a cópia guardada (abre rápido e gasta menos dados).
    - Banco de dados (Supabase) e versao.json: nunca guarda, sempre vai na internet.
@@ -51,7 +51,7 @@ self.addEventListener("fetch", e => {
 self.addEventListener("push", e => {
   let d = {};
   try { d = e.data ? e.data.json() : {}; } catch (er) { d = { corpo: e.data && e.data.text() }; }
-  e.waitUntil(self.registration.showNotification(d.titulo || "Clube Cell Store", {
+  e.waitUntil(self.registration.showNotification(d.titulo || "Portal Cell Store", {
     body: d.corpo || "Tem novidade nos pedidos.",
     icon: "icone-192.png", badge: "favicon.png",
     tag: d.tag || "pedido", renotify: true,
