@@ -444,3 +444,13 @@ a.cat-entrada{text-decoration:none}
 @media (prefers-color-scheme: dark){.cat-col .fan{background:radial-gradient(circle at 80% 10%,rgba(255,45,143,.35),transparent 60%),radial-gradient(circle at 15% 100%,rgba(62,230,255,.25),transparent 60%),linear-gradient(160deg,var(--sunk),var(--stage))}}
 .cat-grande{background:radial-gradient(circle at 75% 15%,rgba(255,45,143,.35),transparent 55%),radial-gradient(circle at 20% 90%,rgba(62,230,255,.3),transparent 55%),linear-gradient(160deg,var(--sunk),var(--sunk))}
 @media (prefers-color-scheme: dark){.cat-grande{background:radial-gradient(circle at 75% 15%,rgba(255,45,143,.45),transparent 55%),radial-gradient(circle at 20% 90%,rgba(62,230,255,.35),transparent 55%),linear-gradient(160deg,var(--sunk),var(--stage))}}
+/* banner do Clube: faixa "solta" na página (sem fundo de cartão) para não parecer botão */
+.clube{background:radial-gradient(ellipse closest-side at 78% 42%,rgba(255,45,143,.32),transparent),radial-gradient(ellipse closest-side at 70% 95%,rgba(62,230,255,.22),transparent);border-radius:0;color:var(--fg);padding:4px 2px 6px;min-height:200px;overflow:visible}
+.clube::before,.clube::after{display:none}
+.clube h1 .logo{background:var(--fg)}
+.clube p{color:var(--muted);font-weight:600}
+.clube .chips span{color:var(--fg)}
+.clube .prod{overflow:hidden;-webkit-mask-image:linear-gradient(#000 78%,transparent);mask-image:linear-gradient(#000 78%,transparent)}
+.clube .prod .fone{bottom:-30px}
+.clube .prod .capa{bottom:-22px}
+.login.inicio .clube + .cat-entrada{margin-top:6px}
