@@ -10,7 +10,7 @@ function telaLogin() {
     <div class="err" id="err" hidden></div>
     <button class="btn primary" type="submit" id="bentrar">Entrar</button>
    </form>
-   <button type="button" class="cat-entrada" id="bcatpub"><span class="fan" aria-hidden="true"><img src="estampas/PET-001.webp" alt=""><img src="estampas/FLO-001.webp" alt=""><img src="estampas/LUX-002.webp" alt=""></span><span class="tx"><span class="tag">Catálogo</span><b>Ver catálogo de estampas</b><small>${window.DEMO_CATALOGO ? window.DEMO_CATALOGO.itens.length.toLocaleString("pt-BR") + " estampas · " : ""}não precisa entrar</small></span><span class="seta">›</span></button>
+   <button type="button" class="cat-entrada" id="bcatpub"><span class="fan" aria-hidden="true"><img src="estampas/PET-001.webp?r=2" alt=""><img src="estampas/FLO-001.webp?r=2" alt=""><img src="estampas/LUX-002.webp?r=2" alt=""></span><span class="tx"><span class="tag">Catálogo</span><b>Ver catálogo de estampas</b><small>${window.DEMO_CATALOGO ? window.DEMO_CATALOGO.itens.length.toLocaleString("pt-BR") + " estampas · " : ""}não precisa entrar</small></span><span class="seta">›</span></button>
    ${api.modo === "demo" ? `<div class="aviso"><b>Modo demonstração.</b> Os dados ficam só neste navegador. Usuários de teste: <b>loja01</b> a <b>loja07</b> e <b>lojaon</b> (senha 1234), <b>fabrica</b>, <b>logistica</b> e <b>admin</b> (senha igual ao usuário).</div>` : ""}
   </div>`;
   const erro = m => { const x = $("err"); x.textContent = m; x.hidden = false; };
@@ -117,26 +117,28 @@ function blocoCat(titulo) {
 }
 
 /* ---------- janela do catálogo: coleções com miniaturas → estampas da coleção ---------- */
-const NOME_COLECAO = { CAP: "Capivara", JAN: "Coleção Janeiro 24", DRA: "Como Treinar o Seu Dragão", STI: "Lilo & Stitch", MRB: "Mármore", CRT: "Para Correntes", POK: "Pokémon" };
+// nome que aparece para cada coleção (pelo prefixo do código); o resto usa o nome da pasta do Drive
+const NOME_COLECAO = { CAP: "Capivara", SOR: "Sortidos", DRA: "Como Treinar o Seu Dragão", STI: "Lilo & Stitch", MRB: "Mármore", CRT: "Para Correntes", POK: "Pokémon", NAM: "Namorados", PAI: "Pais", P24: "Pais" };
 let catTema = null, catBusca = "";
+// coleções agrupadas pelo prefixo do código (assim "Pais" junta PAI-001 a PAI-020, mesmo vindo de duas pastas)
 function colecoesCatalogo() {
-  const ordem = Object.fromEntries(S.temas.map(t => [t.pasta_id, t.ordem]));
   const m = new Map();
   for (const c of S.catalogo.values()) {
     if (!c.ativo) continue;
-    if (!m.has(c.pasta_id)) m.set(c.pasta_id, { id: c.pasta_id, tema: c.tema, itens: [] });
-    m.get(c.pasta_id).itens.push(c);
+    const pre = c.codigo.split("-")[0];
+    if (!m.has(pre)) m.set(pre, { id: pre, pre, tema: c.tema, itens: [] });
+    m.get(pre).itens.push(c);
   }
   const L = [...m.values()];
-  L.forEach(t => { t.itens.sort((a, b) => a.codigo.localeCompare(b.codigo)); t.pre = t.itens[0].codigo.split("-")[0]; t.nome = NOME_COLECAO[t.pre] || t.tema; });
-  return L.sort((a, b) => (ordem[a.id] ?? 99) - (ordem[b.id] ?? 99) || a.nome.localeCompare(b.nome, "pt-BR"));
+  L.forEach(t => { t.itens.sort((a, b) => a.codigo.localeCompare(b.codigo)); t.nome = NOME_COLECAO[t.pre] || t.tema; });
+  return L.sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
 }
 // manter = true volta para a mesma coleção (ex.: depois de ver uma estampa); senão abre nas coleções
 function abrirCatalogo(aoEscolher, manter) {
   const L = colecoesCatalogo(), porId = new Map(L.map(t => [t.id, t]));
   const itens = L.flatMap(t => t.itens);
   const atual = acharCat(w && w.codigo);
-  if (!manter) { catTema = atual ? atual.pasta_id : null; catBusca = ""; }
+  if (!manter) { catTema = atual ? atual.codigo.split("-")[0] : null; catBusca = ""; }
   if (!porId.has(catTema)) catTema = null;
   modal(`<div class="cat-topo"><button type="button" class="cat-voltar" id="catvoltar" hidden>‹ Coleções</button><h2 id="cattit">Catálogo de estampas</h2><button class="cat-x" id="catfechar" aria-label="Fechar">×</button></div>
     <div class="busca">${ICON.lupa}<input id="catq" type="search" placeholder="Já sabe o código? Busque aqui (ex.: PET-012)" value="${esc(catBusca)}" autocomplete="off"></div>

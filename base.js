@@ -68,7 +68,7 @@ function imgDrive(arquivoId, w = 400) {
   if (!arquivoId) return "";
   if (codPorArquivoTam !== S.catalogo.size) { codPorArquivo = new Map(); for (const c of S.catalogo.values()) codPorArquivo.set(c.arquivo_id, c.codigo); codPorArquivoTam = S.catalogo.size; }
   const cod = codPorArquivo.get(arquivoId);
-  return cod ? `estampas/${encodeURIComponent(cod)}.webp#${encodeURIComponent(arquivoId)}` : urlDrive(arquivoId, w);
+  return cod ? `estampas/${encodeURIComponent(cod)}.webp?r=2#${encodeURIComponent(arquivoId)}` : urlDrive(arquivoId, w);
 }
 document.addEventListener("error", e => {
   const i = e.target;
