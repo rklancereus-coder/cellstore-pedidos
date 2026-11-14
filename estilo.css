@@ -492,3 +492,9 @@ a.cat-entrada{text-decoration:none}
 .el-linha span{grid-column:1/-1;min-width:0}
 .el-linha button,.el-linha a{justify-content:center;padding:10px 12px;font-size:14px}
 .tag.on{background:color-mix(in srgb,var(--s-loja) 18%,transparent);color:var(--s-loja)}
+
+/* "Copiar link" logo abaixo de cada catálogo (tela da loja) */
+.atalho-col{display:grid;gap:6px;min-width:0}
+.copiar-link{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--sunk);color:var(--fg);font-weight:700;font-size:13px;padding:8px 10px;border-radius:var(--r-m)}
+.copiar-link svg{width:15px;height:15px}
+.copiar-link:active{transform:translateY(1px)}

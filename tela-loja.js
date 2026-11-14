@@ -75,10 +75,9 @@ function telaLoja() {
     ${zap ? `<a class="wpp" href="${zap}" target="_blank" rel="noopener">${ICON.chat}<span>Falar com a fábrica<small>pelo WhatsApp</small></span></a>` : `<button class="wpp" id="wpp">${ICON.chat}<span>Falar com a fábrica<small>pelo WhatsApp · em breve</small></span></button>`}
     ${botaoInstalar("soft mini instalar-loja")}
     <div class="atalhos">
-     <button type="button" class="atalho" id="atcat"><span class="fan" aria-hidden="true"><img src="estampas/mini/PET-001.webp?r=2" alt=""><img src="estampas/mini/FLO-001.webp?r=2" alt=""><img src="estampas/mini/LUX-002.webp?r=2" alt=""></span><b>Catálogo de estampas</b></button>
-     <a class="atalho fones" href="aparelhos/"><span class="fan" aria-hidden="true"><img src="aparelhos/fotos/redmi-note-15-1.webp" alt=""><img src="aparelhos/fotos/iphone-17-pro-1.webp" alt=""><img src="aparelhos/fotos/realme-14t-5g-1.webp" alt=""></span><b>Catálogo de aparelhos</b></a>
+     <div class="atalho-col"><button type="button" class="atalho" id="atcat"><span class="fan" aria-hidden="true"><img src="estampas/mini/PET-001.webp?r=2" alt=""><img src="estampas/mini/FLO-001.webp?r=2" alt=""><img src="estampas/mini/LUX-002.webp?r=2" alt=""></span><b>Catálogo de estampas</b></button><button type="button" class="copiar-link" data-copiar-link="estampas">${ICON_COPIAR_LINK}Copiar link</button></div>
+     <div class="atalho-col"><a class="atalho fones" href="aparelhos/"><span class="fan" aria-hidden="true"><img src="aparelhos/fotos/redmi-note-15-1.webp" alt=""><img src="aparelhos/fotos/iphone-17-pro-1.webp" alt=""><img src="aparelhos/fotos/realme-14t-5g-1.webp" alt=""></span><b>Catálogo de aparelhos</b></a><button type="button" class="copiar-link" data-copiar-link="aparelhos">${ICON_COPIAR_LINK}Copiar link</button></div>
     </div>
-    ${blocoLinksCliente()}
     ${chegando.map(r => { const n = S.pedidos.filter(p => p.romaneio_id === r.id).length; return `<div class="chegando"><b>Remessa ${nro(r.id)} a caminho: ${n} pedido${n > 1 ? "s" : ""}</b><span class="sub">Quando chegar, confira as capinhas e toque em recebi.</span><button class="btn primary" data-receber="${r.id}" style="padding:12px">Conferi e recebi</button></div>`; }).join("")}
     ${naLoja ? `<div class="card" style="border-color:var(--s-loja)"><b style="color:var(--s-loja)">${naLoja} pedido${naLoja > 1 ? "s" : ""} ${lojaEhOnline(S.perfil.loja_id) ? "já na loja de retirada" : "na loja"} esperando o cliente.</b><span class="sub">Use o botão “Avisar cliente” em cada pedido.</span></div>` : ""}
    </div>
