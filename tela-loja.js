@@ -5,18 +5,35 @@ function telaLogin() {
    <section class="hero-ink"><span class="logo" role="img" aria-label="Cell Store"></span><img class="c" alt=""><div class="txt"><span class="tag">Pedidos</span><h1>Pedidos de capinhas <span>personalizadas</span></h1><p>Da loja para a fábrica, em poucos toques.</p></div></section>
    <form class="card" id="flogin" novalidate style="padding:22px;gap:16px">
     <h2>Entrar</h2>
-    <label class="f"><span>Usuário</span><input id="usuario" autocomplete="username" autocapitalize="none" placeholder="Ex.: loja03"></label>
-    <label class="f"><span>Senha</span><input id="senha" type="password" autocomplete="current-password"></label>
+    <label class="f" id="ucampo"><span>Usuário</span><select id="usuario" disabled><option value="">Carregando…</option></select></label>
+    <label class="f"><span>Senha</span><input id="senha" type="password" autocomplete="current-password" inputmode="numeric"></label>
     <div class="err" id="err" hidden></div>
     <button class="btn primary" type="submit" id="bentrar">Entrar</button>
    </form>
    ${api.modo === "demo" ? `<div class="aviso"><b>Modo demonstração.</b> Os dados ficam só neste navegador. Usuários de teste: <b>loja01</b> a <b>loja07</b> e <b>lojaon</b> (senha 1234), <b>fabrica</b>, <b>logistica</b> e <b>admin</b> (senha igual ao usuário).</div>` : ""}
   </div>`;
   const erro = m => { const x = $("err"); x.textContent = m; x.hidden = false; };
+  // lista de quem pode entrar; se não carregar (sem internet), volta a ser campo de texto
+  (async () => {
+    const campo = $("ucampo");
+    try {
+      const L = await api.logins();
+      const grupos = [["loja", "Lojas"], ["fabrica", "Fábrica"], ["logistica", "Logística"], ["admin", "Administração"]];
+      const ultimo = ls.get("ultimo-usuario") || "";
+      if (!$("usuario")) return;
+      campo.innerHTML = `<span>Quem está entrando?</span><select id="usuario"><option value="">Escolha na lista</option>${grupos.map(([p, n]) => { const g = L.filter(x => x.papel === p); return g.length ? `<optgroup label="${n}">${g.map(x => `<option value="${esc(x.usuario)}" ${x.usuario === ultimo ? "selected" : ""}>${esc(x.nome)}</option>`).join("")}</optgroup>` : ""; }).join("")}</select>`;
+    } catch (e) {
+      if (campo) campo.innerHTML = `<span>Usuário</span><input id="usuario" autocomplete="username" autocapitalize="none" placeholder="Ex.: loja03">`;
+    }
+    const sinc = () => { const v = $("usuario").value; $("senha").inputMode = v === "admin" ? "text" : "numeric"; };
+    $("usuario").onchange = () => { sinc(); if ($("usuario").value) $("senha").focus(); }; sinc();
+  })();
   $("flogin").onsubmit = async e => {
     e.preventDefault();
     const u = $("usuario").value.trim(), s = $("senha").value;
-    if (!u || !s) return erro("Digite o usuário e a senha.");
+    if (!u) return erro("Escolha quem está entrando.");
+    if (!s) return erro("Digite a senha.");
+    ls.set("ultimo-usuario", u);
     $("bentrar").disabled = true; $("bentrar").textContent = "Entrando…";
     try { S.perfil = await api.entrar(u, s); await iniciarSessao(); }
     catch (er) { $("senha").value = ""; erro(er.message); $("bentrar").disabled = false; $("bentrar").textContent = "Entrar"; }
@@ -93,8 +110,40 @@ function editarPedido(id) {
 }
 function blocoCat(titulo) {
   return `<div class="f"><span>${titulo}</span>
-   <input id="codigo" value="${esc(w.codigo)}" placeholder="Digite o código da estampa (ex.: FLO-005)" autocomplete="off" autocapitalize="characters">
+   <div class="codrow"><input id="codigo" value="${esc(w.codigo)}" placeholder="Digite o código (ex.: FLO-005)" autocomplete="off" autocapitalize="characters"><button type="button" class="soft vercat" id="vercat">${ICON.cat}<span>Ver catálogo</span></button></div>
    <div id="catmsg" class="catsel">${msgCat()}</div></div>`;
+}
+
+/* ---------- janela do catálogo: procurar a estampa sem sair do pedido ---------- */
+let catTema = null, catBusca = "";
+function abrirCatalogo(aoEscolher) {
+  const itens = [...S.catalogo.values()].filter(c => c.ativo);
+  const ordemTema = Object.fromEntries(S.temas.map(t => [t.pasta_id, t.ordem]));
+  const temas = [...new Map(itens.map(c => [c.pasta_id, c.tema])).entries()].sort((a, b) => (ordemTema[a[0]] ?? 99) - (ordemTema[b[0]] ?? 99) || a[1].localeCompare(b[1], "pt-BR"));
+  const conta = Object.fromEntries(temas.map(([p]) => [p, itens.filter(c => c.pasta_id === p).length]));
+  const atual = acharCat(w && w.codigo);
+  if (!catTema || !conta[catTema]) catTema = atual ? atual.pasta_id : temas[0][0];
+  modal(`<div class="cat-topo"><h2>Catálogo de estampas</h2><button class="cat-x" id="catfechar" aria-label="Fechar">×</button></div>
+    <div class="busca">${ICON.lupa}<input id="catq" type="search" placeholder="Buscar coleção ou código (ex.: flores, PET-012)" value="${esc(catBusca)}" autocomplete="off"></div>
+    <div class="cat-temas" id="cattemas">${temas.map(([p, n]) => `<button type="button" data-ctema="${esc(p)}" class="${p === catTema ? "on" : ""}">${esc(n)} <small>${conta[p]}</small></button>`).join("")}</div>
+    <div class="cat-grade" id="catgrade"></div>`, () => {
+    const grade = () => {
+      const q = semAcento(catBusca).trim(), qc = normCod(catBusca);
+      let L;
+      if (q) L = itens.filter(c => normCod(c.codigo).startsWith(qc) || semAcento(c.tema).includes(q) || semAcento(c.codigo).includes(q)).slice(0, 150);
+      else L = itens.filter(c => c.pasta_id === catTema);
+      $("catgrade").innerHTML = L.length ? L.map(c => `<button type="button" class="cat-item ${atual && atual.codigo === c.codigo ? "sel" : ""}" data-ccod="${esc(c.codigo)}"><img src="${imgDrive(c.arquivo_id, 300)}" alt="" loading="lazy"><b>${esc(c.codigo)}</b>${q ? `<small>${esc(c.tema)}</small>` : ""}</button>`).join("")
+        : `<p class="sub" style="grid-column:1/-1;text-align:center;padding:24px">Nada encontrado. Tente o nome da coleção ou o código.</p>`;
+      $("cattemas").hidden = !!q;
+      $$("[data-ccod]").forEach(b => b.onclick = () => { fecharModal(); aoEscolher(b.dataset.ccod); });
+      $("catgrade").scrollTop = 0;
+    };
+    $("catfechar").onclick = fecharModal;
+    $$("[data-ctema]").forEach(b => b.onclick = () => { catTema = b.dataset.ctema; $$("[data-ctema]").forEach(x => x.classList.toggle("on", x === b)); grade(); });
+    const q = $("catq"); q.oninput = () => { catBusca = q.value; grade(); };
+    grade();
+    const sel = document.querySelector("[data-ctema].on"); if (sel) sel.scrollIntoView({ block: "nearest", inline: "center" });
+  }, "box-cat");
 }
 function msgCat() {
   const c = acharCat(w.codigo);
@@ -178,6 +227,7 @@ function ligarPasso() {
   const fi = $("foto"); if (fi) fi.onchange = async () => { if (!fi.files[0]) return; try { guardar(); w.foto = await prepararFoto(fi.files[0]); desenhar(); } catch (e) { erroTela(e); } };
   const fw = $("fotoWhats"); if (fw) fw.onchange = () => { guardar(); w.foto_whats = fw.checked; if (fw.checked) { w.foto = null; w.foto_path = null; } desenhar(); };
   const ci = $("codigo"); if (ci) ci.oninput = () => { w.codigo = ci.value.trim(); $("catmsg").innerHTML = msgCat(); };
+  const vc = $("vercat"); if (vc) vc.onclick = () => abrirCatalogo(cod => { w.codigo = cod; const c = $("codigo"); if (c) c.value = cod; $("catmsg").innerHTML = msgCat(); toast(`Estampa ${cod} escolhida`); });
   const cel = $("celular");
   if (cel) {
     const sug = () => {

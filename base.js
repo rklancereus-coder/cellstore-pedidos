@@ -15,8 +15,8 @@ const ls = { get(k) { try { return localStorage.getItem(k) } catch (e) { return 
 
 function toast(m, ms = 2800) { const t = $("toast"); t.textContent = m; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => t.hidden = true, ms); }
 function erroTela(e) { console.error(e); toast(e && e.message ? e.message : "Algo deu errado. Tente de novo.", 4500); }
-function modal(html, aoAbrir) {
-  const m = $("modal"); m.innerHTML = `<div class="box" role="dialog" aria-modal="true">${html}</div>`; m.hidden = false;
+function modal(html, aoAbrir, classe = "") {
+  const m = $("modal"); m.innerHTML = `<div class="box ${classe}" role="dialog" aria-modal="true">${html}</div>`; m.hidden = false;
   m.onclick = e => { if (e.target === m) fecharModal(); };
   aoAbrir && aoAbrir(m);
 }

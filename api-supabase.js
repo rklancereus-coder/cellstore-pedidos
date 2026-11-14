@@ -36,6 +36,7 @@ function criarApiSupabase(cfg) {
   return {
     modo: "supabase",
     async sessao() { return perfilAtual(); },
+    async logins() { return ok(await sb.rpc("logins_ativos")); },
     async entrar(usuario, senha) {
       const u = String(usuario).trim().toLowerCase();
       ok(await sb.auth.signInWithPassword({ email: u.includes("@") ? u : `${u}@${cfg.dominioLogin}`, password: senha }));

@@ -52,6 +52,7 @@ function criarApiDemo() {
   return {
     modo: "demo",
     async sessao() { return perfil(eu()); },
+    async logins() { const o = { loja: 0, fabrica: 1, logistica: 2, admin: 3 }; return db.usuarios.filter(u => u.ativo).sort((a, b) => o[a.papel] - o[b.papel] || a.nome.localeCompare(b.nome, "pt-BR", { numeric: true })).map(u => ({ usuario: u.usuario, nome: u.nome, papel: u.papel })); },
     async entrar(usuario, senha) {
       const u = db.usuarios.find(x => x.usuario === String(usuario).trim().toLowerCase());
       if (!u || u.senha !== senha) throw new Error("Usuário ou senha incorretos.");
