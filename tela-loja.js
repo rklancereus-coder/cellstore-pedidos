@@ -6,7 +6,7 @@ function telaLogin() {
    <section class="clube"> <div class="txt"> <h1><em>Clube</em><span class="logo" role="img" aria-label="Cell Store"></span></h1> <p>Capinhas personalizadas e celulares das nossas lojas.</p> <div class="chips"><span>Capinhas</span><span>Celulares</span></div> </div> <div class="prod" aria-hidden="true"> <img class="fone" src="aparelhos/fotos/iphone-17-pro-1.webp" alt=""> <img class="capa" src="estampas/PET-001.webp?r=2" alt=""> </div> </section>
    <button type="button" class="cat-entrada" id="bcatpub"><span class="fan" aria-hidden="true"><img src="estampas/mini/PET-001.webp?r=2" alt=""><img src="estampas/mini/FLO-001.webp?r=2" alt=""><img src="estampas/mini/LUX-002.webp?r=2" alt=""></span><span class="tx"><span class="tag">Capinhas</span><b>Catálogo de estampas</b><small id="ncat">Estampas para personalizar</small></span><span class="seta">›</span></button>
    <a class="cat-entrada fones" href="aparelhos/"><span class="fan" aria-hidden="true"><img src="aparelhos/fotos/redmi-note-15-1.webp" alt=""><img src="aparelhos/fotos/iphone-17-pro-1.webp" alt=""><img src="aparelhos/fotos/realme-14t-5g-1.webp" alt=""></span><span class="tx"><span class="tag">Celulares</span><b>Catálogo de aparelhos</b><small>Fichas, comparação e pedido pelo WhatsApp</small></span><span class="seta">›</span></a>
-   <button type="button" class="equipe-btn" id="bequipe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Área da equipe</button>
+   <div class="inicio-rodape">${botaoInstalar("equipe-btn")}<button type="button" class="equipe-btn" id="bequipe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Área da equipe</button></div>
   </div>`;
   document.title = "Clube Cell Store";
   $("bcatpub").onclick = () => catalogoPublico();
@@ -73,6 +73,7 @@ function telaLoja() {
    <div class="hero">
     <button class="btn primary bigbtn" id="novo">${ICON.mais} Fazer novo pedido</button>
     ${zap ? `<a class="wpp" href="${zap}" target="_blank" rel="noopener">${ICON.chat}<span>Falar com a fábrica<small>pelo WhatsApp</small></span></a>` : `<button class="wpp" id="wpp">${ICON.chat}<span>Falar com a fábrica<small>pelo WhatsApp · em breve</small></span></button>`}
+    ${botaoInstalar("soft mini instalar-loja")}
     <div class="atalhos">
      <button type="button" class="atalho" id="atcat"><span class="fan" aria-hidden="true"><img src="estampas/mini/PET-001.webp?r=2" alt=""><img src="estampas/mini/FLO-001.webp?r=2" alt=""><img src="estampas/mini/LUX-002.webp?r=2" alt=""></span><b>Catálogo de estampas</b></button>
      <a class="atalho fones" href="aparelhos/"><span class="fan" aria-hidden="true"><img src="aparelhos/fotos/redmi-note-15-1.webp" alt=""><img src="aparelhos/fotos/iphone-17-pro-1.webp" alt=""><img src="aparelhos/fotos/realme-14t-5g-1.webp" alt=""></span><b>Catálogo de aparelhos</b></a>

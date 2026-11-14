@@ -117,3 +117,6 @@ function voltarTela() {
   else { tela = "inicio"; desenhar(); }
   if (tela !== "inicio") marcarTelaNoHistorico();
 }
+
+// registra o app instalável (guarda o site no aparelho e recebe os avisos)
+if ("serviceWorker" in navigator) addEventListener("load", () => { navigator.serviceWorker.register("sw.js").catch(e => console.warn("Service worker", e)); });

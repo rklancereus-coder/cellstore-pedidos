@@ -139,3 +139,49 @@ function prepararFoto(file) {
     img.src = url;
   });
 }
+
+/* ---------- app instalável (PWA) ---------- */
+let pedidoInstalar = null;
+const ehIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+const appInstalado = () => matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+const ICON_INSTALAR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M12 7v7m-3-3 3 3 3-3"/></svg>';
+// botão "Instalar o app": só aparece quando dá para instalar (Android/computador) ou no iPhone (com o passo a passo)
+function botaoInstalar(classe = "") {
+  if (appInstalado()) return "";
+  return `<button type="button" class="instalar ${classe}" ${pedidoInstalar || ehIOS ? "" : "hidden"}>${ICON_INSTALAR}Instalar o app</button>`;
+}
+addEventListener("beforeinstallprompt", e => { e.preventDefault(); pedidoInstalar = e; document.querySelectorAll(".instalar").forEach(b => b.hidden = false); });
+addEventListener("appinstalled", () => { pedidoInstalar = null; document.querySelectorAll(".instalar").forEach(b => b.hidden = true); toast("App instalado! Procure o ícone Clube Cell Store na tela do aparelho.", 4500); });
+document.addEventListener("click", async e => {
+  const b = e.target.closest(".instalar"); if (!b) return;
+  if (pedidoInstalar) { pedidoInstalar.prompt(); try { await pedidoInstalar.userChoice; } catch (er) { } pedidoInstalar = null; return; }
+  if (ehIOS) modal(`<div class="cat-topo"><h2>Instalar no iPhone</h2><button class="cat-x" id="ifechar" aria-label="Fechar">×</button></div>
+    <ol class="passos-ios"><li>Abra este site no <b>Safari</b>.</li><li>Toque no botão <b>Compartilhar</b> <span class="ic-ios">⬆︎</span> (o quadrado com a seta, embaixo da tela).</li><li>Role e toque em <b>Adicionar à Tela de Início</b>.</li><li>Toque em <b>Adicionar</b>. Pronto: o ícone do Clube aparece na tela.</li></ol>`, () => { $("ifechar").onclick = fecharModal; }, "box-login");
+});
+
+/* ---------- avisos de pedido novo no celular (fábrica) ---------- */
+const pushSuportado = () => "serviceWorker" in navigator && "PushManager" in window && "Notification" in window;
+function b64Url(s) { const p = "=".repeat((4 - s.length % 4) % 4), b = atob((s + p).replace(/-/g, "+").replace(/_/g, "/")); return Uint8Array.from(b, c => c.charCodeAt(0)); }
+function faixaAvisos() {
+  if (!S.perfil || !CONFIG.vapidPublica) return "";
+  const chave = "avisos-" + S.perfil.id;
+  if (pushSuportado() && Notification.permission === "granted" && ls.get(chave)) return "";
+  if (!pushSuportado() && !ehIOS) return "";
+  const bloqueado = pushSuportado() && Notification.permission === "denied";
+  return `<div class="faixa-avisos noprint"><span class="sino">🔔</span><span><b>Aviso de pedido novo neste aparelho</b><small>${bloqueado ? "Os avisos estão bloqueados no navegador. Libere em Configurações do site → Notificações." : "Toca e aparece na tela, mesmo com o app fechado."}</small></span>${bloqueado ? "" : `<button class="primary mini" id="bavisos">Ativar</button>`}</div>`;
+}
+async function ativarAvisos() {
+  if (ehIOS && !appInstalado()) return modal(`<div class="cat-topo"><h2>Primeiro, instale o app</h2><button class="cat-x" id="ifechar" aria-label="Fechar">×</button></div><p class="lead" style="margin:0">No iPhone, os avisos só funcionam com o app instalado na tela de início. Toque em <b>Instalar o app</b>, siga os passos e depois abra pelo ícone do Clube e toque em <b>Ativar</b> de novo.</p>${botaoInstalar("btn primary")}`, () => { $("ifechar").onclick = fecharModal; }, "box-login");
+  try {
+    const perm = await Notification.requestPermission();
+    if (perm !== "granted") { toast("Sem permissão, o aparelho não consegue avisar. Dá para liberar depois nas configurações do navegador.", 5000); return desenhar(); }
+    const reg = await navigator.serviceWorker.ready;
+    const sub = (await reg.pushManager.getSubscription()) || (await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64Url(CONFIG.vapidPublica) }));
+    const j = sub.toJSON();
+    await api.inscreverPush({ endpoint: j.endpoint, chaves: j.keys, aparelho: navigator.userAgent.slice(0, 150) });
+    ls.set("avisos-" + S.perfil.id, "1");
+    try { await api.testePush(); } catch (e) { }
+    toast("Avisos ligados! Mandei um aviso de teste para este aparelho.", 4500);
+    desenhar();
+  } catch (e) { erroTela(e); }
+}

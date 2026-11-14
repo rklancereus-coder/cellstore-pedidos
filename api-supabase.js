@@ -149,6 +149,9 @@ function criarApiSupabase(cfg) {
       ok(await sb.storage.from("aparelhos").upload(path, blob, { contentType: "image/webp", upsert: false, cacheControl: "31536000" }));
       return sb.storage.from("aparelhos").getPublicUrl(path).data.publicUrl;
     },
+    // avisos no celular (push): guarda a inscrição deste aparelho e pede um aviso de teste
+    async inscreverPush(d) { ok(await sb.from("push_inscricoes").upsert(d, { onConflict: "endpoint" })); },
+    async testePush() { return funcao("avisos-push", { acao: "teste" }); },
     async usoEspaco() { return ok(await sb.rpc("uso_espaco")); },
     async manutencao(acao) { return funcao("manutencao", { acao }); }
   };

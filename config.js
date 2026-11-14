@@ -7,5 +7,6 @@ window.CONFIG = {
   supabaseAnonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pcW13anhkbXVsZ3R3cWh0ZHFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ2MTE2MzcsImV4cCI6MjExMDE4NzYzN30.ejKrB3WAO8vmIM2YsSDXXh01_qxeocSRS8I9qxNjZcY",      // chave "anon public" (pode ficar no site; a segurança é feita pelo banco)
   dominioLogin: "pedidos.cellstore.local", // igual ao DOMINIO_LOGIN da função admin-usuarios
   whatsappFabrica: "5551995798781",      // ex.: 5511999998888 (com DDI e DDD, só números). Vazio = botão "em breve"
+  vapidPublica: "BMDdzNpPF_t-Mzu6qJ8TqAL361psQS38RZOHkdfqSy6hy7aMSrUExa1NE3siuXXXQ-G_jvB4zKjZNdgcSK3BpEc", // chave pública dos avisos no celular (a privada fica só no servidor)
   pastaCatalogoDrive: "https://drive.google.com/drive/folders/1jTOntOZmiWMoWhOVBPBatVUyzcYrdwsz"
 };
