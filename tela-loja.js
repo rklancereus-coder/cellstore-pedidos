@@ -1,18 +1,29 @@
 /* ---------- LOGIN ---------- */
 function telaLogin() {
   $("app").className = "wrap";
-  $("app").innerHTML = `<div class="login">
-   <section class="hero-ink"><span class="logo" role="img" aria-label="Cell Store"></span><img class="c" alt=""><div class="txt"><span class="tag">Pedidos</span><h1>Pedidos de capinhas <span>personalizadas</span></h1><p>Da loja para a fábrica, em poucos toques.</p></div></section>
-   <form class="card" id="flogin" novalidate style="padding:22px;gap:16px">
-    <h2>Entrar</h2>
+  // tela inicial pública: os catálogos em destaque; o login fica escondido na "Área da equipe"
+  $("app").innerHTML = `<div class="login inicio">
+   <section class="hero-ink"><span class="logo" role="img" aria-label="Cell Store"></span><img class="c" alt=""><div class="txt"><span class="tag">Rede Cell Store</span><h1>Capinhas e celulares <span>num só lugar</span></h1><p>Veja as estampas e os aparelhos das nossas lojas.</p></div></section>
+   <button type="button" class="cat-entrada" id="bcatpub"><span class="fan" aria-hidden="true"><img src="estampas/PET-001.webp?r=2" alt=""><img src="estampas/FLO-001.webp?r=2" alt=""><img src="estampas/LUX-002.webp?r=2" alt=""></span><span class="tx"><span class="tag">Capinhas</span><b>Catálogo de estampas</b><small>${window.DEMO_CATALOGO ? window.DEMO_CATALOGO.itens.length.toLocaleString("pt-BR") + " estampas para personalizar" : "Estampas para personalizar"}</small></span><span class="seta">›</span></button>
+   <a class="cat-entrada fones" href="aparelhos/"><span class="fan" aria-hidden="true"><img src="aparelhos/fotos/redmi-note-15-1.webp" alt=""><img src="aparelhos/fotos/iphone-17-pro-1.webp" alt=""><img src="aparelhos/fotos/realme-14t-5g-1.webp" alt=""></span><span class="tx"><span class="tag">Celulares</span><b>Catálogo de celulares</b><small>Fichas, comparação e pedido pelo WhatsApp</small></span><span class="seta">›</span></a>
+   <button type="button" class="equipe-btn" id="bequipe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Área da equipe</button>
+  </div>`;
+  $("bcatpub").onclick = () => catalogoPublico();
+  $("bequipe").onclick = abrirLogin;
+}
+
+/* ---------- janela de login da equipe (lojas, fábrica, logística) ---------- */
+function abrirLogin() {
+  modal(`<div class="cat-topo"><h2>Área da equipe</h2><button class="cat-x" id="lfechar" aria-label="Fechar">×</button></div>
+   <p class="hint" style="margin:-6px 0 0">Lojas Cell Store, fábrica e logística.</p>
+   <form id="flogin" novalidate style="display:grid;gap:16px">
     <label class="f" id="ucampo"><span>Usuário</span><select id="usuario" disabled><option value="">Carregando…</option></select></label>
     <label class="f"><span>Senha</span><input id="senha" type="password" autocomplete="current-password" inputmode="numeric"></label>
     <div class="err" id="err" hidden></div>
     <button class="btn primary" type="submit" id="bentrar">Entrar</button>
    </form>
-   <button type="button" class="cat-entrada" id="bcatpub"><span class="fan" aria-hidden="true"><img src="estampas/PET-001.webp?r=2" alt=""><img src="estampas/FLO-001.webp?r=2" alt=""><img src="estampas/LUX-002.webp?r=2" alt=""></span><span class="tx"><span class="tag">Catálogo</span><b>Ver catálogo de estampas</b><small>${window.DEMO_CATALOGO ? window.DEMO_CATALOGO.itens.length.toLocaleString("pt-BR") + " estampas · " : ""}não precisa entrar</small></span><span class="seta">›</span></button>
-   ${api.modo === "demo" ? `<div class="aviso"><b>Modo demonstração.</b> Os dados ficam só neste navegador. Usuários de teste: <b>loja01</b> a <b>loja07</b> e <b>lojaon</b> (senha 1234), <b>fabrica</b>, <b>logistica</b> e <b>admin</b> (senha igual ao usuário).</div>` : ""}
-  </div>`;
+   ${api.modo === "demo" ? `<div class="aviso"><b>Modo demonstração.</b> Os dados ficam só neste navegador. Usuários de teste: <b>loja01</b> a <b>loja07</b> e <b>lojaon</b> (senha 1234), <b>fabrica</b>, <b>logistica</b> e <b>admin</b> (senha igual ao usuário).</div>` : ""}`, null, "box-login");
+  $("lfechar").onclick = fecharModal;
   const erro = m => { const x = $("err"); x.textContent = m; x.hidden = false; };
   // lista de quem pode entrar; se não carregar (sem internet), volta a ser campo de texto
   (async () => {
@@ -28,8 +39,8 @@ function telaLogin() {
     }
     const sinc = () => { const v = $("usuario").value; $("senha").inputMode = v === "admin" ? "text" : "numeric"; };
     $("usuario").onchange = () => { sinc(); if ($("usuario").value) $("senha").focus(); }; sinc();
+    if ($("usuario").value) $("senha").focus();
   })();
-  $("bcatpub").onclick = () => catalogoPublico();
   $("flogin").onsubmit = async e => {
     e.preventDefault();
     const u = $("usuario").value.trim(), s = $("senha").value;
@@ -37,7 +48,7 @@ function telaLogin() {
     if (!s) return erro("Digite a senha.");
     ls.set("ultimo-usuario", u);
     $("bentrar").disabled = true; $("bentrar").textContent = "Entrando…";
-    try { S.perfil = await api.entrar(u, s); await iniciarSessao(); }
+    try { S.perfil = await api.entrar(u, s); fecharModal(); await iniciarSessao(); }
     catch (er) { $("senha").value = ""; erro(er.message); $("bentrar").disabled = false; $("bentrar").textContent = "Entrar"; }
   };
 }

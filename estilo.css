@@ -331,3 +331,15 @@ tfoot td{font-weight:800;border-bottom:0}
 .cod-copiar button{display:flex;align-items:center;gap:8px;padding:0 18px;font-weight:800;font-size:16px;border-radius:12px}
 .cod-copiar button svg{width:20px;height:20px}
 .cod-copiar button.ok{background:var(--ok);box-shadow:none}
+/* tela inicial: catálogos em cima, equipe discreta embaixo */
+a.cat-entrada{text-decoration:none}
+.cat-entrada.fones .fan img{width:64px;left:27px;top:14px}
+.cat-entrada.fones .fan img:nth-child(1){transform:translate(-26px,8px) rotate(-10deg)}
+.cat-entrada.fones .fan img:nth-child(3){transform:translate(26px,8px) rotate(10deg)}
+.cat-entrada.fones:hover .fan img:nth-child(1){transform:translate(-32px,8px) rotate(-14deg)}
+.cat-entrada.fones:hover .fan img:nth-child(3){transform:translate(32px,8px) rotate(14deg)}
+@media (max-width:360px){.cat-entrada.fones .fan img{width:54px;left:21px}}
+.equipe-btn{justify-self:center;display:inline-flex;align-items:center;gap:8px;margin-top:10px;background:var(--sunk);color:var(--muted);font-weight:700;font-size:14px;padding:10px 18px;border-radius:999px}
+.equipe-btn svg{width:16px;height:16px}
+.equipe-btn:hover{color:var(--fg)}
+.modal .box.box-login{width:min(420px,100%)}

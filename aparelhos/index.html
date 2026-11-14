@@ -1,0 +1,1321 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cell Store · Catálogo de Smartphones</title>
+<meta name="description" content="Catálogo de smartphones da Rede Cell Store. Veja a ficha completa de cada aparelho e fale com a gente no WhatsApp.">
+<!-- Prévia ao compartilhar o link (WhatsApp, Facebook, etc.) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Rede Cell Store">
+<meta property="og:title" content="Catálogo de Smartphones · Cell Store">
+<meta property="og:description" content="Os aparelhos da Cell Store em um só lugar. Toque, veja a ficha e fale no WhatsApp.">
+<meta property="og:image" content="og-cover.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Catálogo de Smartphones · Cell Store">
+<meta name="twitter:description" content="Os aparelhos da Cell Store em um só lugar. Toque, veja a ficha e fale no WhatsApp.">
+<meta name="twitter:image" content="og-cover.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ============================ TOKENS ============================ */
+  :root{
+    --bg:#08060f; --bg-2:#0d0a1b; --panel:#14102a; --panel-2:#1a1436;
+    --line:rgba(140,120,220,.18); --line-glow:rgba(120,200,255,.35);
+    --cyan:#2ad4ff; --magenta:#ff2d8e; --violet:#8a6bff;
+    --ink:#f6f4ff; --muted:#a59ec6; --muted-2:#756d97;
+    --grad:linear-gradient(100deg, var(--cyan), var(--magenta));
+    --grad-soft:linear-gradient(100deg, rgba(42,212,255,.16), rgba(255,45,142,.16));
+    --shadow:0 24px 60px -24px rgba(0,0,0,.8);
+    --r:20px; --r-sm:14px;
+    --s1:.5rem; --s2:.875rem; --s3:1.25rem; --s4:2rem; --s5:3rem; --s6:4.5rem; --s7:7rem;
+    --ring:0 0 0 3px rgba(42,212,255,.28);
+    --elev-1:0 1px 0 rgba(255,255,255,.04) inset, 0 10px 30px -18px rgba(0,0,0,.9);
+    --elev-2:0 1px 0 rgba(255,255,255,.06) inset, 0 28px 60px -28px rgba(0,0,0,.95); --display:"Archivo", system-ui, sans-serif; --body:"Inter", system-ui, sans-serif;
+    --logo:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAvgAAACcCAYAAAAK2N+GAABY3UlEQVR42u2dd5hkVbX2f6u6ZhgGkJwvSBBURFREJZrAhAgCkhUvRtCrGFDRT1FEROReIyKCCVAEFJUkIlEBAckiQXIeMgjDxK56vz/23tN7zlT1VHedqq6qXu/z1FMdT52z9l5rv3vtFQyHw+FwOBYDSQZgZpK0NrA3sD2wAbAiUAMeB24FzgJONrOnJFUAmZlcig6Hw+FwOBwORw+Re0km6YuSZmjxuF3Sftn/mUvS4XA4HA5HPxKhiqRq9qr4vTgGYE6bpGUlnZUR+GFJNUn17Gf1+LPh7Gc/jteoOMl3OBwOh8PRb0TIxvLzyXIvjv6e05KGJE2R9KdI2OcVSH0z1CTNj18fHa835FJ1OByOzsMXe4ejJCIUY5PXAPYB1gceA/5oZtel33f5XjYGdgXWAO4GTjGz+7p5L46+n9dDZlaTdBjwZWAeMHUslwCGgSnA+8zsV+maLl2Hw+FwOBy9TIIq8X0dSQ8UvJjzJe2QPKHdIGTxs94saVbhXh6T9JL8nh2OFub1+pKebxCO0yrS/90Xw3w8Ht/hcDgcDkfPE6FqfD8yEprZMQZ5Tvz+svh768K9JFL25/jZc+K9zI7f/yi/Z4ejhXl9WLZZHS9STP4+Pv8cDoej83AvnsNRAheK7y+KX1eBIUJYgoC1JE2JYTMdI/kx9KYeydPa8bOnFO5l/fjndR82x2JQixvG7eLcsTZ1RMA7CzrjcDgcDif4DkdPE/xqJEE5EbKMYHdTr6c0IGTG2OKnHZN1Qo/kaSwNrBfnTjvrRdKLF/sG0+FwOJzgOxyDtgnw+3D0A9LmcJn4Ku16kpbo9GmWw+FwOMF3OBwOh6MxliCcQJWFqXT3NMvhcDic4DscDofDkUE9fj2Hw+FwOMF3OBwOh8PhcDic4DscDofD4XA4HA4n+A6Hw+FwOBwOh8MJvsPhcDgcDofD4XCC73A4HA6Hw+FwOJzgOxwOh8PhcDgcTvAdDofD4XA4HA6HE3yHw+FwOBwOh8PhBN/hcDgcDofD4XA4wXc4HA6Hw+FwOJzgOxwOh8PhcDgcDif4DofD4XA4HA6Hwwm+w+FwOBwOh8PhcILvcDgcDofD4XA4nOA7HA6Hw+FwOBxO8B0Oh8PhcDgcDocTfIfD4XA4HA6Hw+EE3+FwOBwOh8PhcDjBdzgcDofD4XA4HE7wHQ6Hw+FwOBwOJ/gOh8PhcDgcDofDCb7D4XA4HA6Hw+Fwgu9wOBwOh8PhcDic4DscDofD4XA4HE7wHQ6Hw+FwOBwOhxN8h8PhcDgcDofD4QTf4XA4HA6Hw+FwOMF3OBwOh8PhcDgco6DqInA4HI6xQZIB+WuhX5f8cen6dTOrD4D4hiQNASZJJchFgAZENmXNSRrMyySrZj/PZSnX8r6wNaPZm/xv65NRPya7TjjBdzgcjtYWikpcCNJiqQm6lyEzq/WpKOtm9p9OyWWyEP2MuFTiPKxHAqIOX9/R+bGtZKS0Vta4xusyqPrRJZ1IY9MXOuEE3+FwOBaz2EZCXct+viywNrAm8CJgNWBpYDqwJI09QuPBMPAMcA9wqZldZ2a1eF/95FVK8lhF0inA/BJkNAd4ArgxyubBAdgAtUJe8g1mPfubaXEerg6sA6wU5+NSwDJxXi4JzAVmATOB5+PXTwP3AjOAGWY2s8H1K074O2pnKmY2XCTg0dasDqwBrA+smo3rdGBaQZeSR3oe8CRwa9SPOwZJP0ZxujTSidWAdQs6sXR8nxbt7OxoU2YDjwMPRX14CnjYzJ7N14DMqZB/vhN8h8Ph6PHFYyFvsKQpwObAG4CtgE3iomtdvq/LgW+Z2dlpkesTopXktDSwRweu/0zcOBxhZvcPEIlZQPxy8iLpBcBLgS2BV8ZN5prAilHGbW2aJD0C3AX8E7gcuNnMniiQpyE8pKcMgprIYRrbdYHN4thuAawVienUdsZV0rnAN8zsOkmVfvXkF3Qid7q8AHhJlNurgA3ipqhdnZgPPCbpPuCmuGG6GrjJzJ4rjOdQL5F9czVzONo3OGZWl3QGsGM0OkPRYFeiJ2ADM5vdSUKWri1pKnBzXPTTPaR7usjMtu1nA9+FxYOM2L8yEtKdIqEqInmNOk1w0uKR8CPgU+nzy55T2ZxeF7gtkguVtGYMd1A2jwL7mdm5kqqRBPQz8VP2s9cCb4obzFdE4tfwEhkRV4vyS+/NCm88GsnN5cDfgMvNbG52z1VGwkkcix/foXxuSnpZtDHvBl5O8CqXZWty/ZgHfMrMftxPm+BRdOJ1wBsnSCfuB64BLgEuNLNbCuuIMcEnXe7BdzgcvujGBSQteJK2BA4EdsnspOJGKU/c6nYlsrQgf5xwgrAbUJHUTyETnVh30tisCpwlaXcz+30/kpg8HEzSxpH07ULwSjZ6ZgpzsrgZHKscVfh6KMp1VWC7+Ltbo0Pj92Z2dSKr0avv4TuLH99hSdOBvYB9CV7naoHM1zP70q6tSXNlCnCMpGXN7Fu9rh+L0YmdgU1H0YlKQTfa1YlcN4YIIZprR90clnQlcAZwtpnd5pvfDkyG/OUScbl2ST6V+H6GAobjey2+PyhpycxgddIYImmqpDsK95Du6cL8nh0Ly0LSRpJ+r4UxP5Njr2BefP/fToxnNqfXlTQ3flZdvY80TjMlvaIf5nq0q0PZ98tI+oikS+LcK87F4QmYj/X4ufMbzIOrJB0kadXsGYbcxiw0xvn4riDp05Jua2Jn6h0exzSndijem+vEmG3NcIP7mRu5wA6R3Oc60VX+ZH2kII1KRY1axmiUEkkdOdbuY6/CmOSa76wLcl1wDDaZZOshOv298Mak1WnAwcBBhMQrZbLrRTuZPFVVYAszu7JMb1yHQ3Q6jTTXLyUc3/ds5ZB8zCStGL25BxDihxOG4zzsJcKcPMy51/kR4HjgJ2b2UEYeJ61HP/dAR1kcAHyekVCS3NtsXdaPewjhQLN6ac1uoBPvAz7W4zqR1gsVdOIG4KfAiSlefxCLAIx7Byep2qonIP7PEvFlLf59dTJ5G8Yp14qkaVGurf7Pgs8YdK+/e/D726sWvfZXZh6YYfUHkufozLLHtI89+MUxfHt8jmqv2YxMX1eRdIikhwr3P9wHMq9HG5N7MZ+S9H1J6xd1bZLZl/xkcBtJl/XQqWDSjw/3in4UdGLlPteJ4onC7ZIOyHlAN9bgag8qRJ5VnmdIL0OIAVyHEPe0PrAesBwjpaLSC0LW+FxCSbAnCSXA7gMeBm4H7oplj4YL91BlwJpCZHJNcWDFcn9Jri+Mcl0XWJZQUm1a9i5gnqR5mVwfjDJ9EPg3cCfweHGHGuXq5dUcveZV24eQsLpstAVDjD9Ws9tI9/kGSaub2Yw+qqrTDY+agF2BPzNBPQtGm3vx+w8BXyNUwEneVeujObhI7XFgeeCTwL6SjgS+a2ZzJ5M3PyV4xzj7bwH/E+VUi7Kq9oiOvIdw6lLvIZ34IHBon+tEutfk1d8AOAY4UNLhZnZSeNTO6kQv7NoWGIdCqagVCFnRWwDbEMrSrUxIEikDj0i6lRDKcClwpZndnyUL9XUIwyhyXZlQVm2r+Ho5oYxUWXPhWeAuSTcDFwNXAbcWKgZMmoY0jp7UC4vk/kvA4dki0m9FBxJheEHU6RmMhGNNdqSQhy0IA17rgbmX1pSapNcARwDbxl/32+ZyNGKTnEjLxWfcQ9IXzezPyf4PcohCfL5hSS8nhGe8NpPJUI/px8slLWdmz0yEc6CBTnyTkUTuQdCJSoHovxg4UdLewJfM7PpO8s3qBCpBo+zotYB3EspFbUao/dpo15lXDigamOLfFr9ORig1P3hT3F3PlHQD8Ffgt2Z2Yz96wxo15olxtO8ixIdvGj0s7cg1l6cK8+kFhGoPrwLeS6gh+29Jfwb+CFxVqLjApI9Hc3Td5kj6DvBpRjxq/R5CsPooujqZsbykZczsuYm055lHdymCd/LAaC97yaNbJtFfcGIbN5/nSjoR+IKZPdKvJUzH4DzYF/gBIyeD1R61McvFe3yGkQ6trhOdJ/pvB94s6bvAoTE/r3SdqE6AEizUpEDScsDbCOXetouTrUg6iwmd7d63CsI2QiOErePrYEn/Y2bH9osnvyBXJK0EbB/l+kYWbvSQPPplyzXJNq85OwXYOL4OAm6W9HvgpKyz3kJHdA5Hh8n9scBHMw/RIJDiZXyUGzolphJCDJ+b4Hk3HKv6/IKRcpe95NHt1BgMZWvBvsDrJX3YzC4o9pwYEHJfl/RVQthVGuNqD+vHNGAJ14muE/1atE1fALaTdICZXV12h/JKNwc1Hl3V48CuKun/ETrlnUKIlVw2PngtI97VbBFuZSFupRFEXhc1XT9tJubH74+StEpUWOtlw1KQ69qSvgn8CzgB2CGS+1yulXHKtVXDka6fe3FSJ8aXAV8BbpB0iqS3mpki8TJP/nR0CKlazjczcl9lcDzeT45RTwd+TxffZxPCBifE6ZLZtv2AyyKRSbZwsiSephywYUKu13kxZKce19e+tvmJH8Rn+WEk97UeH+OkHzOJVXRcJ7q7HsXnHQZeDfxN0kFRJ1SWTlS6NKhD2aC+UNIRhPJB3yCUi6oVFKKZVy2RxVoUTGpVnHd4K5Z7HO3vG3kbpsTfLc1IWaZKjxqWXK4vjsc91wNfJCTOliVXGsh0LHKtZGQq/d90QofQ8yRdkBH9+kTUi3UMMNMbOQo+MOrG8AAtJElP7veRbkhgHjazOd0Oz0lOF0nT44nRzzNHyyBtLMeCKiMnx9+UdKakVZPN72Nyb0BV0q8J4b41ev9kMOnC491yDrhONLTdSSemEZzKv4s5EaXoRLULkz8diy8FfJbQXj3FgC8u/jWvLZq8ADZGAY7293m3uOLGQIwc66rHjEo62qxJWh74EqFO7PQuyLUVj38xBMgabCqV/c22wLaSzgcOM7NLM4PgYTuOdheVYUlvAL7TJ4tvq0j68whwXfYzx4jNvji+D1GomNbhOVeLjZ9OJxQzGJRcj3aRqu0ME/LCLpe0s5nd1G9x+QV+cwKwNyMng/1iO66K8d8dXWtdJ1rSiRohkmUDSfuY2b/a1YlqpweUEGf/TkI2/cvjr0fLjs7jt4t/8xzBUzWDUI7xzvh1OmaaFb+GkdKO0wne7DWA/yKUgVyfcFQ4xMLe+eTxngrcRUgO7WriyRjkiqTdCVnn67cp12eABwgNme4E7o6kIZfr8/F/liY0AkqvVQgnHRtG+a4ZZV+UKwWyn5eSSnkWbyHEox1HSDyZMUhxmo4J2QhL0irAiXH+1QfIU5QaDf3WzGb6hnghW2eEcMvfdHPjk50WvYjQtn6jPiJ93ULyXA7HtesCSbuY2eWSppjZ/D55juQ8+C4jBSWm9NEYWLSL3dKJ9YEzXScWqxObAH+V9F4zO7cdkl/twGBaNvHXjsR+7wIBrTZZrNKClYjf04RY8suAy4EbgYfaPWqNzQbWIsSDb0VIQn1Z3BAMAU8A+8XavT2RZFvwFrwE+Hb0gLQiVxVI/eOE3IfLo2xvNrOHS7jHaYTKRC8mVCd6Q9zULZX9WaMOdDnRrxBipHeS9DUz+0lxY+NwtGo0o778mNA7Y5AWlXrUm/8A3+o1R8QEYzgSrZ+a2T+7ZTsyIvMqQsWwQZtzZSNVTFmFEKq5l5md1Q+e/GysDyZEJQz3EblPc/ICM/tz5Di1DsvplXHD6zrRmk6sAJwp6X1mdsp4daJa8mCmDOBhSe8CfkIo31Yf5fPS7xLpmwVcAvwW+Esj4plKQbJwSA0NvrbCu+L9zSY0u7od+EO85gaR7C8H/N7M7o9xm71A7vNasXljnhrNq9/kcoWQaHYRcBpwoZk9Nk65WgP5JrnOITQUuxc4L15zPWBzQjWftzPSiKx4fznRH44bhWMlvQM40Mzum+xtzx1j0pl0JLwjsAv9Wee+GdJG2IAPmtnDvgFegORFvZ5QDa1CF7z3GZF5E/C7uEAP0pzrFFKVnaWAP0j6gJmd2MskPwv725ngwOynyi+JXD8KfLTDndWTTryREJbjOjE2nRgCTo5lfo8fj05US570qRLK1wmVUhhlt1YkeP8CfgacZWZ3ZdfNm2ckIllv814tI7JmZsOxZOMdDUh1rxCVJQhe+0+OUa7XRrmebWYPNJFrHdoPgynKldA5925CyM/JcRO1O7AnoWwmLFoGNc3LdF87AVtI+pSZ/SZV2vGQHcdi5qFi9+vvMBKy0dePlelESsz6mJmd7uR+oXyeKYST3nfH5j2VTjsEMiKzFXA2ISx00Mv9lYm0CasAJyh41k7qRZKfvN2xt8zx2byzPtAPRdvxOLCLmd3dqbU004ktgXNcJ8alE8nmHxfl+eOxhrBVSxrMRELXJHRuezvNvfbKdicA/yA0hDgt3XjmSU7e2lKVPF5TRcXNFLXeY+R+A0Kt2DwxZXFy/SvwPeCMtMBNsFwVN1GHS/o2oUb/wQTvPizslYSRGP10hHuypE0JjVLqTmocoxnHqDcfJcT4dnJhqWe2rpMLfSXbCN8FfCLGZ/ajHpRpW/OSxxBKLn/MzJ7uhiOg0LX0zB4hMipsCtWC/Iqn3RNFaOrAzyU9bWZn9xLJTw4sSVVC7PqKXR7rnKjT4pgV9eNS4ENmdnunbEemExsDZ7lOtGXbEjc6RtJ/zOzksehEtYTBrGYG7gxgXZp7l9MgD0Uvy6GRgNbTtSaKXPeaR7iwAz6dELLSilyvICSonpdfi+BNn1C5Zs245gNnSDqbkJ9xMCHxhgaGYCgzagcBL5O0n5k96iTf0WQRrktaGvgEnfPepw1pMZ+kU5gbbeZpwHGxM2u/zv+y5fUo8HfgGDO7INmaLpD73Jt7DiMhCN0mMvnpTk7mbJzzWjSugNYtQjMEnCLp7WZ2WQ/N8zTe3yA0xOxGLLkKtmY8c+tp4Grgl8Apsc56p8h9ktE6wJ9cJ0rRiXTCdYKkZ8ey8a22OZiJhG4N/B5Yucmkz73LM4Ejgf+LsfBksdUD1bq6BLluD5zKwrViG03ilBh8OHB0/N8FSbm9Ite44NYLnWtPknQ6IbH2q4zkFuSKlAjBMPAO4BJJO5rZHYPY8txRyiL8PkJCV9mLS72w0N5JOC27NxLNJym3Uk8t6vZjZnZnwUvWT+Q+LZCPEZISZzPitR3PtVK+1hPAfWb2eLbBo0vkvh4rNJ3DSD+XbhKZRDyqLBrm+CQhFOPeSPCej/KaTehcuhTBs7os8EJCpbkVGqwxjSqgdZrQ5DH528ZE6QkNy8xO0zcGPteFsc6LY1Qzon5rfCV783wc00a6Ni/q28Nm9lCRhE9SnXgCuAd4KsptJjAn6sQyjFQH/C9C5cWVG9z/ROhEmgu/kfR6M7u+FZ2otjGYiYTuEEno9CYkNF8QzwAONrPbcqVxL2xDue5F6EQ7hYVDb4pyNeAk4P+lGPu8RGkvPmMM5all9zoL+K6k84AfAm8uPGM+X4eBlwAXS9rJzK51ku/I9SKeFH2Q8qvK5IvVr4BjgOvMbG43iUZ0hvSbzUykY6aZ/aYT5IJYNakLY5BCNaYQTldfSvcqgyhbZ9NcnAfcQgh3vRS4GXgwbXpafKblCSWONwS2AV4HvIKR3irJwdKNHhKV+IwrEU56Xws8McEkP9mS7xHKaNc6JIdiqO2jkSz/AbjWzGa0ox90KEKigU5s1IM68RDweKs5OZKWi06itQgnNq8HXtlAJ7pxipt0YmngNEmvAzoThhhDPpC0l6T5CqhpUQzH93mSPpv/v3cqHVWu+0e51Rcj1+ckfSBf/PtRrjFxNj17RdKXJM0pPGuj5386nh4tkN0E3X8lvp9RuL80dg/G0qx0uGqBxfepku4o3EO6pwvzex4w/RmK75vG562rPCT5XSFp8+LnRptWjV934lWZoDm9rqS5mT0aL9I8vEfSspnMypCNTZCd/n58pvnqPOoNbOE/JH1B0kubzY9oT4cKczSfq5VRnnMdSQdIuiiu4bku1LvwzEmuZ0+kjc/syl6jrEllIF/r75J0UPSGF9fKsdqbShdl9L0+1omhFnViH0lnZ3axmzqRnvfs+BzVThm3nbKHqo2inHdIen22EA4csShZrvtmyj6aXK+PtWUHRq5xwiaSuqWku0cxFjnJf/UELwBO8HtLh44oeZFJ1zlJ0vRc5wbVUdFhgr90p3WhC0Rmj2xu1Lu0qCenznHRq73I/M/n5Vjkm6qTJdLT4PcbSfo/SY83ua9Ok/wvT4SNT3KUNE3S7U1IZZljPFvSNyQtW3Ag9KzzLtOJ3SdQJ46fAJ14maTDJd3fZZ1Im+1DcvmXOZBvlDSrBXL/p7QDnUgPax8Rkx3jBGlE7uuZXH+dLZLVAZNF7s1fO+7IF0fyZ0h6aamT3Ql+v84dk3RNicY2XeO4oh0ccJvkBL+5TF4s6Zn4TJ0kMvn6Oit6RzdsQGA6stFMHsL82pLWkPQ1SU8uxhFVtpe2Lmnbbutftha9t4MELq1tN0rarDC25jrRczqxkEM1nkh+WdITi4m8KFsn5sdQnfbX88Lx91OjhOWkyfqrTDm89uni5fqGUTZNudfge5OBaGRyWVrSH1og+XdLWm0iyKsT/J5aaNaS9HwJhDSX2SXZolGZJHbJCf6im8eh6Mm9poNkr5En8KxYpS736HbdxuXrTQxVOLFLnss0dx6StFo39TA5nCTd0CHvfbreKbnTrh90o6ATV0+ATmzSAzpRzb5fMwvb63SYUpLFvyRNb2tDkxn7dSJZWVzM/ffzIw6n8YslsRuPsmnKCf9XsolVmUTyMUnHjKI06WcXZ0dy1k1Fd4LfM3Nl55IWmqR3T8b+HkwmW+YEv+n8OqQLi3e69sOx2MJCnskeIHU5qdk+szWdDM1I+vyrbjm3sjHfsUPkNV3vR/3otJsgnZjRozqRb37fmulEJ2Pzk0yOGvfcKSR1XN6CJ/XQjIR6Iu3ocq1ED/VNTQxI7jH4eLZTtUkkp0pGNo5rgeT/KCm+E/xJRfDTaeGhJS02w4U4x+oks09O8Be2QSZpw3g61KlFO3fmnC/phb3q0Mk9+pJWkvS77Bk6TfK36wYZzp7vjx3w3if7dGw/Ou1cJ0bf/EpaUdIvOqwTSTbz0mnGmHUiu+HvtUCuvp3tqpzctybXE1qQ62cmI8lospj8pgV57dtNb4gT/J7Sp1+XQPBrmbdo+bEmZznBHziCn2zPOR0MQ8hjlw/PdLnaD7KJXx+UPUOtgwT/5hgW0jEnYjb/V5f0bEkhf8Xn+EPmQO23fJRu6UStz3Xi0w1sYCd04vwxcx41rhjQjFQd5+R+zHI9oIUTka9PZnJf9OTH+XV2E7klg/C0QnfJrhBZJ/i94T2J75eVsOCkeXViNzeKTvB72lbv1mEik+T74cwbWOkj25zLaU4XCM2XOqmbWrRk9XDJY327pOX6MYy5yzohSR/pU52oZvx5Vhd04j0t60R2BLPBKNnRaSE8rV93ohOoHK+OhnB4FLn+0DdNDefkkqMQufT9BVnGu3X6vpzg9wS5n9bgudsxmHsVY46d4E8egq+RqkxLx/vuRHWMvCLIrv1s7xWaHCFpu+hk6QShSWPwnKQXdor0ZTblghLDc/LqJ1v2o/PAdWLcOvH6DupEut4tce1fcOI8mmJY7Ph1NKGddepEmJA6h10NvC/+rN5ql7BJSlAtU+pjCe2RaSLXs83sE/Fvay7XBe3nzcxmA7sDDxA61+Wd3IYI3eW2BQ6InS090XtyYAojXQbHuxikluAC/hn1ru6inZQYiuP/PmAdFu2s3faSEOfpXGAnMztd0hQzG+5He29m8xW6il8AvAN4NsqrTP2xeL2lgU9FOZVK/CSZmUnSysCr4/XLGPfUofZYM/t7lFXNdWLgdWKKmf0N2BmYH+VV5rOkLrcvBfaIcqo0JfiShsysFrOV38rCLdrzQXgK2Ce2ajcnoYsfiKjQHwc2Y6T1d9EA3AfsFzcEcrkuTPLj/HwY2CMaAgoKkxaVQxVKZ9a9mtOkIfhLlnSt2dG+UbIxdvSPM6YmaRrwaRZ1cJVBZNK82tvMzo9EYH6f2+fhSFyvBHYB5mWkvDSSGWW3n6TVO2Df07VeBSwX773dsU9E+PG4LpW98RkknbDIKwdCJ4BhSdPM7JLIp5/u0Loi4AuSlog6YZUmg1iXtDxwVJNBTJP1w2Z2RyRc7uUaXTkqUa5rAYc22PmmyT0vGvwn4obA5broIlKLi8gVwP4NvERph7wicHgnvDyOniX400owkgDPAM+7SCctkqdyD2ADyvdUppPF/c3s99GezR8EwWUk/0JgnwYbmrY/IspvWeBjHbDv6VrbZHynXaRNwk/i2m59uLYnndi9wzrx0ei572udSOGdZiYzmxPDdaYCT3ZibOJ4vAzYOY7TUKPBqcRffh1Ys8EgJm/+/2aGqYajFcOnuGlaLhq7SsEADAFf6OPju4lYRH4J/DzKrlYg+XXgvxW6vdXlDdcGHfUSFuO0uFfx0K7JjJqkqcBnKd/TNhzn17fN7LgUgjCA9nmKmf0O+FwD+9wukhPnozGUpl5ijHayIVsVbEI7ToMqMBP4STqZ72OdOKiDOnFUv+tEyv2LxH445it8ELgCOA94UZxTnXA6CvjvhhvTLIlxo1hbs5hYm4L5b4sJbZ5U29qAp8TarRaTGPrX/O8dLe2QK7Eawb0NEliSXM9O87tTCh3fPcl2guZBfF8+NqZqJyE0/d9sSWt0esx6eZGK75MuybbDDY4W2Pq4fg70GppVEvltB2VZWhnpQsL+PSUlRS4oi9mv63uXdOJv/awTKnTTlbR2bAJ2d5NyuJ2oi6+YgL46DTxUKY7+s4Tj7mLsWdq1fdLM5sR/8PjU1nZVAF9o8jsjhOYc6KIak5conYL8B/ggIW46Rzq2eoekLVP8vktuYFFjJCdj3NMq6uQ0YP3MW+iYfNiHckNLkq1/HNg3ntAOeo5Vio//CHAn5SfdCtgzxYeXsazE99WAlQs/a3f9Pz3ep7lONNSJ9/WbTuTVI82sFjnGxrEC4vWEcOx149xM0TCdGv+0di1NSICmUvDY1CWtB+zFSDWJfPEcAk42s7+kRFxfAxa/q4uD/mpge0ZCcRYYwDgO3zezGzw0p2W5pmOwlF1/BXAdIxnluQGpAF8qGFvH4GEO8FwJ45zmz2sHYEF2jHHBjjk+qxIS4qxgr9siu9EWfcbM7ou2fqBzrLLKZ08DH81ISBlI47Ip8IpY+abdsUq6viawFO0nkqbwnHnAFf1YlUtSJerEKh3Uic/2k04kYh/DcGpx7m0r6fTIQ/4HWIEQepQ4XzccRWnztSKFD0ze+08RKlHUsomdSNIzwOf7OIZsIvF5RrL/i5P7XuCwuMlycr+YDVM0OPVodNaS9BXgVkLMZHFjmmI1t5P0orjZco/sYJEIRWI2D3i0BIKf7N6uXiZz0iHZhncScqVqJW3wkoPsQjP7VXJOTBL9TEURLgJOotx4/CTX3Qq62y7Wz9bodgkXwO3APdmmx3ViZOwuMrOTUknwXt/sZImztRjKtbukS4ALCJWjpsTnSJu7bvMNI+R7UCl4LdYkBOg38t4bcLyZPYRXdxnrzncj4N0smlibvAPfMbPn8FKjo+6WC8dgr5J0DHADISF87SYGPm1GlwBeWPIi4OgdJHv1WAkEP4V2vVbS1h7aNbnMTXzfk/LDEOYQygtORqQk2IMJVUTKchKm9XRXSVNjUmM79j3976olz6c7+ti5VO+WTvQq/8kiBupxjq0k6dOEMJxTgTfEZ6pl/LnbPCPxy/nAjFw50uK1C7AMC8fep5t9DviBe+/HZXz2IZRHyne+yXv/IHBCKk/qIluU2BeOwbaT9HtCg7UDCMdgtSZzUow0lpgJ3FIC+XP0Nu4u0VgOAUekMB0vKDApHDJ1SesAW1Neg6NU/u9EM7tpMoa3RodgJfYv+Q6LhlK2s8YKeDHw2sK62w6WKWmtUMEuVfpUJ14IvL5DOvHPXtSJzLGYRwxsIOkI4MY4j18SnyVxu4kg9vlGTIRclzvzOvhpd71HgwmdyP4JZvYg7r0f0ySOZaV2baDcaQf7QzN7lpHypL7QLlxmqiZpKUnvl3Q5cD6hI1zqWNtot6xM4VKy+OfMbIb3bBh4XJ84RZvXScfFWwNfjeEUVSf5g81D4/vmLBqm2u5GcS7wnUnuIEs84zjgCRYNWW2HLBIJaBm6D/CCkufUo306ZomzbEEoPFC2Tny313SigWOxLul1kn5JiBg4GFiDkcTZIcrLSWhXrgacFjdLQ5WM8Ly0wQ44DcQc4PvuvR/TJElNIbaM3gU1kOtjwM/cez8is8JueVVJBxGSVn4ZZZkfg1ULxqYeSb9l8/Y04A1mdmwKmfLZOZjkIb7fzKKJ7O0sbjXgq5L2j01XKp7DMfDYKrPTZZBPA35nZv9mEjvIUtWz2OjpOEYaVpVForcq2ILxkiQY8eCXhef6dVnuoE6cbma39YpOFBpT1SIf2UnSnwhFPN4PTGdhx2KvrAUpIuRp4MepqlROkHYjeDtTwwGyhfISM7szkS+3/2PCntmkrha+PsvMnpzMFYniRKwA9SQDSRsDHwb2BlYqeGka7ZaTwagw0g78V8BPzeyWeE2fuwM+leL7HYSwt7Vpv9PigrkZjeYKZvbNOJ+qcc76nBqgTWK0R1tmG7x2kbzUR/vpTzL5MuAnhIIe02m/Uk0ap00lLWNmz8V8rXbI6JIlP/esEgnyROqElagTP+wFnYgOG4v8Yzj26diTUPVpswLPqGQ8rmfGKL6qwCfM7NHEKSuEMJIKIQm0mVH7TUbEHC2Q1hRaQiiNWZRrpSDXSSmjfLcc4+u3kXQyIb7+k5HcNzsGKya0VAgx9gcRSqZ9xsxuSY0znIgNNlKJPDObDVwc50UZY57KZNaBw2Mzs5fE8qz1VFXBvfp9b49SiOTahLjaMshMCm/9V7RpTPYTxKxs5v3AJZmc2tVREWrXv7zEzZnrRNCJtTKdqJSoE9dMpE40iBhYW9IhwD+B4yO5r7Owc7GX+JoIDvm06fi6mf06dxiPZtQScXoK+FP8Ow9vaN3gAGwUlSMPz0lexTuBy0oycH1lNAptnJeQtGfs4vs3Qg+GaTQ/Bsvj65PCpf/b1Mz+L8Xap5AcD8uZdHp3LuW2Ak/OjRqwI3C1pCMlbZSqKkSyb4nsu7e2b+fOqwle5XpJBB9CeE6N3ojT7QUk/Ti1xGsmG79FSZszx4gMN+uQTgx3WyfG2Ziq1/Q250BVQlWqD5vZV4vRINVsAFMCxVCmMFXgz2b2hDe2GpsBi5Njy4Isc4J/upnNjV7sga+HXDgGQ9JKhGOwj2ReF2XyqTYwDInwp/j6PwI/MbNLss+pAk7qJyfSmF9ISOJbifaP/3OkxNulCX0tPiXpYuAs4C9mdkfcmC7wEKUv/QSpb8jMxgU73c4inAoB/HGyOXIWp6fxxO1cQszw8iXoafrffC1xuE4sIPYEh3aqeIOkbYGPRadN4hvDPUrqG3Gg/wAnA982s3sb5Rimh9q6gVKkwf2Ld3Mc10TO5WoF8g9w0WQwRJHkLCA4kl4EfJDQb2G1JhO3EWlLP38S+DVwnJndnCsvISZ62KffJF2NRsJ0npB0KvDxwua6LJKfNqJTgbfF1xxJ/wD+EjcYN8ZwoXyBWfC/XjGrZ232eiVer0Ioj+jleRfV04qZPS7peuDNlJcYv57LunSdWLdfdSI6FiuRF9QkTQN2IpTYfkOBZ/RifH26tzxE/kHgF8DPzezexLMaOTVT2bfNC+Qz32ldHRXSvQ8t7hRjPNd04DUFgp8m+H8YKedXH0QZAEMxdCHtljcneOvfw0iFguLEzQ1B8XjsNuBnwK/M7JFs80C+K3c4Io4D9qczsbhWIPoQTkBfH1/fINQhvhQ4D7g8lhgeLi48eKJuryCNQVnN8JL9+kcMRfQT8IWRTrkvjwRfJegkwOqSppnZnBISbV0nAtYpWSeu7rROFCIG6jFi4H2Rg7xkFJ7RS5ur4r1dH9e108zsqYwDqZkcq8CawIYNiKgBdxFaLPuOeGyGRoRW143i74eAG6L3YqAMUOEYbDj+bAfCMdg7GuyWhxpM6uRxTb+7AvgxIaRpViuT2jGJlS+WN4vNU35H6O3Rqfhny66bDHJyjrwovvYDno+eykvi6xoz+0++ufeqPBPulJGkKSWSmfT/l5V0vYETe3z/e0b4SyH4hNC8BymvW+5k1olqiZve9P+XdkInspP8PGJgw2iD9yXUrk/8A3qnfn0jYp/f24XAMcCZKUIhcqD64jhQGrxlCwJPO4cr3Psw7km8bualsIJRuzybYMMDYAzy3XJN0rKRWH2YkTJTo+2Wc2JUjTI5AzjGzC4qkCCPr3e0MCVlwFcIx7FTKDcWf3FkP5/TAEsRwvW2Br4MPCrpKkKY3sVm9s88tMzJ/oQ5ZVYFVi6JfCTCekPB9jsWlsfNhIZHS7Spo2kMl4ok/0EXcSk6sVqv60ST+PrXEcJwdiMkCCdib/RHfP0s4HTgWDP7+3g5UCL4FRonUNzo3odxE/z1C5ul/HfXDYLRbxBfv0bcLX+Qkbi90eLr899BSLg6jZA4e31hV+7x9Y7WFDBURhgyszskfRs4hIX7e3QDlQZemTTXVyUkdu0YN8TXAGcD55jZ9QUvDb6h7ZrNXiMSxHbXvERUn2ekg6kT/MYE/wngkchDVJLc1yaUJXXe0r5OrN6rOtEgvn4I2IFQv/7t2f0O05ve+rTpILu3xwg9fI6PTcDa4kBVRsJzGiXY3uXGadxYr8miL+CBPib1jRpTvTIq1R6Eigj5brnSZFLnv7sH+DnwCzN7KFNe8/h6x3g9ItHgfwN4C6F8XrdJfm5PhxoQ/mTYXxdfh0m6DjgTODlW5VmwmXai33FML5CRdsnM45G8+hq66CZcMQxktqQHMoJfxqZhmRIIqSNgSUa8+WXoxBPAjHZ0okF8/dKRe+xPfzSmahTNcCuh9v6vzOzxBg6ecdn+KvDiBj8fijdwnxunsROLAsEv5jU8x8jxYd/INU+cZeQY7E2EY7B3E8IgcvI+1MKkviZO6lNjTPIipwIORxsEQmY2X9K+wJXAinQuHn+8hF+ZblSBTePrc5L+GD05f425BRYXNteNzpGZsgg+wMOe7DkqUojqAyWvh9NdtKXrRLtVjtLYPhTLg49ZJxpEDKxNqMa3HyO5M6NFDPQCsS/mGF5O6OrckRzDRgkUybg97d6HsZPgbPFdu4lcH4uvvpBrgzbO04BdI7HfKvvTZsdgjZJGziXE159dUN66eykdJZL8FKpzp6SdCSUsp/UIyc/Jfn6aldqOLwXsA+wj6QrgB2Z2SlCVBbridrm8MSiSmTKqLz2dXd/HqjmeKpFAwUhIiaN9nZjeobFuSSeaRAy8nFANZ29ghfino0UMTDQa5RieGTnQhZ3kQFVGjrMoENEn4gtfSMZMipvJFeD+mLjc016dYvyvpFUI3WI/DLysQN5baUw1E/gdoX79FQVZeeKso1MkvxabyV0qaTfglEgAJipcZ3FI5TNz3doC2ELSB4BDzOzKtPl2b36pKJsYznKRtoTne3wcJzOWLvl6s1vkH4PWmCptbk4lnMpe32wDUyaqmdeieCT5fGq/7gR/zJhGaILTSK7PjWUH22VS32i3vEEk9fsSkgMbkfccxaSRR4ET46S+IxET4qmAJ846ukDyhyPJP1vSNsBvCKGJ6dSpF2N18zCe5J16C/AmST8Fvmpmj02WTthdwjJlmdL4PrPJGuBYGDN7nJQ6wS8vP+L50XSiSWOqdxPi6/u1MdW9jOQYPljkQHQwx7DaYLerDu2qJyvBL8p1Vq8Z/Sbx9VsSjsF2zZR8LI2pbiE0ZTi5kDTi8fWOiSL5Q2Z2vaSto8F9V/x1LxN9CkR/KC5220na18yu8ATc0lD28f4cF+mEyGnIRdqzspw9CrEvNqZ6L6F4Rz81psqdnldHDvTbicoxrNI8xirfabkHv0UeEWU1jZGk0yJ6huAXG1PF799FOAZ7W4PdciuNqf7OSGOq2YVJ7STEMZEkPzXBegLYUdLHCHXpVy/M814n+sOEJloXSvq4mf3CSX4pKNuptaSLdELk5M7J8lD2KdS0AgcpJs5uSCiz/V76tzHVeYTGVGdnzzUhOYa5B9+aDKxjfAZr6mIUZiKJfbEx1XLAnoRQnE1b2C3nkzpPGvmRN6Zy9AHJt/j1MbFSzZcJp1VDfUL0q1H/lgR+Lmk9M/uKk/zSyEzb0yy+lxXeMOhYpkfH0VHeZinpxLQUMZBzg9iYan9gd/qzMdVM4LeEHj5X9QoHqtK8/JEvFO3t6poZ9fkTSOyLu+X/IpSY+gCtlZkq/i41pjrOzK6L1/TGVI5eJ/lKxtfMHgY+JulE4EBCvGfyMg0zEpLWa2Q/JeLWgC9LmmNmh3tM/rjtNZR/uurlGidGTp7cXJ5OlH0asly0v/OyxlQHAG+lPxtTPQKcBPzUzG7POVDZOYapTHJxjEbLka3GAVyORWv/eib6+DEbmEfjo8dpXSb1+WRLu+VNCbFtu8exz3fLrTSmuo8Qw/zzbieNOBwlEv3hTD+uBK6UtBHBm/9eQt18skUnEf1eIfvJuzUMfEPSQ2b2S/fkt2W3yyT4KxbIkqMxiVyxRH3oBCl1nWhfJxZ0xpW0DLBbJPb92pjqZkJ8/a/N7MnIgXIHamn2t1DRUA1+XyU4VOuNCP6sjOThBL8UgzWb5p76JbpI7IuJs43KTI2lMdV1hMZUp5jZMw0mtcPRbyRfhDC1tEG9BfiUpG8RysLuAmxeWHR6ybO/4MQMOFrS1WZ2s5fQHBfmdIDMTDezWV6NriHqcZ1aq+SN1SzfWPWcTiTn4AbATYz0X+q3xlSXAscCf+h0jmHW2DDxt6nAKpGvzweeBJ5OpwSN+qNUG+x2rUDwXUnGpxTzmvxuyU7KtUFjqiUJlXA+RqinXdwtt9KY6nxC0siZE5004nB0iOjXC/rzCPBd4LuxscqOwE7Aawpkv55thCeqyUol6vNSwC9jBayak8oxO2aeiHZ7Ku11s03/txKhtPA9eLGKRchL7DY9vUSCn/Rvhku4NJ14EphLcEyqhDFaKr56uTFVoxzDPxIaU12czeGOcaDMQaPomN0n8rd1Mvs0E7hX0jkEp+tNuW4lgj87e6h88KbHhc+N0tgxNyP4Sa5JtitmxKDMCVFsTLUqodPbh4GXFnbLjYh9cSf9PHA6IWnk79nneOKsYzIQ/TwR7CaC1+lwSa8mxItuB7waWLawSE2Udz+F6mwGfMjMfhxtgutp62TmIUIzmtXanUbxmtMJFZruwWvhN8MqjPRXsTbH0AiezQcK4+oYv048GHVi9RKvK/ojcfYpQs+U483sxmxd6FhjqpzcS1oDOBrYucmfLgu8Ir4OknQkcJiZzU8kvwo80+Sfl5O0jJk9556glslBSnqoSXqmiVdnlfS37cq1SWOqDQkxxO9Ln8Xi4+vJFO5xQtLI8WZ2W4PP8QQ+x2TR5XT0uaD5ipldC1wLHCFpdWCbSPbfAGzIwt79Wrah7oanKiXeHiLpNOApD9UZk91+XtIDkeC3661MR/uvJpQOdoK/6FytAS8neCTrbepIGq9H4xrmBL8cnZgl6cFI8Mvw4FsP6kKjHMOfMQGNqTJyvy4hcmL97PMayS6dNkwBvgJsJmlnQhKzVYC7C8qQE9HVSthZT65tb5gIRK9NIyOzUoylauczLFbLUEyelaStYyWQ64HPxvEbZuSoqVKYFLXCbvVW4DPAxmb2WTO7TdJQTNhb8Dk+wo5JuNjVU0KupIqkajTEM8zsNDP7CLAxwXv+BeBC4FlGjngT8U762EnSVI92e7+orxUfwTHZ7fvie1njtI2TzaZED2DrkuU9w8yedadkqTpxb8lj1BOPx8LOzQpwDSHi4RVmdpiZPRg5UCWuAbUOy9vi+1LAHyK5n59xtLzIg2WbkuRUmg+8A/hl+l0V+HdB4SwO5FRgTeAOJ/jjWmTvabJxWhn4r7ixGlNcZpPGVDsS4uvfWtiRNspGb5Q0cgUjjalmxc/xxlQOx6JEX5nHJD/ZwszmEzz71wLflrRWJC9vjyRvXRZN1O1E99xkUz4s6WhgrpOdcdntMq4H8BpJU81sno/DQkhry5aF9bEdwpZv0Cp4eFpZOnHvABL7nAOdD/wIOGuCcwwrMfrjYELYzXyaN0xtZPenxP/ZE7jYzI6rRALfTFnWK0n5JiPuarJxWpKR1sstyTV6DRd40iUtJ2n/SCb+GMl90StvDSa1xYldizvE7cxsSzM7KR7FVeMiVPNjfYdj8YQ/lZ8tePfNzB4ws9+Y2fuBlwFvAo4Cboz/Xo36WPYCkk4LNgS2dS/+mPHvkta8NA5rA68skP5JjegRVezD8oqSZJM4y+3OWUrHbQMg03qBAz0PnABsbmZvNbMzYmhMzoHURZ2wuI6sBnwy3u94yoUOxf/9iqSVq8D9BG9SlZEYq/RgL/G5PW5Dc1cDpUhxhq8C/rQ4hWnQmGpNQmOqDzK+xlTPAKfijakcjtLJPgt79xck2cZyapcAl0j6IiGUZ3fgv4EVWPSUr4zFzAhVf85xstOyzCAc09cygl5GHP6uwD98HEbUJb7vQOhiW6P9pMu0QbiqsA472teJa0vUiW6jUWOqXxEaU/27hzhQKpLwXuAFmbzHowd1QpTIe6uEI8mnGEnIzBVwi4KQHK0T/HtofsTyimZGqEni7CsIjan2YnyNqe5npDHVAzkBmQyNqfxo3DEBhL/eQKdTlaurgKskfR/4IqFFe+4AaBdpc7GdpCXNbLbrQMt2+zZCmMd62UapXdK5s6SvAPN9HBaS9Z4lXq9C8MpeUyCnjt7SiW7dd7GHz22ExlQndrox1Xj4CaGs8RTg/SXKYPuKmT0B/KugFMkwbSJp1VTxxef7mAn+nU3k+soYl1nLEisaJc6+SdKp0ftzQCT3NVpLnK3Enff+hKSRQ83sgW4mjfQAsa9kx8GWSok6HF0m+w1DeczsfjM7gFAG7YnM+1IGwRch7n/jgtPG0WSMoq2YG+1tQwfMOMahTmju83oPl1rgWJKklxIciGXIJOnMTcAM5yod1Yle3jilQgapxLEBlwH7Aq82s++a2ZMZB+qVUOQ0/7eM9rpOeydaKQH3lenCfy8YtBQv/gJg08JNOBavFEMx6e6qBgRfwIsI5dMA8ko1w5KmSNpd0t+AiwhH+VMbkPcisc8n9V+AdwOvNbOfmNkzcVJPmvj6+Kz1FFeX5S/4PHZMNNlPVXkS0f8j8DbC8XFZJD9t3suKcZ4MSDK6vAMOnwNdvEkFTMD/ZOtaGQm2Aq6M1x7yU5Ke1olOEPs8vr5OzE00s22yHMNe5UCK8/WAkjdR1eLgVRrsirdxD9C4dlAQ2hoXZZcm4k5xFzkciecKkv6HcMR4apT7aImz9QKxnwn8AtjCzN420UkjE+0lihutTSSdAtwo6QJJe0WZONlx9ALTSUR/SsyJ2ZmR1vBl6epmLumWkda8v1OOZ5lomwVsL2kzoD5ZTxKj3a3HClPvo7yGR8ljeWnJuuMY0YnLo1yrPXZvOQd6GjgWeI2Z7Wxm56eT+17lQNmJ1kbR/pcp43oyYDcAzzHiYc7J/o6pe6nP9TErxZUsmkCU5LpDJJtrSvpaHIMfAps0mLjFDUIeX/YIcCSwqZl9wMyuLEzq4cnkzcgU5r+AC4A9gI2AbYGTJe0e5e7hOo5eIfrzI8m/Evga5Xjxk814acleoQE3HzJCyOrNjJxkl7EeVIAvTHLPciU+/6cIybVlxHOnTcKTwF+d4HdMJ26Or16wJUUO9CBwGPAqMzvAzK4rVh7sYb1LJ1qfY+REixJ0AuDWFKP8CKFBklg4nKROKPG2eQo98fne0ojVo1LcyUjZtWIc/oaSfkuIG/wqsFaDiZsPWDFE55/AJwiNqQ42szuy2LLJ3JgqPwJeGZgbZTovyu9QSUs44XH0GIajff0BoQLXUJtzdEHfjbh5qHts8mINRwrvmAecXiKZSWO5i6Q3xhPbSbWWptNqSS8hFIwoK6E8jc+5Kb7aSzz3hU6Mh7QWG1NdH+fSJmZ2iJnd1085hnGu1iS9Ctib9mPviwT/0ryF+m8b7KbTQO7pU33sRj0qxR+bKMUU4D3A8oweX19MGrmE4JV+rZkd3aNJIxOlMEY4Al46KoyinCvx3YCVgKU9cdzRgwupxZKaJ5SwkOaN9ZZzCY+ZMP6OkWZkZaECfDdWy2CS2Z+0rn0XWIryyi2ma5wS5ek2vXM68dtMJ7rlPCxyIICLI3d6nZkdZ2ZP92mOYZqrRxG892XpRCq5eUZ+FHwGocxUPnhJKXeK7XPdCzR2pTg125kVlaLVxlSzgV8DW5vZm8zsNDOb642pGm6qBGxPOBHJvUSpJ8DtwNNers7Rm3tUGfDnzC60O0eXA5YuLCiO5hutehaS8I/MTpdBcGuEplcHRu/i0CSZ1NXovd+T0Nm5rGdP9v1+QudO4aHEndSJW+heNZ1iY6o5kQNtZWZvNrPTY2hjX+YYRu/9sKR9CeHDZelE4pRXAldVUtJhrI9+EYuG6dQIRfN3S8c1PuXHpBQ3AVc3UYrFJc4+DnyPUOLpvWZ2+WSOrx/DpurDo+yYT46bIZ/Hjp6bv1Gfb4+63w4hT/9bJXiHHGN3FJzGwo0fyyL5X5e0aVzgB9oOZaE56xByzMqso57s/ZmpE7uvhx3XiVNL1onRNm5DwGORA20WOdDf+50DpWiLmGz+PcrvLWCEev8Lqomki/9mlA/6XIpddi9+R5Qin9QPAYcQYss+bWa39lHSyITtiMObXge8iYXj2dLG9BnCMWM3PBAOx3jxLPBoNnfbxXQX6ZiQvMCnEJpAtpsPkS+8BiwJ/FrSMoyc2gyiTTbAYkjSrwnhkWmj0/bl47jMB35aoq44RteJUwkJzWXpRLON8B3A5zMOdHPe16ZfOVAhjOxnhBDtsip2JQ75NDE0vFIgO+cQMpLz0J2hOLgbATtH76eXGRybh+HUSC5HO3JPSSMfJzSmOszMHplMjana1Z2o8F9sIOda5ul5zBOxHL2ItGDF91klkJb0v0u4dMc2DtFGPBrJYye8+C8Bjk3r6YCS/KG4Zv0voYnPcIncIXk9zzKzG1PCos/evtSJZKtECEf+AKEq4FFm9miBA9UHQSckHQm8hfJCc3KdOMXMHpc0VCkM3rPA0SxaHiwN5udTGUKf8i0pRT3K9WFCjXpj4RjBJMdngZ0I9VuPyRJnPb6+tV1xCjXbFNiBRbPR05z9iUvL0ePenXQatUxme8dtguL7HJfueIZDRggreZaFS0i3vchHsru3pMMHMR4/Vm4alvRZ4JPxecusoZ44yrd9qnZdJ47ugE4kjrkEsJ6ZzZQ0bZCKh2S5KP9NOJ0oM4k/nWjNISTyG7BQw58UevNTQtxTfgSTPPqvAj7kdcTHpRTfJzSjKnqX64Qj2+fizm6JydaYqiTjAPANGnvvK8AFMX6v4p4eR49jCWDFEgh+wiwX6RgNSvSsm9mDwEmUVxO/SPK/JOnTceGvDoLsIrmfL2k/gve+7A1Msunnm9lVbtMHRicSH/2ypM+b2ZxB2fhmG953A8d3SCcMONXM7ojjtKDRVV7v9EmCp7N4BJO+P1zSanFD4KE6rSvFfYQ4xFwpkkynAEdLmhqNvqN1xUlHXjsD72igOIkgHVkiYXI4OrlRXYP2S1sm2z2P0AvCMS7zIiOUdpxDuWEJqZBCDfiOpA8lkt/P4TrRSzlf0u4EZ2EK6bUO6Inb9MHSiTSWNeBISfvmlXIGQCe2J+S5DpWsEymGfxj431xWRYKevPjHEAL181j89PVKwJFxQ+AEf2xK8Z0GSpHnOLx/MpVPK0GoFmW7ZDT2xTqyydNzqZld6J4eR48jxWJvQ/DiD5ewCDxN6FLOOBfiWskLeJXeanffinPmLkKoToqfL5PMpHX1eEkHmdlwnAd9tbbGyiYpBOFDhARly15lIdn0P5rZxW7Te0In6h3SiRMk7R91YqjfSH5BJ/YA/gBMo7x69wt4e5TZSWb2rzg+tUUIfjZ4jxBa/xZ3Z4mM7ivpbZOhzFfJSnF73PkWlSJ59Q+TtHaUq2+eFo+ULHsYsAGNuyMK+Ip7ehz9sCZEx8kOJXl1AGYQEvzH+/+zKedUMenecoxU9ekHfUwn1d8A7qX86iGW2f+jJB2RYo77ZW3NKpsMS/o8IQRBHRjjRIxmAp91c9EzOlHpoE78WNKXIsmnX3hRVvFwWNIn4oZ3KuV1cC7qxNPAV5LTc4HHaJTB+yFwbQODli7wU0mr46E6Y1WKbxJa0RdPRwSsCpwYDbt5OdLFKtCwpG2Bz7BoaE76/hQz+6tXWXD0+nyONuJlhFCzdnuOJCP/YJbsPx5P/HzKSdJN68bSwAv7peto1mH4WeAgOlMDPMmiBhws6RRJK8TQw54OT4geyrqk6ZKOJZyk1infc09Gjg43s7u9GlpP6MRnO6wTdUJY+PeAKXGuVXtYH5LXviZpSUnHAz9gpEpQ2Vw5nWh9y8weIsbeNyX42eANAwdmN5b/T53Q/OrE9DMnoy0rxUzg0zQ+HRkG3gAc4aE6o3uMIhlaPnqLip6itKt9DvhicVfrcPSmiTABhxKS7tttfpLm+80N9GMsmAP8p3DNdhYjgLcme9gnA1OLZPJ04GxGTrLLJjTpunsAV0jaKjXy6TVvft5oKG5KLwE+ykiyXyfI/RDwL0KVkLK9xo7x6cTvO6wTaeN7IHCRpI1ShEOvOZYLXvvNok58KJNLJ3SiCtwK/KCRTlQWM3iXA8dl5LNIRrcDvpFipHzat6wUZwGnjyLXz0l6zyBVVihzh5yRoROAdVn02Cvtag+Lyc0V9/Q4enhOpwoLewO7Uk6FhaQPfx8POY+k0mIliwdLIvjpnt4naSn6q8lTutdPE0JEOuU0SGvAhpHQfFnSknHtqEw00c8aLtYIp8wfBy4DXsNI2b+yxzR3Mn7SzOZma4CjN3TiOTrnyU86sRVwmaT9Uk38VCO/Bza7lawK4peBy4HXdkEn6sBHo51uXSfiUUNF0vKS/q2AmkZQlzQ/fr13Wqh8zrdkIE3SGpIeaiLXmqSZkjaP/+MkPyND8f3bUV7ztTCG4/slaTHqNIlIBkbSGYV7SOP6YEwEppP3ktVRnyrpjsI9pHu6ML9nR8/M580lzYrjVVd7SP//vKQ1xjveye5IOqmJro0HaR4ekuZqH43VUHx/X+FZOoF8TbhR0jsLa3PXkg6zz6tkP9tS0t8ajGsnkObdofk4dHiMTy5pzie57Nvpe59gnXhvF+ZBfu1zEz/KN54ToBOW/WwnSdc20eFO6cQ3xz2vssHbTNKcKOB6AzI6X9I7nIyOWa7bRZkW5ZomxsOSXjSIhmGcckuE4yNNjG8tvv4jaf1uEVkn+I5xen2SHXiDpEdKXBTSWF8WFyJrU98OKpHg1+P9pbJxSJrSL578TCY/LlEmi5NVwhmS3tRoHpUtv4zAVAs/30zSCdl9DZewIW1lLv+lGxsbJ/ht6cQxXdKJWmYrj5f04uL9dFgnhgo/31bSOYUx74ZOXBvX+vE/azZ4+49CqhQ9zlu6J3/Mcv3iYjzR/5K0wmQn+Zmn873Zwldvsqv9QDfl5QS/b+aQTeAreZiqBa/PhyTNLtnjk/TgM+04XTKys1XUtXqJi7QkPSvpXQ0W5kqrcp2gOTQUj+Kv7oLXUg1OdS6U9B5JyxbtUCMZtvhM+fysFH6/hKS3Sjp9lFOGTj73Q5JWT/fZJeebE/ze1on8+rMlnSbp7Q3m7tBYdaKJzS5ed4XIRS5t4GDstE7Uou3cuJS1PCOjJyyG5D8h6ZXuyW9ZKaoFYji/yUJ9kaRpk5XkZ3LaLSp2bRRy/6Nuzz8n+L2vZz2YpPgmSRd0gCwlvZgjab12xjqbTy+Q9Gjh+mXdpyQdGhPm2zkN6Vq1mUzfN5T0TMGr2GlSk8vtfknHxpPg5Ue734ysDGVkpzLK/ywlaQtJR0q6dTH30WlP7bbdWvuc4PeVTtQbbCSuk/RVSdtIWqbFTe1CejHK/6wkafuocw8t5j469bxpPu7SynyyMRj6CqFI/3mEZIdiIlhKdHwc2NXMLk1F/p3Oj64UhNrQFwOb0Lzc4wXAbmb2zGQp+RjnXSqH+X7gZ4yUFM0VcZiQTX4h8LY0H7uVhBUTbOqSzgB2zMYs6cRDwAZmNjsmLqpT8orJkVMJ1VNelN1DuqeLzGzbdM8DPn8W0ZNo9IfoblWl6YTykGsCbwLeAmyR2c0yq44kXTjXzLZvd5yzTtGnALvHeVTW5jmvlX4/cCrwZ+AeQtLe/MWsXfPN7PnFjXkn51aMjf8jI50pu7HJSJVqchs4A/gnIeH1hijDx4AnFzf+8YR4JWBt4BXA1sCm8ft8fW+3dOtY5kWaZ58ws6MnYFxPBvbK9KmdsRoiNLE8cZDX7kx22wNndFEnROOOyQ8Qkl2vAW4H7gQeMbOnW+BlywErEhqQbgK8DtiMUMo8H1voXoGZ+cAU4BAzO6wVfm1jGLxEYlaKRGo0MjoL2MvMzoye1JpnvC9WrmsRyiqt10CuychcA+xoZjMGffOUExNJXwC+RePmKUlWd8SN5xOEbPL6BIyhE/ze2RimSjCrATsDbwdeGA13lfK7CY6GpYBlG3xeJ0rhpvF+i5ld0C6hyDoxvpvQibET91y85jxCc655TcYojd08QoOX24BzCN1NZ3WRDCbZvBc4iZHqXd2aV/VsvBt5Hp+IxP+5uCY/H9+XiBvOtPFcNb4qTYh2s+t3Cmm9+5qZHdrNtc4J/sDoRLPKNTPixndO1IXnol5MifowPRL7leNraIzX77ROnGRm+3aEV2fHMGtLurtJrFUtO9r677TgelLf6EYlvr9U0owmck1HM7dK2iAp06Aaifg+VdLRTeJQcxndL2nDXJbd3ozEdw/R6RFyH7/+TKZPvYB0xDrcwRAOSbq8LJubzall4jzu1NF7KtbQTujH7ZL2ydYc66Kt+kRmp+sTNLdS8nKtzTEY7lLIUSPMi+/fT/LtZq6Fh+gMlE7UStaJ+gTpRJqDvx9rAvGYFoCsI+L9hHbqj7Jog4NKtsP5haSjCGEWPd2BbCKROhaa2a3AToTGMkW5VuP3LwEukbRt3CkPzOYpJevE53oRISzp4zRunpI8IzOA7c3sdnm32sm+UU5kdLqk04D/A1aL3o9a5n3p9kuZ17lK5490DyurkVRqsmRmzxGaynWq/nslysZYuMZzK69afG0A/ErSUfH5O96AMfUqMbMfAl/N7HS3T6xTvfBqtq6rIJ9Gr3x+VrL5ORFrSgpBOMnMDoxk2E//+4/P9IpOVErWCZsgnagSQhf3SnJsVScq4xi81KzpFkJL9QdZtGFTum6d0N77Aknrx4EfknvzR1OKfwDvAp5sQPLT92sA5yvWkh6EzZNGusDVYgLJZcA2NG4UkX72KLCDmf0rys7J/eQm9+ko+BRgt2gcVSAtE/HqRhxq2vD+zsz+XPJmtx7leywhdKbTXUSTvFqV7xAjIXHDwEGS/i8+fzfWmuSg+TohlLCakYQJXVYK8mn06mbuwGgYjuT+VGC/yBHqTu77FrlOHOE60ZZOXAC8J2vw1rLtHZfxy0j+9cC2wL/jAA43EOQw8Abgckm7mVktEVL1TxfDbpP8Swldgh9oQvLTAB8KnCdp3cyb31dHgKmaQ5xTK0s6ntDld1UaJ/SlHe2dwLZmdl3y+vsMmtSoREL39bhBTt7AyWBjUqLu88Dno11ViXZJUb6PAt+nc178tudAtI/zgc9I2ietVR2224qEZsjMvgh8gZFEbieoi1kCGIkv/omZ7ZmIoJP7vuYyuU58Cfg8IyeXPq6t68RpBCfm8+PJm6u0MYBp8G4nVIb4RwOSDyPHM6sCp0n6raQNzGw4Hv860W9M8m8A3gzcQvMTkmFCRY4rJX0g84BXev2URCMtz1PL6d3iHPoQjSs2KNvRXgW80cxu9rAcR7ZBfDHhxLDMSi/9QvArwOfM7J5Ixsv2sNejTfnfuLnutBd/3CY0I9dHSFqOkROIThOaFML6beDD2f24fWo+b9MJ2+Fmtn9at5zcDwzJTzpxVNQJuU60rBM/NLM9zGzueItiVNocwETyZ0SieR6N462Swa0D7wH+IekLkqZnRH/Iif4iJP/OSPIvbyBXy362CvCzmFz3tow0V3pNrqnebLzHmqTNJZ0bd6rr0Djrvp5tFv9AqBDykJN7R8GOHUCoENLNCjkTjeTp+Y2Z/bhTOpFi+s1sJvCpKN96D8+HOrAW4Wi7K+UdMwdL1cx+Gte62Sx6CutYuDrPZ8zsy/GkxT33A0byXSfGpRNfMrNPpuZc43XYVEoYwFrcXTwLbE+IQRxqsEtLITs1Qqm6bwHXSPqYpGVj6I461Xq7RfJpvUKGI8lPx+JvAX7cRK5p81QDtgT+LOl3kjZNJDqTa2WC5FpJOQLxfmqSXiXpl8DfCSUM8/JTRQKTat9/ycx2MbPnktfWbcLkRpzPtVgadDsW7ZEw6AtClXDK99EUt9xBm5QcOucAP6TxiW1PTQ9CMQi6uRnJHDR/IPTluJuRU1gnryM5VM8Ae5rZdyO595j7wSX6uU68FbjLdWIhO5V04hFCSM4RZWx4KyUNXjoCVYxB3IWRCjvFAcwJ6UuBHwE3SPq8pNUSAcxIabVTxDTrZlaNhFHxcyu9QPSTF97MZpvZx4D9gGcbyDUdS6fjnV0JYTtnSto1npTUIuHv+CYqa11dTbvPtGGJXRdPJ4TjvD/bsBRrLSfCXyXkImwfJ31bO1rHIK4dJsIp1nr0RnJUt8h9qiL17ljlphuhDfW48BxECJWr0pueuDQPXpb1qbAuTso8n2pLQjOsarc3Gz2GerYpvRLY0sxOTadOTu4nDcm/jNCzxnVixHZWgb8CW5nZOaloSLs6USlx8BTJXdqlbU1o3FSlsTd/KFP4dYAjgZsk/VrSuyUtHR9wuEBMq4V226N63dPvC22Jc0JfT58haVVJa6TP6xGlqGflI38JvB64tolcK9nPphCSDX8H3BjbN6fFLt9EWZRHtSjTNuVay8KvXizpi4RGXefHDWBODBrF2ifC/ytgczM7L84t9/I4GmF5YMnMvkwGcv8sofHdHSnsrQv2SNGRMw/Yg9CBtheP29McWJrQZGyiCM2QmT1qZjsDX2LkhGmyeS6TTR8inP680cxu7eEwS+vx6/UzyXedWNhrXwe+SQg9vrvni4ZkzSKGJH1K0hNZ04DaKA0Jctwn6WeS9o0NoKotfK61Qk6zv19S0utiPsD5kp6RNFPSLyQt1UshO2nzlN33IZKey5pp1Jo0PqkVmm5cJ+l7kt4paeUWP3escl1K0taSvizpEklzGtxXvcn9JtwtadfinOrR+e6NriZe9q/Q5EAax6clvTG3CxNk4zeR9FST5nwT3VRMkh6N3deZKFue9yqJJ5i3NRjPQUXeoPBhSXsVdbdHucsvSm50tVuvr2MTqBPbxgaek0Un8ue7RtJWndKJTpKNBVm/ktYFDgP2yTxQRc9t2tWkkm/5g84nVG64mhBvehchbOMh4HFg3mheXUlLE47wVyEkXm0GvAzYmNC+vhFONbM9x5u93CW5vpRQY3anTK5F2cHC4S45ngRujrL9N6Hl+73Aw4SSe3NHe3ZJyxLaOa9COIV5NbBRlO1aTTw4lSZjnubCTOAnwLfM7Il+iM3MQgDOAHbMPKypuslDwAZmNjuGF6lTRjOemEyN4/qi7B7SPV1kZtv22rwuQfZrA7cz2Em2KaH2AWBnM7t2Ij2gWVv6dNy+UnaPE4007++JulfrpO6NUV7LAJ8DPgtMH8Vu9zOKldCOB75mZg/3sk3PxugoQhhau/M5zcM3m9nFXhiiZZ1Ia9Mg6UReQGQWoRHj4bFKTkd0wjo8eEboYjscv38HcAiweYHcVRrcSz0j+812vc8Sur7OiQKbFQkihOP6acBShKTeZePEabZwJgOr7PXieGTSayTfGKn7jaQ9CEddmxSMa1GuKsi80sQgPQXMja+ZkewnuU7P5Lo88AJGQiOKxD1fuGwxxL4O/Bo4Inb0pV+MoRP8idWF+MxLAjcSupnWB5gsXQPsEe1SdaKPcrMF+uXAGcC6PULy02L6FzN7e6/M99ymSdokOmi2X4zjq5+J/RXAwWb2t36w6dl8/m/gF5ndHNflMjL3MjO7d1Dsbgd14uVRJ945QDpR3MCfBnzDzG7qJ54zKgHKjmMqknaRdFHh2GJ+k/CddNxai38zv0mIR6vHtsPZNWpNQkXS6zVpAPpArlMl7S3pijHKdbggV5Uk19H+Lv+cWTHvYovcyPZTyVQP0Zn4RTm+H1fSsXovhZnkz3JMNo+GelD+L4whec3CLruJJLcD83vslU1pfj+S9pR0bQthjL0eipPb/Tsk/U82N/qiDHZmy9eKa1O9jXFIY3jZoNncLujEHjF8pV91otH9/lXStvnGZqBKwxcXJUlvl/QnSXMbGOdWBrOeGZZaRh6HM6JZa1FJ0//Pi9/PiMdG9Pog5HKNirKzpIsLC2y9RbnWOyTX4mL/sKSjJG1QmPCVPpzXTvB7YP5L2jSba3X1L4r5KA/0UexyVdKRDUhOt+VXk/SYpFV71Ybn1dokTYmk5rIxOGh6gdQXN9M3SPpIWjt72UHWgj0/oU2HQfq/PfpRDj2gE9U+1IlGXOcvkt7VyDE7sEcyucGNSbQHS7p6FC9WM497OwtA8lwXrzlD0g79RIRSpZ3CzzaJ1XNuGMU4d1OuMyMJ3lvSiv1O7BssCKcXyFkyQvfHsJluEfyqpFuy8ciJ1nmD6E3KxuAH8XnnDoDHfljS0RlJ7WmPTz6nJL214JUe7tKiXM+cNPv3A7FqYLe3l3RuA2I5v0Rb3a59L97DFdGuT+l3D2VWSe6FMZl9PImfaQ6eP/CErjs68Y4e1onhBvf1bIxM2HI0jjbwg1g0AJJeK+mweJzxZAue4fkNXsNNfjbaAnO7pF9K2meiqy50YAM1pFDV5lsK3W6fWYwBH25Rpq3I9R5Jv5H0QUnrNLjPygDM43QMfVR85tlRLnOiTK/u1nzKiO5f4r3MifcyO37/00H0Jmmk98IScVFNi2y9xwl9rYFHao6kk1KIYD+NV76IxZOkz8YNbnET04lFOfcoH9uPcivY7Y0VKpFduxgHTb0DsqwX5mcjgntrXFNeW7SH/R56kNnRt2e6OX+MG8w7FEpvmxP8UnXi/02gTuT8qBHv+bukA3OuEzd4E2KHrIeUqVJMGIueq00INfVfR0jgWglYoc2PfJxQLeZ64F+Epkv/NLPZ+T31ezLMKHJdA3glodnE64C1CdVwlmvzI58A7gP+GeV6FXBjbG+f35MxQF0L4zMJWB+4FFit8Cf7mtlJ3UimSZ8h6S3AOYR+CAlzgdeb2T8GMdkrS7hdltA/IXUxTUlOE9UES9l73pyuuOg/REhU/YmZ/TMjqH2nK4XEuWWBfYGPECqX5ahnMqmMY13KiyKkRfRHwCfiddSPssvHPBKc1xL6h7yZ0CByqQb/Ws9kYg1kaQ3mZHF+WmEscswD7gD+BpwOXGZmc5vd9yA4IKMt3Rk4AVgmm2u5LWk0B28Adu3FIh39OhYToBMq/E0jnfgPcB1wAXCemV1b5DoTmUBrPTaIli189aJSxN+vAqwaSel6hCouS8XX9PgyYHZ8zSVUhXkAeBB4DJhhZk80mUQwYC2zU9WdZs8WnzuX67qZXKdn74oynRNfT0WZPhg3TTPM7PEmcrVGYzqA5HItQofe9ePcO8PMzu1mib7sXl5FaEa0ehyrX8XSijaozcKyZ68QKkt9Mm5eexGzgbsJXT3PAi42s2cznVE/60uDal9TCF1ddwa2jTqyZIkfeSeh7Nwvk9evn+f5KA6aFwKviA6azYENo9NraokfPxxtxr1xfl4OXG9mdzSw7Rpgu55I/iuBbwFva0Gnfwp82cyedXLfVZ1IzuBO6cQ8QufwfxMcmJcB/zCzh3pVJ3o9eTQvsVgqOSxcW4NG6ltQEnO5doZctvrzTo9xo3EdZHLf6BljD469CaUI149Gf0oXbyeV8J1NOOG6N5L6mwglL2/JPTyDSJiK5ZKz59wIeA2hf8Z6hF4aqSPxdBZfanMOoZfHbcCZwK/N7Ml0ojZAnuTcptYaOGhWIvQdWYtQGvcl0UmzQibL9JoWiUoqK/18lOPThK7E/yZ46e8H7jezRxrcT3Uy2fbCadT2wO6RRK4enV9PE06uLwBOzk7fnNxPrE6sDfxX1IkXRxuzfEEfkk4Ms7BT+D+EfkAPRpt9T9SNf5vZ8402HfSgA/P/AxEGqcRcDyCyAAAAAElFTkSuQmCC');
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0; font-family:var(--body); color:var(--ink);
+    background:
+      radial-gradient(1100px 600px at 18% -8%, rgba(42,212,255,.10), transparent 60%),
+      radial-gradient(900px 600px at 92% 4%, rgba(255,45,142,.12), transparent 58%),
+      radial-gradient(800px 800px at 50% 120%, rgba(138,107,255,.10), transparent 60%),
+      var(--bg);
+    -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  }
+  body.page-open{ overflow:hidden; }
+  /* animação suave de fundo */
+  .aurora{ position:fixed; inset:-25%; z-index:-1; pointer-events:none; overflow:hidden; }
+  .aurora span{ position:absolute; border-radius:50%; filter:blur(90px); opacity:.4; will-change:transform; }
+  .aurora .b1{ width:520px; height:520px; background:radial-gradient(circle, rgba(42,212,255,.6), transparent 70%); top:2%; left:6%; animation:drift1 20s ease-in-out infinite; }
+  .aurora .b2{ width:560px; height:560px; background:radial-gradient(circle, rgba(255,45,142,.55), transparent 70%); top:28%; right:4%; animation:drift2 26s ease-in-out infinite; }
+  .aurora .b3{ width:480px; height:480px; background:radial-gradient(circle, rgba(138,107,255,.5), transparent 70%); bottom:-6%; left:36%; animation:drift3 30s ease-in-out infinite; }
+  @keyframes drift1{ 0%,100%{ transform:translate(0,0) scale(1); } 50%{ transform:translate(80px,50px) scale(1.12); } }
+  @keyframes drift2{ 0%,100%{ transform:translate(0,0) scale(1); } 50%{ transform:translate(-70px,40px) scale(1.08); } }
+  @keyframes drift3{ 0%,100%{ transform:translate(0,0) scale(1); } 50%{ transform:translate(40px,-60px) scale(1.15); } }
+  a{ color:inherit; text-decoration:none; }
+  img{ max-width:100%; display:block; }
+  .wrap{ width:min(1180px, 92vw); margin-inline:auto; }
+  .eyebrow{ font-family:var(--display); font-weight:700; font-size:.72rem; letter-spacing:.22em; text-transform:uppercase; color:var(--cyan); display:inline-flex; align-items:center; gap:.6rem; }
+  .eyebrow::before{ content:""; width:26px; height:2px; border-radius:2px; background:var(--grad); }
+  .grad-text{ background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; }
+
+  /* logo real (recolorido com o degradê via máscara) */
+  .logo{ -webkit-mask:var(--logo) left center/contain no-repeat; mask:var(--logo) left center/contain no-repeat; background:var(--grad); display:block; }
+  .logo.sm{ width:132px; height:27px; }
+  .logo.lg{ width:200px; height:41px; }
+
+  .btn{ font-family:var(--display); font-weight:700; font-size:.86rem; letter-spacing:.01em; border:none; cursor:pointer; padding:.72rem 1.2rem; border-radius:999px; display:inline-flex; align-items:center; gap:.5rem; transition:transform .15s ease, box-shadow .2s ease, background .2s; }
+  .btn-primary{ background:var(--grad); color:#0a0612; box-shadow:0 10px 30px -10px rgba(255,45,142,.6), 0 0 0 1px rgba(255,255,255,.08) inset; }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 16px 40px -12px rgba(42,212,255,.7); }
+  .btn-ghost{ background:rgba(255,255,255,.04); color:var(--ink); border:1px solid var(--line-glow); }
+  .btn-ghost:hover{ background:rgba(255,255,255,.08); transform:translateY(-2px); }
+  .btn-wa{ background:linear-gradient(135deg,#25d366,#1aa851); color:#fff; box-shadow:0 12px 30px -10px rgba(37,211,102,.6); }
+  .btn-wa:hover{ transform:translateY(-2px); box-shadow:0 18px 40px -12px rgba(37,211,102,.7); }
+  .btn-adq{ background:linear-gradient(135deg,#2ad4ff,#ff2d8e); color:#08060f; font-weight:800; box-shadow:0 12px 32px -10px rgba(42,212,255,.55); }
+  .btn-adq:hover{ transform:translateY(-2px); box-shadow:0 20px 44px -12px rgba(255,45,142,.55); }
+  .btn-adq svg{ margin-right:.15rem; }
+  .wa-ic{ width:16px; height:16px; fill:currentColor; }
+
+  /* ============================ HEADER ============================ */
+  header.site{ position:sticky; top:0; z-index:50; backdrop-filter:blur(14px); background:linear-gradient(180deg, rgba(8,6,15,.86), rgba(8,6,15,.5)); border-bottom:1px solid var(--line); }
+  .nav{ display:flex; align-items:center; justify-content:space-between; height:68px; }
+  .nav-links{ display:flex; gap:2rem; align-items:center; }
+  .nav-links a{ font-size:.9rem; color:var(--muted); font-weight:500; transition:color .2s; }
+  .nav-links a:hover{ color:var(--ink); }
+
+  /* ============================ CAPA (HERO) ============================ */
+  .cover{ padding:60px 0 30px; position:relative; }
+  .cover-grid{ display:grid; grid-template-columns:1.05fr .95fr; gap:40px; align-items:center; }
+  .cover h1{ font-family:var(--display); font-weight:900; text-transform:uppercase; font-size:clamp(2.6rem,6vw,4.3rem); line-height:.94; letter-spacing:-.02em; margin:.7rem 0 0; }
+  .cover h1 span{ display:block; }
+  .cover .lede{ color:var(--muted); font-size:1.06rem; line-height:1.6; max-width:46ch; margin:1.1rem 0 1.6rem; }
+  .cover-cta{ display:flex; gap:.8rem; flex-wrap:wrap; }
+
+  .cover-visual{ position:relative; display:grid; place-items:center; min-height:440px; }
+  .cover-visual .hero-photo{ position:relative; z-index:3; max-height:440px; object-fit:contain; filter:drop-shadow(0 30px 50px rgba(0,0,0,.6)); animation:coverFloat 6s ease-in-out infinite; }
+  .cover-photo-glow{ position:absolute; width:72%; height:72%; border-radius:50%; background:radial-gradient(circle, rgba(138,107,255,.55), transparent 65%); filter:blur(54px); z-index:1; animation:coverGlow 5s ease-in-out infinite; }
+  @keyframes coverFloat{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-14px); } }
+  @keyframes coverGlow{ 0%,100%{ opacity:.5; transform:scale(1); } 50%{ opacity:.85; transform:scale(1.08); } }
+  /* frase-gatilho de venda (rotativa) */
+  .trigger{ display:inline-flex; align-items:center; gap:.6rem; margin:0 0 1.5rem; padding:.5rem .95rem; border-radius:999px; background:var(--grad-soft); border:1px solid var(--line-glow); font-weight:600; font-size:.92rem; color:var(--ink); min-height:38px; }
+  .trigger-dot{ width:9px; height:9px; border-radius:50%; background:var(--grad); box-shadow:0 0 10px var(--cyan); flex:0 0 auto; animation:triggerPulse 1.6s ease-in-out infinite; }
+  .trigger-text.in{ animation:triggerIn .5s ease; }
+  @keyframes triggerPulse{ 0%,100%{ transform:scale(1); opacity:1; } 50%{ transform:scale(1.45); opacity:.55; } }
+  @keyframes triggerIn{ from{ opacity:0; transform:translateY(6px); } to{ opacity:1; transform:translateY(0); } }
+  .cluster-glow{ position:absolute; width:380px; height:380px; border-radius:50%; background:radial-gradient(circle, rgba(138,107,255,.45), transparent 62%); filter:blur(42px); top:6%; }
+  .cdev{ position:absolute; width:150px; height:312px; border-radius:28px; background:linear-gradient(150deg,#2a2740,#15131f 40%,#0c0b12); border:1px solid rgba(150,160,200,.2); box-shadow:0 30px 60px -26px rgba(0,0,0,.9), inset 0 1px 1px rgba(255,255,255,.12); }
+  .cdev .bump{ position:absolute; top:14px; left:14px; width:60px; height:74px; border-radius:16px; background:linear-gradient(160deg,#1c1a28,#0a0910); display:flex; flex-direction:column; align-items:center; gap:6px; padding:9px 0; }
+  .cdev .bump i{ width:20px; height:20px; border-radius:50%; background:radial-gradient(circle at 35% 30%,#3a4a66,#05060a 70%); border:1px solid rgba(120,170,255,.22); }
+  .cdev.left{ transform:translateX(-92px) rotate(-13deg); z-index:1; box-shadow:0 30px 60px -26px rgba(42,212,255,.5), inset 0 1px 1px rgba(255,255,255,.12); }
+  .cdev.right{ transform:translateX(92px) rotate(13deg); z-index:1; box-shadow:0 30px 60px -26px rgba(255,45,142,.5), inset 0 1px 1px rgba(255,255,255,.12); }
+  .cdev.center{ z-index:3; transform:translateY(-14px); box-shadow:0 40px 70px -28px rgba(138,107,255,.7), inset 0 1px 1px rgba(255,255,255,.14); animation:float 6s ease-in-out infinite; }
+  .podium{ position:absolute; bottom:34px; z-index:0; width:360px; height:120px; }
+  .ring{ position:absolute; left:50%; transform:translateX(-50%); border-radius:50%; }
+  .ring.r1{ width:360px; height:96px; bottom:0; border:2px solid rgba(42,212,255,.5); box-shadow:0 0 26px rgba(42,212,255,.4); }
+  .ring.r2{ width:280px; height:74px; bottom:14px; border:2px solid rgba(255,45,142,.5); box-shadow:0 0 26px rgba(255,45,142,.35); }
+  .podium-glow{ position:absolute; left:50%; bottom:6px; transform:translateX(-50%); width:300px; height:56px; border-radius:50%; background:radial-gradient(ellipse, rgba(138,107,255,.5), transparent 70%); filter:blur(18px); }
+  @keyframes float{ 0%,100%{ transform:translateY(-14px); } 50%{ transform:translateY(-26px); } }
+
+  /* ============================ CATÁLOGO ============================ */
+  .section{ padding:40px 0; }
+  .cat-top{ display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap; margin-bottom:22px; }
+  .section-head h2{ font-family:var(--display); font-weight:800; font-size:clamp(1.6rem,3vw,2.2rem); margin:.45rem 0 .3rem; letter-spacing:-.01em; }
+  .count{ color:var(--muted); font-size:.92rem; }
+  .count b{ color:var(--cyan); font-family:var(--display); }
+  .filters{ display:flex; gap:.5rem; flex-wrap:wrap; }
+  .filters button{ font-family:var(--display); font-weight:600; font-size:.82rem; color:var(--muted); background:rgba(255,255,255,.03); border:1px solid var(--line); border-radius:999px; padding:.5rem 1rem; cursor:pointer; transition:.2s; }
+  .filters button:hover{ color:var(--ink); border-color:var(--line-glow); }
+  .filters button.on{ color:#0a0612; background:var(--grad); border-color:transparent; }
+
+  .grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(248px,1fr)); gap:20px; }
+  .card{ position:relative; border-radius:var(--r); overflow:hidden; cursor:pointer; background:linear-gradient(170deg, var(--panel), var(--bg-2)); border:1px solid var(--line); transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease; display:flex; flex-direction:column; }
+  .card:hover{ transform:translateY(-6px); border-color:var(--line-glow); box-shadow:0 30px 60px -28px rgba(42,212,255,.4); }
+  .card:focus-visible{ outline:none; box-shadow:0 0 0 2px var(--cyan), 0 30px 60px -28px rgba(42,212,255,.4); }
+  .card-media{ position:relative; height:188px; display:grid; place-items:center; overflow:hidden; background:radial-gradient(120px 120px at 50% 40%, rgba(138,107,255,.28), transparent 70%), linear-gradient(160deg,#15122a,#0a0814); }
+  .card-tag{ position:absolute; top:12px; left:12px; z-index:3; font-family:var(--display); font-weight:700; font-size:.64rem; letter-spacing:.08em; text-transform:uppercase; padding:.32rem .56rem; border-radius:999px; background:rgba(8,6,15,.6); border:1px solid var(--line-glow); color:var(--cyan); }
+  .card-tag.new{ color:#0a0612; background:var(--grad); border-color:transparent; }
+  .card-tag.basic{ color:#0a0612; background:linear-gradient(100deg,#b9b2d6,#e6e1f5); border-color:transparent; }
+  .mini{ width:78px; height:158px; border-radius:16px; position:relative; background:linear-gradient(150deg,#2a2740,#0c0b12); border:1px solid rgba(150,160,200,.2); box-shadow:0 18px 30px -16px rgba(0,0,0,.9), inset 0 1px 1px rgba(255,255,255,.12); }
+  .mini::before{ content:""; position:absolute; top:8px; left:8px; width:30px; height:38px; border-radius:9px; background:linear-gradient(160deg,#1c1a28,#0a0910); }
+  .mini::after{ content:""; position:absolute; top:13px; left:13px; width:11px; height:11px; border-radius:50%; background:radial-gradient(circle at 35% 30%,#3a4a66,#05060a 70%); box-shadow:0 16px 0 rgba(58,74,102,.5); }
+  .mini.cyan{ box-shadow:0 18px 30px -16px rgba(42,212,255,.5), inset 0 1px 1px rgba(255,255,255,.12); }
+  .mini.pink{ box-shadow:0 18px 30px -16px rgba(255,45,142,.5), inset 0 1px 1px rgba(255,255,255,.12); }
+  .mini.basic{ width:60px; height:120px; border-radius:12px; }
+  .mini.basic::before{ width:38px; height:30px; top:8px; left:11px; border-radius:6px; }
+  .mini.basic::after{ display:none; }
+  .card-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; padding:16px; z-index:2; transition:transform .35s ease; }
+  .card:hover .card-img{ transform:scale(1.05); }
+  .card-body{ padding:16px 16px 18px; display:flex; flex-direction:column; flex:1; }
+  .card-brand{ font-size:.7rem; color:var(--muted-2); font-weight:600; letter-spacing:.06em; text-transform:uppercase; }
+  .card-name{ font-family:var(--display); font-weight:800; font-size:1.08rem; margin:.18rem 0 .6rem; line-height:1.1; }
+  .card-specs{ list-style:none; margin:0 0 14px; padding:0; display:grid; gap:.34rem; }
+  .card-specs li{ font-size:.8rem; color:var(--muted); display:flex; gap:.5rem; }
+  .card-specs li::before{ content:"›"; color:var(--cyan); font-weight:700; }
+  .card-foot{ margin-top:auto; display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .price{ font-family:var(--display); font-weight:800; font-size:1.05rem; }
+  .price.consulta{ font-size:.92rem; color:var(--cyan); }
+  .see{ font-family:var(--display); font-weight:700; font-size:.8rem; color:var(--ink); display:inline-flex; align-items:center; gap:.3rem; }
+  .see::after{ content:"→"; transition:transform .2s; }
+  .card:hover .see::after{ transform:translateX(3px); }
+
+  /* ============================ PÁGINA DO APARELHO ============================ */
+  .product-page{ position:fixed; inset:0; z-index:90; background:
+      radial-gradient(900px 500px at 20% -5%, rgba(42,212,255,.10), transparent 60%),
+      radial-gradient(800px 500px at 95% 0%, rgba(255,45,142,.12), transparent 58%),
+      var(--bg);
+    overflow-y:auto; display:none; }
+  .product-page.open{ display:block; animation:ppFade .22s ease both; }
+  @keyframes ppFade{ from{ opacity:0; } to{ opacity:1; } }
+  .pp-bar{ position:sticky; top:0; z-index:5; display:flex; align-items:center; justify-content:space-between; height:68px; backdrop-filter:blur(14px); background:linear-gradient(180deg, rgba(8,6,15,.9), rgba(8,6,15,.5)); border-bottom:1px solid var(--line); }
+  .pp-back{ display:inline-flex; align-items:center; gap:.5rem; font-family:var(--display); font-weight:700; font-size:.9rem; color:var(--ink); background:rgba(255,255,255,.04); border:1px solid var(--line-glow); border-radius:999px; padding:.55rem 1rem; cursor:pointer; transition:.2s; }
+  .pp-back:hover{ background:rgba(255,255,255,.08); }
+  .pp-grid{ display:grid; grid-template-columns:1fr 1fr; gap:44px; align-items:start; padding:44px 0 70px; }
+
+  .pp-media{ position:sticky; top:92px; }
+  .pp-stage{ position:relative; display:grid; place-items:center; min-height:440px; border-radius:24px; background:radial-gradient(220px 220px at 50% 42%, rgba(138,107,255,.3), transparent 70%); border:1px solid var(--line); overflow:hidden; }
+  .pp-photo-wrap{ position:absolute; inset:0; z-index:4; animation:ppIn .55s cubic-bezier(.2,.7,.2,1) both; }
+  .pp-photo{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; padding:24px; cursor:zoom-in; transition:transform .45s cubic-bezier(.2,.7,.2,1); transform-origin:center 60%; }
+  .pp-photo:hover{ transform:scale(1.06); }
+  @keyframes ppIn{ from{ opacity:0; transform:scale(.94); } to{ opacity:1; transform:scale(1); } }
+  .pdev{ position:relative; z-index:3; width:200px; height:412px; border-radius:34px; background:linear-gradient(150deg,#2a2740,#15131f 38%,#0c0b12); border:1px solid rgba(150,160,200,.22); box-shadow:0 40px 70px -28px rgba(0,0,0,.9), inset 0 1px 1px rgba(255,255,255,.12); }
+  .pdev .bump{ position:absolute; top:18px; left:18px; width:80px; height:100px; border-radius:20px; background:linear-gradient(160deg,#1c1a28,#0a0910); display:flex; flex-direction:column; align-items:center; gap:8px; padding:12px 0; }
+  .pdev .bump i{ width:28px; height:28px; border-radius:50%; background:radial-gradient(circle at 35% 30%,#3a4a66,#05060a 70%); border:1px solid rgba(120,170,255,.25); }
+  .pdev .word{ position:absolute; bottom:24px; left:0; right:0; text-align:center; font-family:var(--display); font-weight:700; color:rgba(220,225,245,.4); font-size:1.05rem; }
+  .pdev.cyan{ box-shadow:0 40px 70px -28px rgba(42,212,255,.5), inset 0 1px 1px rgba(255,255,255,.12); }
+  .pdev.pink{ box-shadow:0 40px 70px -28px rgba(255,45,142,.5), inset 0 1px 1px rgba(255,255,255,.12); }
+  .pdev.basic{ width:160px; height:320px; border-radius:24px; }
+  .pdev.basic .bump{ width:62px; height:50px; } .pdev.basic .bump i:nth-child(2),.pdev.basic .bump i:nth-child(3){ display:none; }
+  .pp-rings{ position:absolute; bottom:36px; width:320px; height:90px; z-index:1; }
+  .pp-thumbs{ display:flex; gap:12px; margin-top:16px; flex-wrap:wrap; }
+  .pp-thumb{ width:72px; height:72px; border-radius:14px; border:1px solid var(--line); background:#100d22 center/contain no-repeat; cursor:pointer; transition:.2s; padding:0; }
+  .pp-thumb:hover, .pp-thumb.on{ border-color:var(--cyan); transform:translateY(-2px); }
+
+  .pp-brand{ font-family:var(--display); font-weight:600; font-size:.82rem; color:var(--muted-2); letter-spacing:.08em; text-transform:uppercase; }
+  .pp-name{ font-family:var(--display); font-weight:900; font-size:clamp(2rem,4vw,2.8rem); line-height:1.02; margin:.3rem 0 .6rem; text-transform:uppercase; letter-spacing:-.01em; }
+  .pp-desc{ color:var(--muted); font-size:1.04rem; line-height:1.6; margin:0 0 8px; max-width:52ch; }
+  .pp-tags{ display:flex; gap:.5rem; flex-wrap:wrap; margin:14px 0 22px; }
+  .pp-pill{ font-size:.76rem; font-weight:700; color:#0a0612; background:var(--grad); border-radius:999px; padding:.34rem .7rem; }
+  .pp-pill.soft{ color:var(--ink); background:var(--grad-soft); border:1px solid var(--line-glow); }
+
+  .pp-fichatitle{ font-family:var(--display); font-weight:800; font-size:.82rem; letter-spacing:.12em; text-transform:uppercase; color:#0a0612; background:var(--grad); display:inline-block; padding:.5rem 1rem; border-radius:10px; margin-bottom:6px; }
+  .pp-ficha{ border:1px solid var(--line); border-radius:16px; overflow:hidden; background:linear-gradient(165deg, var(--panel), var(--bg-2)); }
+  .pp-row{ display:flex; gap:16px; padding:13px 18px; border-top:1px solid rgba(255,255,255,.05); }
+  .pp-row:first-child{ border-top:none; }
+  .pp-k{ flex:0 0 128px; color:var(--muted); font-size:.86rem; font-weight:500; }
+  .pp-v{ font-size:.94rem; font-weight:600; }
+  .pp-cta{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-top:24px; }
+  .pp-price{ font-family:var(--display); font-weight:800; font-size:1.4rem; }
+  .pp-price.consulta{ font-size:1.1rem; color:var(--cyan); }
+  .pp-cta .btn{ font-size:.95rem; padding:.85rem 1.5rem; }
+
+  /* ============================ CTA + FOOTER ============================ */
+  .cta-band{ margin:30px 0; padding:40px; border-radius:28px; text-align:center; background:linear-gradient(120deg, rgba(42,212,255,.12), rgba(255,45,142,.14)); border:1px solid var(--line-glow); }
+  .cta-band h2{ font-family:var(--display); font-weight:900; font-size:clamp(1.6rem,4vw,2.4rem); margin:0 0 .5rem; text-transform:uppercase; letter-spacing:-.01em; }
+  .cta-band p{ color:var(--muted); margin:0 auto 1.4rem; max-width:46ch; }
+
+  footer.site{ border-top:1px solid var(--line); padding:48px 0 80px; margin-top:20px; }
+  .foot-grid{ display:flex; align-items:center; justify-content:space-between; gap:28px; flex-wrap:wrap; }
+  .foot-brand .since{ color:var(--cyan); font-family:var(--display); font-weight:700; font-size:.78rem; letter-spacing:.14em; text-transform:uppercase; margin-top:.7rem; }
+  .foot-brand .tag{ color:var(--muted); font-size:.86rem; margin-top:.3rem; max-width:38ch; }
+  .foot-note{ color:var(--muted-2); font-size:.8rem; max-width:34ch; }
+
+  .wa-float{ position:fixed; right:22px; bottom:22px; z-index:60; width:58px; height:58px; border-radius:50%; background:linear-gradient(135deg,#25d366,#1aa851); display:grid; place-items:center; color:#fff; box-shadow:0 16px 36px -10px rgba(37,211,102,.6); transition:transform .2s; }
+  .wa-float:hover{ transform:scale(1.08); }
+  .wa-float svg{ width:30px; height:30px; fill:currentColor; }
+  body.page-open .wa-float{ display:none; }
+
+  /* ============================ BUSCA / ABAS ============================ */
+  .controls{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .search{ display:flex; align-items:center; gap:.5rem; background:rgba(255,255,255,.04); border:1px solid var(--line); border-radius:999px; padding:.5rem .9rem; color:var(--muted); transition:border-color .2s; }
+  .search:focus-within{ border-color:var(--line-glow); color:var(--ink); }
+  .search svg{ width:16px; height:16px; flex:0 0 auto; }
+  .search input{ background:none; border:none; outline:none; color:var(--ink); font-size:.9rem; width:180px; }
+  .search input::placeholder{ color:var(--muted-2); }
+  .tabs{ display:flex; gap:.4rem; }
+  .tabs button{ font-family:var(--display); font-weight:700; font-size:.8rem; color:var(--muted); background:rgba(255,255,255,.03); border:1px solid var(--line); border-radius:999px; padding:.5rem .95rem; cursor:pointer; transition:.2s; }
+  .tabs button:hover{ color:var(--ink); }
+  .tabs button.on{ color:#0a0612; background:var(--grad); border-color:transparent; }
+  .empty{ text-align:center; color:var(--muted); padding:50px 0; font-size:1rem; }
+
+  /* selo de estoque (canto sup-direito do card) */
+  .card-stock{ position:absolute; top:12px; right:12px; z-index:3; font-family:var(--display); font-weight:700; font-size:.62rem; letter-spacing:.06em; text-transform:uppercase; padding:.3rem .55rem; border-radius:999px; color:#1a0e02; background:linear-gradient(100deg,#ffb648,#ff7a45); box-shadow:0 6px 16px -6px rgba(255,140,60,.6); }
+
+  /* ============================ MAIS PROCURADOS (rail) ============================ */
+  .rail{ display:flex; gap:14px; overflow-x:auto; padding:14px 2px 6px; scroll-snap-type:x mandatory; scrollbar-width:thin; scrollbar-color:var(--violet) transparent; }
+  .rail::-webkit-scrollbar{ height:8px; }
+  .rail::-webkit-scrollbar-thumb{ background:rgba(138,107,255,.5); border-radius:99px; }
+  .rcard{ scroll-snap-align:start; flex:0 0 168px; border-radius:16px; overflow:hidden; cursor:pointer; background:linear-gradient(170deg, var(--panel), var(--bg-2)); border:1px solid var(--line); transition:transform .2s, border-color .2s, box-shadow .2s; }
+  .rcard:hover{ transform:translateY(-5px); border-color:var(--line-glow); box-shadow:0 24px 44px -24px rgba(42,212,255,.45); }
+  .rcard-media{ position:relative; height:128px; display:grid; place-items:center; background:radial-gradient(90px 90px at 50% 42%, rgba(138,107,255,.3), transparent 70%); }
+  .rcard-media img{ max-height:108px; max-width:78%; object-fit:contain; }
+  .rcard-b{ padding:10px 12px 13px; }
+  .rcard-b .br{ font-size:.64rem; color:var(--muted-2); font-weight:600; letter-spacing:.05em; text-transform:uppercase; }
+  .rcard-b .nm{ font-family:var(--display); font-weight:700; font-size:.92rem; line-height:1.1; margin-top:.15rem; }
+
+  /* ============================ PÁGINA: cores + compartilhar ============================ */
+  .pp-colors{ display:inline-flex; align-items:center; gap:.5rem; margin-top:14px; font-size:.86rem; color:var(--muted); }
+  .dot-sw{ width:14px; height:14px; border-radius:50%; background:conic-gradient(#ff4d4d,#ffd24d,#4dff88,#4dd2ff,#a64dff,#ff4d4d); flex:0 0 auto; box-shadow:0 0 0 2px rgba(255,255,255,.1); }
+  #pp-share{ padding:.85rem 1.2rem; }
+  #pp-share svg{ margin-right:.1rem; }
+  .copied{ position:fixed; left:50%; bottom:30px; transform:translateX(-50%); background:var(--grad); color:#0a0612; font-family:var(--display); font-weight:700; font-size:.85rem; padding:.6rem 1.1rem; border-radius:999px; z-index:120; box-shadow:0 12px 30px -8px rgba(42,212,255,.6); opacity:0; transition:opacity .25s, transform .25s; pointer-events:none; }
+  .copied.show{ opacity:1; transform:translateX(-50%) translateY(-6px); }
+
+  /* ============================ NOSSAS LOJAS ============================ */
+  .lojas-title{ font-family:var(--display); font-weight:800; font-size:clamp(1.6rem,3vw,2.2rem); margin:.45rem 0 .3rem; letter-spacing:-.01em; }
+  .lojas-sub{ color:var(--muted); margin:0 0 22px; }
+  .lojas-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:16px; }
+  .loja{ background:linear-gradient(165deg, var(--panel), var(--bg-2)); border:1px solid var(--line); border-radius:16px; padding:18px 20px; transition:border-color .2s, transform .2s; }
+  .loja:hover{ border-color:var(--line-glow); transform:translateY(-3px); }
+  .loja .city{ font-family:var(--display); font-weight:800; font-size:1.05rem; letter-spacing:.02em; }
+  .loja .addr{ color:var(--muted); font-size:.9rem; margin:.4rem 0 .8rem; line-height:1.5; }
+  .loja-links{ display:flex; gap:.5rem; flex-wrap:wrap; }
+  .loja-links a{ font-size:.8rem; font-weight:600; padding:.45rem .8rem; border-radius:999px; border:1px solid var(--line-glow); color:var(--ink); display:inline-flex; align-items:center; gap:.35rem; transition:.2s; }
+  .loja-links a:hover{ background:rgba(255,255,255,.06); }
+  .loja-links a.map{ background:var(--grad-soft); }
+
+  /* ============================ FOOTER ============================ */
+  .foot-top{ display:flex; justify-content:space-between; gap:40px; flex-wrap:wrap; margin-bottom:26px; }
+  .socials{ display:flex; gap:.6rem; margin-top:1rem; }
+  .socials a{ width:38px; height:38px; border-radius:50%; display:grid; place-items:center; background:rgba(255,255,255,.05); border:1px solid var(--line-glow); color:var(--ink); transition:.2s; }
+  .socials a:hover{ background:var(--grad); color:#0a0612; transform:translateY(-2px); }
+  .socials svg{ width:18px; height:18px; fill:currentColor; }
+  .foot-h{ font-family:var(--display); font-weight:800; font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; color:var(--cyan); margin-bottom:.6rem; }
+  .pay-row{ display:flex; gap:.5rem; flex-wrap:wrap; }
+  .pay{ font-size:.8rem; font-weight:600; color:var(--ink); background:rgba(255,255,255,.05); border:1px solid var(--line); border-radius:8px; padding:.4rem .7rem; }
+  .foot-contact{ display:block; color:var(--muted); font-size:.9rem; margin-top:.4rem; transition:color .2s; }
+  .foot-contact:hover{ color:var(--cyan); }
+
+  /* ============================ CONDIÇÕES DE PAGAMENTO ============================ */
+  .pay-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(230px,1fr)); gap:16px; margin-top:8px; }
+  .pay-card{ position:relative; background:linear-gradient(165deg, var(--panel), var(--bg-2)); border:1px solid var(--line); border-radius:18px; padding:22px 20px; transition:border-color .2s, transform .2s; }
+  .pay-card:hover{ border-color:var(--line-glow); transform:translateY(-3px); }
+  .pay-ic{ width:46px; height:46px; border-radius:12px; background:var(--grad-soft); border:1px solid var(--line-glow); display:grid; place-items:center; color:var(--cyan); margin-bottom:14px; }
+  .pay-ic svg{ width:24px; height:24px; fill:currentColor; }
+  .pay-card h3{ font-family:var(--display); font-weight:800; font-size:1.05rem; margin:0 0 .35rem; }
+  .pay-card p{ color:var(--muted); font-size:.9rem; line-height:1.5; margin:0; }
+  .pay-star{ color:var(--magenta); font-weight:800; }
+  .pay-note{ color:var(--muted-2); font-size:.82rem; margin-top:16px; }
+
+  /* ============================ RESPONSIVO ============================ */
+  @media (max-width:880px){
+    .cover-grid{ grid-template-columns:1fr; gap:14px; }
+    .cover-visual{ order:-1; min-height:360px; }
+    .nav-links{ display:none; }
+    .pp-grid{ grid-template-columns:1fr; gap:24px; padding:28px 0 60px; }
+    .pp-media{ position:static; }
+  }
+  @media (prefers-reduced-motion:reduce){
+    .cdev.center{ animation:none; transform:translateY(-14px); }
+    .aurora span{ animation:none; }
+    .cover-visual .hero-photo, .cover-photo-glow, .trigger-dot{ animation:none; }
+    .trigger-text.in{ animation:none; }
+    .pp-photo-wrap{ animation:none; }
+    .pp-photo, .card-img{ transition:none; }
+    .pp-photo:hover, .card:hover .card-img{ transform:none; }
+    html{ scroll-behavior:auto; }
+    .product-page{ transition:opacity .15s ease; transform:none; }
+  }
+
+  /* ---- Checkout ---- */
+  .checkout .co-wrap{ max-width:640px; margin:0 auto; padding:22px 0 90px; }
+  .co-title{ font-size:1.7rem; font-weight:800; margin:6px 0 20px; letter-spacing:-.01em; }
+  .co-summary{ display:flex; align-items:center; gap:16px; background:var(--panel,#15112b); border:1px solid var(--line,#2a2546); border-radius:18px; padding:14px 16px; margin-bottom:24px; }
+  .co-thumb{ width:66px; height:66px; border-radius:13px; background-color:#0e0b1c; background-position:center; background-size:contain; background-repeat:no-repeat; border:1px solid var(--line,#2a2546); flex:0 0 auto; }
+  .co-sumtxt{ flex:1 1 auto; min-width:0; }
+  .co-sumbrand{ font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:#8a83ad; }
+  .co-sumname{ font-size:1.08rem; font-weight:700; color:#f6f4ff; line-height:1.25; }
+  .co-sumprice{ font-size:.9rem; color:#2ad4ff; margin-top:3px; font-weight:600; }
+  .co-qty{ font-size:.82rem; color:#a59ec6; background:#0e0b1c; border:1px solid var(--line,#2a2546); border-radius:10px; padding:7px 11px; flex:0 0 auto; }
+  .co-sec{ margin-bottom:24px; }
+  .co-label{ font-size:.78rem; letter-spacing:.12em; text-transform:uppercase; color:#a59ec6; margin-bottom:11px; }
+  .co-fields{ display:grid; gap:10px; }
+  .co-input{ width:100%; background:#0e0b1c; border:1px solid var(--line,#2a2546); border-radius:12px; padding:.9rem 1rem; color:#f6f4ff; font-size:.95rem; outline:none; transition:border-color .2s, box-shadow .2s; font-family:inherit; }
+  .co-input:focus{ border-color:#2ad4ff; box-shadow:0 0 0 3px rgba(42,212,255,.15); }
+  .co-input::placeholder{ color:#6f6890; }
+  .co-pays{ display:grid; gap:10px; }
+  .co-pay{ display:flex; align-items:center; gap:14px; width:100%; text-align:left; background:var(--panel,#15112b); border:1px solid var(--line,#2a2546); border-radius:14px; padding:14px 16px; cursor:pointer; color:#f6f4ff; transition:border-color .2s, box-shadow .2s, transform .12s; font-family:inherit; }
+  .co-pay:hover{ transform:translateY(-1px); border-color:#3a3560; }
+  .co-pay.on{ border-color:#2ad4ff; box-shadow:0 0 0 1px #2ad4ff, 0 16px 34px -16px rgba(42,212,255,.55); }
+  .co-pay-ic{ width:44px; height:44px; border-radius:12px; display:grid; place-items:center; flex:0 0 auto; }
+  .co-pay-ic.pix{ background:linear-gradient(135deg,#32d3c3,#2ad4ff); color:#04231f; }
+  .co-pay-ic.pj{ background:linear-gradient(135deg,#8a6bff,#ff2d8e); color:#fff; }
+  .co-pay-txt{ flex:1 1 auto; display:flex; flex-direction:column; min-width:0; }
+  .co-pay-txt b{ font-size:1rem; }
+  .co-pay-txt small{ color:#a59ec6; font-size:.82rem; margin-top:2px; }
+  .co-pay-check{ width:24px; height:24px; border-radius:50%; border:2px solid var(--line,#2a2546); color:transparent; display:grid; place-items:center; font-size:.72rem; flex:0 0 auto; transition:.2s; }
+  .co-pay.on .co-pay-check{ background:#2ad4ff; border-color:#2ad4ff; color:#04231f; }
+  .co-panel{ display:none; background:#0e0b1c; border:1px solid var(--line,#2a2546); border-radius:12px; padding:12px 15px; font-size:.88rem; color:#c8c2e0; line-height:1.55; }
+  .co-panel.show{ display:block; animation:coFade .2s ease; }
+  @keyframes coFade{ from{ opacity:0; transform:translateY(-3px);} to{ opacity:1; transform:none;} }
+  .co-confirm{ width:100%; justify-content:center; margin-top:6px; font-size:1.03rem; padding:1rem 1.5rem; }
+  .co-note{ text-align:center; font-size:.77rem; color:#6f6890; margin-top:14px; }
+
+  /* ---- Acessibilidade e refinamentos ---- */
+  :focus-visible{ outline:none; box-shadow:var(--ring); border-radius:12px; }
+  ::selection{ background:rgba(42,212,255,.3); color:#fff; }
+  .skip-link{ position:absolute; left:-9999px; top:0; z-index:200; background:var(--panel); color:var(--ink);
+    padding:.75rem 1.1rem; border-radius:0 0 12px 0; font-weight:700; }
+  .skip-link:focus{ left:0; }
+
+  /* ---- Card refinado ---- */
+  .card{ transition:transform .22s cubic-bezier(.2,.7,.2,1), border-color .22s ease, box-shadow .22s ease; }
+  .card:hover{ transform:translateY(-4px); box-shadow:var(--elev-2); }
+  .card:active{ transform:translateY(-1px); }
+
+  /* ---- Barra de ação fixa no mobile (página do aparelho) ---- */
+  .pp-dock{ display:none; }
+  @media (max-width:880px){
+    .pp-dock{ display:flex; position:fixed; left:0; right:0; bottom:0; z-index:95; gap:.6rem;
+      padding:.7rem .9rem calc(.7rem + env(safe-area-inset-bottom));
+      background:linear-gradient(180deg, rgba(8,6,15,.55), rgba(8,6,15,.97) 55%);
+      backdrop-filter:blur(16px); border-top:1px solid var(--line); }
+    .product-page:not(.open) .pp-dock, .checkout .pp-dock{ display:none; }
+    .pp-dock .btn{ flex:1 1 0; justify-content:center; padding:.85rem 1rem; font-size:.95rem; }
+    .pp-grid{ padding-bottom:110px !important; }
+    /* a barra fixa assume as ações principais; evita CTA duplicado */
+    .pp-cta #pp-adq, .pp-cta #pp-wa{ display:none; }
+    .pp-cta{ display:flex; align-items:center; justify-content:space-between; gap:.75rem; flex-wrap:wrap; }
+    .pp-cta #pp-share{ flex:1 1 auto; justify-content:center; }
+    .co-wrap{ padding-bottom:40px; }
+    .wa-float{ display:none; }
+  }
+
+  /* ---- Menu mobile ---- */
+  .nav-toggle{ display:none; }
+  @media (max-width:880px){
+    .nav-toggle{ display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px;
+      border-radius:12px; background:rgba(255,255,255,.05); border:1px solid var(--line); color:var(--ink); cursor:pointer; }
+    .nav-links.mobile-open{ display:flex; position:absolute; top:100%; left:0; right:0; flex-direction:column;
+      gap:0; padding:.5rem; background:rgba(13,10,27,.98); backdrop-filter:blur(18px);
+      border-bottom:1px solid var(--line); box-shadow:var(--elev-2); }
+    .nav-links.mobile-open a{ padding:.9rem 1rem; border-radius:10px; }
+    .nav-links.mobile-open a:hover{ background:rgba(255,255,255,.05); }
+    header nav{ position:relative; }
+  }
+
+  /* ---- Comparador ---- */
+  .cmp-btn{ position:absolute; top:10px; right:10px; z-index:3; width:34px; height:34px; border-radius:10px;
+    display:grid; place-items:center; cursor:pointer; color:var(--muted);
+    background:rgba(8,6,15,.72); border:1px solid var(--line); backdrop-filter:blur(8px); transition:.18s; }
+  .cmp-btn:hover{ color:var(--ink); border-color:var(--line-glow); }
+  .cmp-btn.on{ background:var(--cyan); border-color:var(--cyan); color:#06222e; }
+  .card{ position:relative; }
+
+  .cmp-bar{ position:fixed; left:50%; transform:translate(-50%,140%); bottom:18px; z-index:96;
+    display:flex; align-items:center; gap:.9rem; max-width:min(920px,calc(100vw - 24px));
+    padding:.7rem .8rem .7rem 1.1rem; border-radius:18px; background:rgba(16,12,34,.94);
+    border:1px solid var(--line-glow); backdrop-filter:blur(20px); box-shadow:var(--elev-2);
+    transition:transform .3s cubic-bezier(.2,.7,.2,1); }
+  .cmp-bar.show{ transform:translate(-50%,0); }
+  .cmp-count{ font-family:var(--display); font-weight:700; font-size:.9rem; white-space:nowrap; }
+  .cmp-count b{ color:var(--cyan); }
+  .cmp-chips{ display:flex; gap:.4rem; overflow-x:auto; flex:1 1 auto; }
+  .cmp-chip{ display:flex; align-items:center; gap:.4rem; flex:0 0 auto; padding:.3rem .5rem .3rem .35rem;
+    border-radius:999px; background:rgba(255,255,255,.05); border:1px solid var(--line); font-size:.78rem; }
+  .cmp-chip img{ width:22px; height:22px; object-fit:contain; }
+  .cmp-chip button{ background:none; border:none; color:var(--muted-2); cursor:pointer; font-size:1rem; line-height:1; padding:0 .1rem; }
+  .cmp-chip button:hover{ color:var(--magenta); }
+  .cmp-actions{ display:flex; gap:.5rem; flex:0 0 auto; }
+  .cmp-bar .btn{ padding:.6rem 1rem; font-size:.85rem; }
+
+  .cmp-modal{ position:fixed; inset:0; z-index:120; display:grid; place-items:center; padding:16px;
+    background:rgba(5,4,12,.86); backdrop-filter:blur(8px); visibility:hidden; opacity:0;
+    transition:opacity .2s ease, visibility 0s linear .2s; }
+  .cmp-modal.open{ visibility:visible; opacity:1; transition:opacity .2s ease, visibility 0s; }
+  .cmp-sheet{ width:min(1040px,100%); max-height:88vh; overflow:auto; background:var(--panel);
+    border:1px solid var(--line-glow); border-radius:22px; box-shadow:var(--elev-2); }
+  .cmp-head{ position:sticky; top:0; z-index:2; display:flex; align-items:center; justify-content:space-between;
+    gap:1rem; padding:1.1rem 1.3rem; background:rgba(20,16,42,.97); border-bottom:1px solid var(--line); }
+  .cmp-head h2{ font-family:var(--display); font-size:1.15rem; margin:0; letter-spacing:-.01em; }
+  .cmp-close{ width:38px; height:38px; border-radius:12px; background:rgba(255,255,255,.05);
+    border:1px solid var(--line); color:var(--ink); cursor:pointer; font-size:1.1rem; }
+  .cmp-table{ width:100%; border-collapse:collapse; }
+  .cmp-table th, .cmp-table td{ padding:.85rem 1rem; text-align:left; vertical-align:top;
+    border-bottom:1px solid var(--line); font-size:.9rem; }
+  .cmp-table thead th{ position:sticky; top:66px; background:rgba(20,16,42,.97); }
+  .cmp-table tbody th{ color:var(--muted); font-weight:500; width:150px; white-space:nowrap; }
+  .cmp-table td{ color:var(--ink); font-weight:600; }
+  .cmp-dev img{ width:100%; max-width:120px; height:110px; object-fit:contain; display:block; margin:0 auto .5rem; }
+  .cmp-dev .m{ font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted-2); text-align:center; }
+  .cmp-dev .n{ font-family:var(--display); font-weight:700; font-size:.95rem; text-align:center; }
+  .cmp-row-same td{ color:var(--muted); font-weight:500; }
+  .cmp-row-same th{ color:var(--muted-2); }
+  @media (max-width:700px){
+    .cmp-bar{ left:12px; right:12px; transform:translateY(140%); max-width:none; flex-wrap:wrap; }
+    .cmp-bar.show{ transform:translateY(0); }
+    .cmp-count{ width:100%; }
+    .cmp-table tbody th{ width:96px; white-space:normal; }
+    .cmp-table th, .cmp-table td{ padding:.7rem .6rem; font-size:.82rem; }
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#catalogo">Ir para o catálogo</a>
+<div class="aurora" aria-hidden="true"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
+
+<!-- ===================== HEADER ===================== -->
+<header class="site">
+  <div class="wrap nav">
+    <a href="#topo" aria-label="Cell Store"><span class="logo sm"></span></a>
+    <nav class="nav-links" id="nav-links">
+      <a href="#catalogo">Catálogo</a>
+      <a href="#lojas">Lojas</a>
+      <a href="#pagamento">Pagamento</a>
+      <a href="#contato">Contato</a>
+    </nav>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-links">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <a class="btn btn-primary" id="wa-header" href="#" target="_blank" rel="noopener">
+      <svg class="wa-ic" viewBox="0 0 32 32"><path d="M16 .396C7.16.396 0 7.556 0 16.396c0 2.884.756 5.7 2.19 8.18L.057 32l7.605-2.107a15.9 15.9 0 008.338 2.39h.007c8.834 0 16-7.166 16-16 0-4.277-1.667-8.296-4.695-11.32A15.86 15.86 0 0016 .396zm0 29.252a13.2 13.2 0 01-6.732-1.844l-.483-.287-5.004 1.313 1.337-4.88-.315-.5A13.16 13.16 0 012.8 16.395C2.8 9.137 8.74 3.198 16.005 3.198c3.51 0 6.81 1.37 9.29 3.853a13.05 13.05 0 013.847 9.297c0 7.258-5.94 13.2-13.142 13.2zm7.24-9.876c-.397-.198-2.348-1.158-2.712-1.29-.363-.133-.628-.198-.893.198-.264.397-1.024 1.29-1.256 1.554-.231.265-.463.298-.86.1-.397-.2-1.676-.618-3.193-1.97-1.18-1.052-1.976-2.352-2.208-2.75-.231-.397-.025-.612.174-.81.179-.177.397-.463.596-.694.198-.232.264-.397.397-.661.132-.265.066-.497-.033-.695-.099-.198-.893-2.152-1.223-2.948-.322-.774-.65-.669-.893-.682l-.76-.013c-.265 0-.695.099-1.058.497-.363.397-1.39 1.357-1.39 3.31 0 1.954 1.423 3.842 1.621 4.107.198.264 2.8 4.276 6.783 5.996.948.41 1.688.654 2.265.837.952.302 1.818.26 2.503.158.763-.114 2.348-.96 2.679-1.886.33-.926.33-1.72.231-1.886-.099-.165-.363-.264-.76-.462z"/></svg>
+      Fale conosco
+    </a>
+  </div>
+</header>
+
+<!-- ===================== CAPA ===================== -->
+<a id="topo"></a>
+<section class="cover">
+  <div class="wrap cover-grid">
+    <div>
+      <span class="eyebrow">Catálogo oficial · 2026</span>
+      <h1><span>Catálogo de</span><span class="grad-text">Smartphones</span></h1>
+      <p class="lede">Os aparelhos da Cell Store reunidos em um só lugar. Toque em qualquer modelo para ver a ficha completa, as fotos e falar com a gente.</p>
+      <div class="trigger"><span class="trigger-dot"></span><span class="trigger-text in" id="trigger-text">Os lançamentos que você procura</span></div>
+      <div class="cover-cta">
+        <a class="btn btn-primary" href="#catalogo">Explorar catálogo</a>
+        <a class="btn btn-ghost wa-link" data-produto="catálogo" href="#" target="_blank" rel="noopener">Falar no WhatsApp</a>
+      </div>
+    </div>
+
+    <div class="cover-visual" id="cover-visual">
+      <div class="cluster-glow"></div>
+      <div class="cdev left"><div class="bump"><i></i><i></i></div></div>
+      <div class="cdev right"><div class="bump"><i></i><i></i></div></div>
+      <div class="cdev center"><div class="bump"><i></i><i></i><i></i></div></div>
+      <div class="podium">
+        <div class="podium-glow"></div>
+        <div class="ring r2"></div>
+        <div class="ring r1"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== GRID ===================== -->
+<!-- ===================== MAIS PROCURADOS ===================== -->
+<section class="section" id="populares" style="padding-bottom:6px;">
+  <div class="wrap">
+    <span class="eyebrow">Mais procurados</span>
+    <div class="rail" id="rail"></div>
+  </div>
+</section>
+
+<!-- ===================== CATÁLOGO ===================== -->
+<section class="section" id="catalogo">
+  <div class="wrap">
+    <div class="cat-top">
+      <div class="section-head">
+        <span class="eyebrow">Nossos aparelhos</span>
+        <h2>Catálogo completo</h2>
+        <div class="count" id="count"></div>
+      </div>
+      <div class="controls">
+        <label class="search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10 2a8 8 0 105.293 14.293l5.207 5.207 1.414-1.414-5.207-5.207A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z"/></svg>
+          <input id="search" type="search" placeholder="Buscar aparelho ou marca..." aria-label="Buscar aparelho">
+        </label>
+        <div class="tabs" id="tabs"></div>
+      </div>
+    </div>
+    <div class="filters" id="filters"></div>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty" hidden>Nenhum aparelho encontrado. Tente outra busca.</div>
+  </div>
+</section>
+
+<!-- ===================== CTA ===================== -->
+<section class="section" id="contato">
+  <div class="wrap">
+    <div class="cta-band">
+      <h2>Seu próximo celular começa aqui</h2>
+      <p>Escolha o aparelho no catálogo e fale com a gente para condições especiais e formas de pagamento.</p>
+      <a class="btn btn-wa wa-link" data-produto="catálogo" href="#" target="_blank" rel="noopener" style="font-size:.95rem; padding:.85rem 1.6rem;">
+        <svg class="wa-ic" viewBox="0 0 32 32"><path d="M16 .396C7.16.396 0 7.556 0 16.396c0 2.884.756 5.7 2.19 8.18L.057 32l7.605-2.107a15.9 15.9 0 008.338 2.39h.007c8.834 0 16-7.166 16-16 0-4.277-1.667-8.296-4.695-11.32A15.86 15.86 0 0016 .396zm0 29.252a13.2 13.2 0 01-6.732-1.844l-.483-.287-5.004 1.313 1.337-4.88-.315-.5A13.16 13.16 0 012.8 16.395C2.8 9.137 8.74 3.198 16.005 3.198c3.51 0 6.81 1.37 9.29 3.853a13.05 13.05 0 013.847 9.297c0 7.258-5.94 13.2-13.142 13.2zm7.24-9.876c-.397-.198-2.348-1.158-2.712-1.29-.363-.133-.628-.198-.893.198-.264.397-1.024 1.29-1.256 1.554-.231.265-.463.298-.86.1-.397-.2-1.676-.618-3.193-1.97-1.18-1.052-1.976-2.352-2.208-2.75-.231-.397-.025-.612.174-.81.179-.177.397-.463.596-.694.198-.232.264-.397.397-.661.132-.265.066-.497-.033-.695-.099-.198-.893-2.152-1.223-2.948-.322-.774-.65-.669-.893-.682l-.76-.013c-.265 0-.695.099-1.058.497-.363.397-1.39 1.357-1.39 3.31 0 1.954 1.423 3.842 1.621 4.107.198.264 2.8 4.276 6.783 5.996.948.41 1.688.654 2.265.837.952.302 1.818.26 2.503.158.763-.114 2.348-.96 2.679-1.886.33-.926.33-1.72.231-1.886-.099-.165-.363-.264-.76-.462z"/></svg>
+        Chamar no WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONDIÇÕES DE PAGAMENTO ===================== -->
+<section class="section" id="pagamento">
+  <div class="wrap">
+    <span class="eyebrow">Condições de pagamento</span>
+    <h2 class="lojas-title">Aqui você não fica sem celular</h2>
+    <p class="lojas-sub">Facilitamos pra você levar o seu aparelho. Consulte as condições no atendimento.</p>
+    <div class="pay-grid">
+      <div class="pay-card">
+        <div class="pay-ic"><svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4H4V6h16v2zm0 10H4v-6h16v6z"/></svg></div>
+        <h3>Até 18x no cartão<span class="pay-star">*</span></h3>
+        <p>Parcele o seu iPhone em até 18 vezes e leve agora.</p>
+      </div>
+      <div class="pay-card">
+        <div class="pay-ic"><svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 14H4v-6h16v6zm0-9H4V6h16v3z"/></svg></div>
+        <h3>Crédito ou débito</h3>
+        <p>Mais flexibilidade pra você escolher como pagar.</p>
+      </div>
+      <div class="pay-card">
+        <div class="pay-ic"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg></div>
+        <h3>Mesmo negativado</h3>
+        <p>Aprovação simplificada e sem complicação.</p>
+      </div>
+      <div class="pay-card">
+        <div class="pay-ic"><svg viewBox="0 0 24 24"><path d="M7 2v11h3v9l7-12h-4l3-8z"/></svg></div>
+        <h3>Parcele na conta de luz<span class="pay-star">*</span></h3>
+        <p>As parcelas vêm direto na sua conta de energia.</p>
+      </div>
+    </div>
+    <p class="pay-note"><span class="pay-star">*</span> Condições especiais para iPhones. Sujeito a análise. Consulte valores e formas no atendimento.</p>
+  </div>
+</section>
+
+<!-- ===================== NOSSAS LOJAS ===================== -->
+<section class="section" id="lojas">
+  <div class="wrap">
+    <span class="eyebrow">Onde nos encontrar</span>
+    <h2 class="lojas-title">Nossas lojas</h2>
+    <p class="lojas-sub">Loja física há mais de 19 anos no mercado. Visite uma de nossas unidades.</p>
+    <div class="lojas-grid" id="lojas-grid"></div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <span class="logo lg"></span>
+        <div class="since">Desde 2006 · 20 anos de história</div>
+        <div class="tag">Tradição e confiança em tecnologia para você.</div>
+        <div class="socials">
+          <a href="https://www.instagram.com/cellstore_rs" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.8.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s0 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 01-1.38-.9 3.7 3.7 0 01-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.21 15.6 2.2 15.2 2.2 12s0-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.4 2.21 8.8 2.2 12 2.2zm0 1.8c-3.14 0-3.5.01-4.74.07-.9.04-1.38.19-1.7.32-.43.16-.74.36-1.06.68-.32.32-.52.63-.68 1.06-.13.32-.28.8-.32 1.7C3.21 8.5 3.2 8.86 3.2 12s.01 3.5.07 4.74c.04.9.19 1.38.32 1.7.16.43.36.74.68 1.06.32.32.63.52 1.06.68.32.13.8.28 1.7.32 1.24.06 1.6.07 4.74.07s3.5-.01 4.74-.07c.9-.04 1.38-.19 1.7-.32.43-.16.74-.36 1.06-.68.32-.32.52-.63.68-1.06.13-.32.28-.8.32-1.7.06-1.24.07-1.6.07-4.74s-.01-3.5-.07-4.74c-.04-.9-.19-1.38-.32-1.7a2.85 2.85 0 00-.68-1.06 2.85 2.85 0 00-1.06-.68c-.32-.13-.8-.28-1.7-.32C15.5 4.01 15.14 4 12 4zm0 3.07a4.93 4.93 0 110 9.86 4.93 4.93 0 010-9.86zm0 1.8a3.13 3.13 0 100 6.26 3.13 3.13 0 000-6.26zm5.13-3.2a1.15 1.15 0 110 2.3 1.15 1.15 0 010-2.3z"/></svg></a>
+          <a href="https://www.facebook.com/RedeCellStore/" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 10-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0022 12z"/></svg></a>
+          <a href="https://www.tiktok.com/@cellstore_rs" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok"><svg viewBox="0 0 24 24"><path d="M16.6 5.82a4.28 4.28 0 01-1.06-2.82h-3.2v12.6a2.34 2.34 0 01-2.34 2.18 2.34 2.34 0 01-1.1-4.42 2.34 2.34 0 011.9-.06V7.97a5.54 5.54 0 102.66 4.73V8.66a7.4 7.4 0 004.34 1.39V6.85a4.28 4.28 0 01-1.2-1.03z"/></svg></a>
+          <a class="wa-link" data-produto="catálogo" href="#" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp"><svg viewBox="0 0 32 32"><path d="M16 .396C7.16.396 0 7.556 0 16.396c0 2.884.756 5.7 2.19 8.18L.057 32l7.605-2.107a15.9 15.9 0 008.338 2.39h.007c8.834 0 16-7.166 16-16 0-4.277-1.667-8.296-4.695-11.32A15.86 15.86 0 0016 .396zm0 29.252a13.2 13.2 0 01-6.732-1.844l-.483-.287-5.004 1.313 1.337-4.88-.315-.5A13.16 13.16 0 012.8 16.395C2.8 9.137 8.74 3.198 16.005 3.198c3.51 0 6.81 1.37 9.29 3.853a13.05 13.05 0 013.847 9.297c0 7.258-5.94 13.2-13.142 13.2z"/></svg></a>
+        </div>
+      </div>
+      <div class="foot-info">
+        <div class="foot-h">Formas de pagamento</div>
+        <div class="pay-row">
+          <span class="pay">Cartão de crédito</span><span class="pay">Cartão de débito</span><span class="pay">Até 18x*</span><span class="pay">Mesmo negativado</span><span class="pay">Conta de luz*</span>
+        </div>
+        <div class="foot-h" style="margin-top:18px;">Contato</div>
+        <a class="foot-contact" href="mailto:contato@redecellstore.com.br">contato@redecellstore.com.br</a>
+        <a class="foot-contact wa-link" data-produto="catálogo" href="#" target="_blank" rel="noopener">WhatsApp: (51) 99651-7306</a>
+      </div>
+    </div>
+    <p class="foot-note">Catálogo ilustrativo. Imagens dos aparelhos meramente ilustrativas. Especificações e disponibilidade sujeitas a alteração sem aviso prévio. Consulte cores e condições no atendimento.</p>
+  </div>
+</footer>
+
+<!-- ===================== PÁGINA DO APARELHO ===================== -->
+<div class="product-page" id="product-page" aria-hidden="true">
+  <div class="pp-bar">
+    <div class="wrap nav" style="height:68px;">
+      <button class="pp-back" id="pp-back" type="button"><span aria-hidden="true">←</span> Voltar ao catálogo</button>
+      <a href="#topo" aria-label="Cell Store" id="pp-logo"><span class="logo sm"></span></a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="pp-grid">
+      <div class="pp-media">
+        <div class="pp-stage" id="pp-stage"></div>
+        <div class="pp-thumbs" id="pp-thumbs"></div>
+      </div>
+      <div class="pp-info">
+        <div class="pp-brand" id="pp-brand"></div>
+        <h1 class="pp-name" id="pp-name"></h1>
+        <p class="pp-desc" id="pp-desc"></p>
+        <div class="pp-tags" id="pp-tags"></div>
+        <div class="pp-fichatitle">Ficha técnica</div>
+        <div class="pp-ficha" id="pp-ficha"></div>
+        <div class="pp-colors"><span class="dot-sw"></span>Consulte as cores disponíveis no atendimento</div>
+        <div class="pp-cta">
+          <div class="pp-price consulta" id="pp-price">Sob consulta</div>
+          <a class="btn btn-adq" id="pp-adq" href="#">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42a.25.25 0 0 1-.25-.25l.03-.12L8.1 15h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0 0 20 6H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+            Adquirir agora
+          </a>
+          <a class="btn btn-wa" id="pp-wa" href="#" target="_blank" rel="noopener">
+            <svg class="wa-ic" viewBox="0 0 32 32"><path d="M16 .396C7.16.396 0 7.556 0 16.396c0 2.884.756 5.7 2.19 8.18L.057 32l7.605-2.107a15.9 15.9 0 008.338 2.39h.007c8.834 0 16-7.166 16-16 0-4.277-1.667-8.296-4.695-11.32A15.86 15.86 0 0016 .396zm0 29.252a13.2 13.2 0 01-6.732-1.844l-.483-.287-5.004 1.313 1.337-4.88-.315-.5A13.16 13.16 0 012.8 16.395C2.8 9.137 8.74 3.198 16.005 3.198c3.51 0 6.81 1.37 9.29 3.853a13.05 13.05 0 013.847 9.297c0 7.258-5.94 13.2-13.142 13.2zm7.24-9.876c-.397-.198-2.348-1.158-2.712-1.29-.363-.133-.628-.198-.893.198-.264.397-1.024 1.29-1.256 1.554-.231.265-.463.298-.86.1-.397-.2-1.676-.618-3.193-1.97-1.18-1.052-1.976-2.352-2.208-2.75-.231-.397-.025-.612.174-.81.179-.177.397-.463.596-.694.198-.232.264-.397.397-.661.132-.265.066-.497-.033-.695-.099-.198-.893-2.152-1.223-2.948-.322-.774-.65-.669-.893-.682l-.76-.013c-.265 0-.695.099-1.058.497-.363.397-1.39 1.357-1.39 3.31 0 1.954 1.423 3.842 1.621 4.107.198.264 2.8 4.276 6.783 5.996.948.41 1.688.654 2.265.837.952.302 1.818.26 2.503.158.763-.114 2.348-.96 2.679-1.886.33-.926.33-1.72.231-1.886-.099-.165-.363-.264-.76-.462z"/></svg>
+            Chamar no WhatsApp
+          </a>
+          <button class="btn btn-ghost" id="pp-share" type="button">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 100-6 3 3 0 00-3 3c0 .24.04.47.09.7L8.04 9.81A3 3 0 003 12a3 3 0 003 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65a2.92 2.92 0 102.92-2.92z"/></svg>
+            Compartilhar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pp-dock">
+    <a class="btn btn-adq" id="dock-adq" href="#">Adquirir agora</a>
+    <a class="btn btn-wa" id="dock-wa" href="#" target="_blank" rel="noopener">WhatsApp</a>
+  </div>
+</div>
+
+<!-- ===================== PÁGINA DE CHECKOUT ===================== -->
+<div class="product-page checkout" id="checkout-page" aria-hidden="true">
+  <div class="pp-bar">
+    <div class="wrap nav" style="height:68px;">
+      <button class="pp-back" id="co-back" type="button"><span aria-hidden="true">&larr;</span> Voltar</button>
+      <a href="#topo" aria-label="Cell Store"><span class="logo sm"></span></a>
+    </div>
+  </div>
+  <div class="wrap co-wrap">
+    <h1 class="co-title">Finalizar pedido</h1>
+
+    <div class="co-summary">
+      <div class="co-thumb" id="co-thumb"></div>
+      <div class="co-sumtxt">
+        <div class="co-sumbrand" id="co-brand"></div>
+        <div class="co-sumname" id="co-name"></div>
+        <div class="co-sumprice" id="co-price">Sob consulta</div>
+      </div>
+      <div class="co-qty">1&nbsp;un.</div>
+    </div>
+
+    <div class="co-sec">
+      <div class="co-label">Seus dados</div>
+      <div class="co-fields">
+        <input class="co-input" id="co-nome" type="text" placeholder="Nome completo" autocomplete="name">
+        <input class="co-input" id="co-fone" type="tel" placeholder="WhatsApp com DDD" autocomplete="tel">
+        <input class="co-input" id="co-cidade" type="text" placeholder="Cidade / unidade de retirada">
+      </div>
+    </div>
+
+    <div class="co-sec">
+      <div class="co-label">Forma de pagamento</div>
+      <div class="co-pays">
+        <button class="co-pay" data-pay="pix" type="button">
+          <span class="co-pay-ic pix"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.2 3.2L12 8.4 8.8 5.2 12 2zM5.2 8.8L8.4 12l-3.2 3.2L2 12l3.2-3.2zm13.6 0L22 12l-3.2 3.2L15.6 12l3.2-3.2zM12 15.6l3.2 3.2L12 22l-3.2-3.2 3.2-3.2z"/></svg></span>
+          <span class="co-pay-txt"><b>Pix</b><small>Aprovação na hora &middot; à vista</small></span>
+          <span class="co-pay-check">&#10003;</span>
+        </button>
+        <div class="co-panel" id="panel-pix">
+          Pague na hora com Pix. Ao confirmar o pedido, você recebe a chave e o QR&nbsp;Code pelo nosso atendimento no WhatsApp para concluir o pagamento.
+        </div>
+
+        <button class="co-pay" data-pay="payjoy" type="button">
+          <span class="co-pay-ic pj"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 6h18a1 1 0 0 1 1 1v3H2V7a1 1 0 0 1 1-1zm-1 6h20v5a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-5zm3 3v2h5v-2H5z"/></svg></span>
+          <span class="co-pay-txt"><b>PayJoy &middot; parcelado</b><small>Leve hoje, mesmo negativado &middot; sem cartão</small></span>
+          <span class="co-pay-check">&#10003;</span>
+        </button>
+        <div class="co-panel" id="panel-payjoy">
+          Financiamento PayJoy com aprovação simplificada, <b>sem cartão de crédito</b>. Um atendente conclui a análise e libera o aparelho pelo WhatsApp, com as parcelas que cabem no seu bolso.
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-adq co-confirm" id="co-confirm" type="button">Confirmar pedido</button>
+    <p class="co-note">Pagamento online em configuração &mdash; a finalização é feita pelo nosso atendimento no WhatsApp.</p>
+  </div>
+</div>
+
+
+<!-- ===================== COMPARADOR ===================== -->
+<div class="cmp-bar" id="cmp-bar" role="region" aria-label="Comparar aparelhos">
+  <div class="cmp-count"><b id="cmp-n">0</b> de 3 para comparar</div>
+  <div class="cmp-chips" id="cmp-chips"></div>
+  <div class="cmp-actions">
+    <button class="btn btn-ghost" id="cmp-clear" type="button">Limpar</button>
+    <button class="btn btn-adq" id="cmp-open" type="button">Comparar</button>
+  </div>
+</div>
+<div class="cmp-modal" id="cmp-modal" role="dialog" aria-modal="true" aria-labelledby="cmp-title">
+  <div class="cmp-sheet">
+    <div class="cmp-head">
+      <h2 id="cmp-title">Comparar aparelhos</h2>
+      <button class="cmp-close" id="cmp-close" type="button" aria-label="Fechar comparação">&times;</button>
+    </div>
+    <div id="cmp-body"></div>
+  </div>
+</div>
+
+<a class="wa-float wa-link" data-produto="catálogo" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 32 32"><path d="M16 .396C7.16.396 0 7.556 0 16.396c0 2.884.756 5.7 2.19 8.18L.057 32l7.605-2.107a15.9 15.9 0 008.338 2.39h.007c8.834 0 16-7.166 16-16 0-4.277-1.667-8.296-4.695-11.32A15.86 15.86 0 0016 .396zm0 29.252a13.2 13.2 0 01-6.732-1.844l-.483-.287-5.004 1.313 1.337-4.88-.315-.5A13.16 13.16 0 012.8 16.395C2.8 9.137 8.74 3.198 16.005 3.198c3.51 0 6.81 1.37 9.29 3.853a13.05 13.05 0 013.847 9.297c0 7.258-5.94 13.2-13.142 13.2zm7.24-9.876c-.397-.198-2.348-1.158-2.712-1.29-.363-.133-.628-.198-.893.198-.264.397-1.024 1.29-1.256 1.554-.231.265-.463.298-.86.1-.397-.2-1.676-.618-3.193-1.97-1.18-1.052-1.976-2.352-2.208-2.75-.231-.397-.025-.612.174-.81.179-.177.397-.463.596-.694.198-.232.264-.397.397-.661.132-.265.066-.497-.033-.695-.099-.198-.893-2.152-1.223-2.948-.322-.774-.65-.669-.893-.682l-.76-.013c-.265 0-.695.099-1.058.497-.363.397-1.39 1.357-1.39 3.31 0 1.954 1.423 3.842 1.621 4.107.198.264 2.8 4.276 6.783 5.996.948.41 1.688.654 2.265.837.952.302 1.818.26 2.503.158.763-.114 2.348-.96 2.679-1.886.33-.926.33-1.72.231-1.886-.099-.165-.363-.264-.76-.462z"/></svg>
+</a>
+
+<script>
+/* ================================================================
+   1) CONFIGURE AQUI
+   ================================================================ */
+const WHATSAPP = "5551996517306";   // <-- número da loja (DDI 55 + DDD + número)
+const HERO_IMG = "fotos/capa.webp";                // <-- foto de "vários aparelhos" do topo (ex.: "fotos/capa.webp"). Vazio = trio ilustrativo.
+
+/* ================================================================
+   2) SEUS APARELHOS
+      img:   foto principal (ex.: "fotos/realme-c75.webp")
+      fotos: lista opcional de fotos extras (galeria) ex.: ["fotos/c75-2.webp"]
+      preco: número OU null (mostra "Sob consulta")
+      ficha: [ ["Item","valor"], ... ]  -> as 4 primeiras viram o resumo do card
+   ================================================================ */
+const produtos = [
+  /* ---------------- SMARTPHONES ---------------- */
+  { marca:"Samsung", nome:"Galaxy A07", categoria:"smartphone", tag:"", cor:"pink", img:"fotos/galaxy-a07.webp", fotos:[], preco:null,
+    destaque:"Entrada da Samsung com 6 anos de atualizações e bateria para o dia todo.",
+    ficha:[["Tela",'6,7" PLS LCD · 90 Hz · HD+'],["Processador","MediaTek Helio G99 (6 nm)"],["Memória","4/6/8 GB RAM · 128/256 GB"],["Câmera","50 MP + 2 MP · frontal 8 MP"],["Bateria","5000 mAh · USB-C"],["Resistência","IP54 · 7,6 mm"],["Sistema","Android 15 · One UI 7"],["Versões","8 GB + 256 GB · 4 GB + 128 GB"],["Conexão","4G · Dual SIM · rádio FM"]] },
+
+  { marca:"Realme", nome:"Realme Note 70", categoria:"smartphone", tag:"", cor:"cyan", img:"fotos/realme-note-70.webp", fotos:[], preco:null,
+    destaque:"Entrada resistente: tela grande de 90 Hz e certificação militar.",
+    ficha:[["Tela",'6,74" IPS LCD · 90 Hz · HD+'],["Memória","RAM dinâmica"],["Bateria","5000 mAh"],["Resistência","IP54 · MIL-STD-810H · 7,9 mm"],["Versões","4 GB RAM + 128 GB"],["Conexão","4G · Dual SIM"]] },
+
+  { marca:"Realme", nome:"Realme C71", categoria:"smartphone", tag:"", cor:"", img:"fotos/realme-c71.webp", fotos:[], preco:null,
+    destaque:"Bateria gigante de 6000 mAh com carga rápida e tela fluida de 120 Hz.",
+    ficha:[["Tela",'6,67" IPS LCD · 120 Hz · HD+'],["Processador","Unisoc T7250 (12 nm)"],["Memória","4/6/8 GB RAM · até 256 GB"],["Câmera","50 MP · frontal 8 MP"],["Bateria","6000 mAh · 45 W + carga reversa"],["Resistência","MIL-STD-810H · respingos"],["Sistema","Android 15 · realme UI 6.0"],["Versões","8 GB + 256 GB · 4 GB + 256 GB · 4 GB + 128 GB"],["Conexão","4G · NFC · USB-C"]] },
+
+  { marca:"Redmi", nome:"Redmi 15C", categoria:"smartphone", tag:"", cor:"pink", img:"fotos/redmi-15c.webp", fotos:[], preco:null,
+    destaque:"Tela ampla de 6,9\" e bateria de 6000 mAh por um preço de entrada.",
+    ficha:[["Tela",'6,9" IPS LCD · 120 Hz · HD+'],["Processador","MediaTek Helio G81 Ultra"],["Memória","4/6/8 GB RAM · 128/256 GB"],["Câmera","50 MP · frontal 8 MP"],["Bateria","6000 mAh · 33 W"],["Resistência","IP64"],["Versões","8 GB + 256 GB · 4 GB + 128 GB"],["Conexão","4G · Wi-Fi 5 · BT 5.4 · NFC"]] },
+
+  { marca:"Realme", nome:"Realme C75 5G", categoria:"smartphone", tag:"5g", cor:"cyan", img:"fotos/realme-c75.webp", fotos:[], preco:null,
+    destaque:"Resistência à água IP69, 5G e 24 GB de RAM dinâmica para o dia a dia.",
+    ficha:[["Tela",'6,7" · 120 Hz Eye Comfort'],["Processador","Dimensity 6300 5G"],["Memória","24 GB RAM dinâmica + 256 GB"],["Câmera","50 MP com IA"],["Bateria","5828 mAh · 45 W"],["Resistência","IP69 · Armorshell · 7,94 mm"],["Recursos","Recorte Inteligente com IA"],["Versões","8 GB RAM + 256 GB (com NFC)"],["Garantia","1 ano"]] },
+
+  { marca:"Poco", nome:"Poco C85", categoria:"smartphone", tag:"", cor:"", img:"fotos/poco-c85.webp", fotos:[], preco:null,
+    destaque:"Mesma base do Redmi 15C: tela de 6,9\" 120 Hz e 6000 mAh.",
+    ficha:[["Tela",'6,9" IPS LCD · 120 Hz · HD+'],["Processador","MediaTek Helio G81 Ultra"],["Memória","4/6/8 GB RAM · 128/256 GB"],["Câmera","50 MP · frontal 8 MP"],["Bateria","6000 mAh · 33 W"],["Resistência","IP64"],["Versões","8 GB + 256 GB · 6 GB + 128 GB"],["Conexão","4G · NFC · USB-C"]] },
+
+  { marca:"Realme", nome:"Realme Note 60", categoria:"smartphone", tag:"", cor:"pink", img:"fotos/realme-note-60.webp", fotos:[], preco:null,
+    destaque:"Construção reforçada ArmorShell e câmera principal de 32 MP.",
+    ficha:[["Tela",'6,74" IPS LCD · 90 Hz · HD+'],["Processador","Unisoc T612 (12 nm)"],["Memória","4 GB RAM · 128 GB"],["Câmera","32 MP · frontal 5 MP"],["Bateria","5000 mAh · 10 W"],["Resistência","IP64 · MIL-STD-810H"],["Versões","4 GB RAM + 128 GB"],["Conexão","4G · Wi-Fi 5"]] },
+
+  { marca:"Realme", nome:"Realme Note 60x", categoria:"smartphone", tag:"", cor:"", img:"fotos/realme-note-60x.webp", fotos:[], preco:null,
+    destaque:"Versão enxuta do Note 60, com a mesma bateria de 5000 mAh.",
+    ficha:[["Tela",'6,74" IPS LCD · 90 Hz · 560 nits'],["Processador","Unisoc T612 (12 nm)"],["Memória","4 GB RAM · 64 GB"],["Câmera","8 MP · frontal 5 MP"],["Bateria","5000 mAh · 10 W"],["Versões","4 GB RAM + 128 GB"],["Conexão","4G · BT 5.0 · USB-C"]] },
+
+  { marca:"Realme", nome:"Realme C85", categoria:"smartphone", tag:"novo", cor:"cyan", img:"fotos/realme-c85.webp", fotos:[], preco:null,
+    destaque:"Bateria monstro de 7000 mAh, tela 144 Hz e resistência IP69K.",
+    ficha:[["Tela",'6,8" IPS LCD · 144 Hz'],["Memória","até 8 GB RAM · 256 GB"],["Câmera","50 MP principal"],["Bateria","7000 mAh (silício-carbono) · 45 W"],["Resistência","IP68 · IP69K · MIL-STD-810H"],["Versões","8 GB RAM + 256 GB"],["Sistema","Android 15 · realme UI 6.0"]] },
+
+  { marca:"Apple", nome:"iPhone 17", categoria:"smartphone", tag:"5g", cor:"pink", img:"fotos/iphone-17.webp", fotos:[], preco:null,
+    destaque:"Tela ProMotion 120 Hz, chip A19 e câmera 48 MP Dual Fusion.",
+    ficha:[["Tela",'6,3" OLED · ProMotion 120 Hz · 3000 nits'],["Processador","Apple A19 · 5G"],["Memória","8 GB RAM · 256/512 GB"],["Câmera","48 MP Dual Fusion · frontal 18 MP"],["Bateria","Até 30 h de vídeo · MagSafe"],["Resistência","IP68 · Ceramic Shield 2"],["Conexão","Wi-Fi 7 · eSIM"],["Sistema","iOS · Apple Intelligence"]] },
+  { marca:"Apple", nome:"iPhone Air", categoria:"smartphone", tag:"5g", cor:"blue", img:"fotos/iphone-air-1.webp", fotos:["fotos/iphone-air-2.webp","fotos/iphone-air-3.webp"], preco:null,
+    destaque:"O iPhone mais fino de todos os tempos, com chip A19 Pro.",
+    ficha:[["Tela",'6,5" OLED · ProMotion 120 Hz · 3000 nits'],["Processador","Apple A19 Pro · 5G"],["Memória","12 GB RAM · 256/512 GB · 1 TB"],["Câmera","48 MP Fusion · frontal 18 MP Center Stage"],["Bateria","Uso o dia todo · MagSafe"],["Design","Só 5,6 mm · titânio · Ceramic Shield 2"],["Conexão","Wi-Fi 7 · eSIM"],["Sistema","iOS · Apple Intelligence"]] },
+  { marca:"Apple", nome:"iPhone 17 Pro", categoria:"smartphone", tag:"5g", cor:"black", img:"fotos/iphone-17-pro-1.webp", fotos:["fotos/iphone-17-pro-2.webp","fotos/iphone-17-pro-3.webp"], preco:null,
+    destaque:"Chip A19 Pro, tripla câmera 48 MP e zoom óptico de até 8x.",
+    ficha:[["Tela",'6,3" OLED · ProMotion 120 Hz · 3000 nits'],["Processador","Apple A19 Pro · 5G"],["Memória","12 GB RAM · 256 GB / 512 GB / 1 TB"],["Câmera","Tripla 48 MP (Principal · Ultra Wide · Teleobjetiva) · zoom 8x"],["Frontal","18 MP Center Stage"],["Bateria","Até 33 h de vídeo · MagSafe"],["Resistência","IP68 · Ceramic Shield 2 · alumínio"],["Sistema","iOS · Apple Intelligence"]] },
+  { marca:"Apple", nome:"iPhone 17 Pro Max", categoria:"smartphone", tag:"5g", cor:"blue", img:"fotos/iphone-17-pro-max-1.webp", fotos:["fotos/iphone-17-pro-max-2.webp","fotos/iphone-17-pro-max-3.webp"], preco:null,
+    destaque:'A maior tela (6,9") e a maior bateria já vista em um iPhone.',
+    ficha:[["Tela",'6,9" OLED · ProMotion 120 Hz · 3000 nits'],["Processador","Apple A19 Pro · 5G"],["Memória","12 GB RAM · 256 GB até 2 TB"],["Câmera","Tripla 48 MP · zoom óptico 8x"],["Frontal","18 MP Center Stage"],["Bateria","Até 39 h de vídeo · MagSafe"],["Resistência","IP68 · Ceramic Shield 2 · alumínio"],["Sistema","iOS · Apple Intelligence"]] },
+
+  { marca:"Redmi", nome:"Redmi Note 14", categoria:"smartphone", tag:"", cor:"cyan", img:"fotos/redmi-note-14.webp", fotos:["fotos/redmi-note-14-b.webp","fotos/redmi-note-14-c.webp"], preco:null,
+    destaque:"AMOLED 120 Hz, câmera de 108 MP e bateria de 5500 mAh.",
+    ficha:[["Tela",'6,67" AMOLED · 120 Hz · FHD+'],["Processador","MediaTek Helio G99-Ultra (6 nm)"],["Memória","6/8 GB RAM · 128/256 GB"],["Câmera","108 MP + 2 MP + 2 MP · frontal 20 MP"],["Bateria","5500 mAh · 33 W"],["Resistência","IP54 · Gorilla Glass 5 · NFC"],["Versões","8 GB + 256 GB · 6 GB + 128 GB (com NFC, sem carregador)"],["Sistema","Android · HyperOS"]] },
+
+  { marca:"Poco", nome:"Poco X7", categoria:"smartphone", tag:"5g", cor:"pink", img:"fotos/poco-x7.webp", fotos:[], preco:null,
+    destaque:"Intermediário 5G com AMOLED, IP68 e câmera estabilizada (OIS).",
+    ficha:[["Tela",'6,67" AMOLED · 120 Hz · 1.5K'],["Processador","MediaTek Dimensity 7300-Ultra · 5G"],["Memória","8/12 GB RAM · 256/512 GB"],["Câmera","50 MP com OIS · vídeo 4K"],["Bateria","5110 mAh · 45 W"],["Resistência","IP68 · Gorilla Glass Victus 2"],["Conexão","5G · Wi-Fi 6 · NFC"]] },
+
+  { marca:"Realme", nome:"Realme C61", categoria:"smartphone", tag:"", cor:"", img:"fotos/realme-c61.webp", fotos:[], preco:null,
+    destaque:"Um dos mais finos da categoria, com RAM dinâmica e bateria para o dia todo.",
+    ficha:[["Tela",'6,74" IPS LCD · HD+'],["Processador","Unisoc T612"],["Memória","RAM dinâmica (até +18 GB)"],["Câmera","50 MP"],["Bateria","5000 mAh · 15 W"],["Resistência","MIL-STD · 7,84 mm (ultrafino)"],["Versões","8 GB + 256 GB · 4 GB + 128 GB (com NFC)"],["Sistema","Android 14 · realme UI"]] },
+
+  { marca:"Redmi", nome:"Redmi A7 Pro 5G", categoria:"smartphone", tag:"5g", cor:"pink", img:"fotos/redmi-a7.webp", fotos:[], preco:null,
+    destaque:'Tela de 6,9" 120 Hz, bateria de 6300 mAh e conexão 5G.',
+    ficha:[["Tela",'6,9" · 120 Hz · HD+'],["Processador","Octa-core · 5G"],["Memória","até 8 GB RAM (expansível) · 64/128 GB"],["Câmera","32 MP IA dupla · frontal 8 MP"],["Bateria","6300 mAh · 15 W"],["Conexão","5G · Wi-Fi · Bluetooth"],["Sistema","Android · HyperOS"]] },
+
+  /* ---------------- CELULARES BÁSICOS ---------------- */
+  { marca:"Redmi", nome:"Redmi Note 14 Pro 5G", categoria:"smartphone", tag:"5g", cor:"black", img:"fotos/redmi-note-14-pro-5g-1.webp", fotos:["fotos/redmi-note-14-pro-5g-2.webp","fotos/redmi-note-14-pro-5g-3.webp"], preco:null,
+    destaque:"Câmera de 200 MP com OIS, tela AMOLED 1.5K e resistência IP68.",
+    ficha:[["Tela",'6,67" AMOLED 1.5K · 120 Hz · Gorilla Glass Victus 2'],["Processador","MediaTek Dimensity 7300 Ultra · 5G"],["Câmera","200 MP OIS + 8 MP ultrawide + 2 MP macro"],["Frontal","20 MP"],["Bateria","5110 mAh · 45 W"],["Resistência","IP68"],["Conexão","5G · Wi-Fi 6 · NFC"],["Versões","8 GB RAM + 256 GB"],["Sistema","Android · HyperOS"]] },
+  { marca:"Redmi", nome:"Redmi Note 14 Pro 4G", categoria:"smartphone", tag:"", cor:"blue", img:"fotos/redmi-note-14-pro-4g-1.webp", fotos:["fotos/redmi-note-14-pro-4g-3.webp","fotos/redmi-note-14-pro-4g-2.webp"], preco:null,
+    destaque:"Câmera de 200 MP com estabilização óptica e tela AMOLED 1.5K.",
+    ficha:[["Tela",'6,67" AMOLED 1.5K · 120 Hz · Gorilla Glass Victus 2'],["Processador","MediaTek Helio G100-Ultra"],["Câmera","200 MP OIS + 8 MP ultrawide + 2 MP macro"],["Frontal","32 MP"],["Bateria","5500 mAh · 45 W"],["Resistência","IP64"],["Conexão","4G · Wi-Fi · NFC"],["Versões","8 GB RAM + 256 GB"],["Sistema","Android · HyperOS"]] },
+  { marca:"Redmi", nome:"Redmi Note 14S", categoria:"smartphone", tag:"", cor:"black", img:"fotos/redmi-note-14s-1.webp", fotos:["fotos/redmi-note-14s-2.webp","fotos/redmi-note-14s-3.webp"], preco:null,
+    destaque:"200 MP com OIS, AMOLED 120 Hz e carregamento turbo de 67 W.",
+    ficha:[["Tela",'6,67" AMOLED Full HD+ · 120 Hz · Gorilla Glass 5'],["Processador","MediaTek Helio G99 Ultra (6 nm)"],["Câmera","200 MP OIS + 8 MP ultrawide + 2 MP"],["Frontal","16 MP"],["Bateria","5000 mAh · 67 W"],["Resistência","IP64"],["Conexão","4G · Wi-Fi 6 · NFC · infravermelho"],["Versões","8 GB RAM + 256 GB"],["Sistema","Android 15 · HyperOS"]] },
+  { marca:"Redmi", nome:"Redmi Note 14 5G", categoria:"smartphone", tag:"5g", cor:"blue", img:"fotos/redmi-note-14-5g-1.webp", fotos:["fotos/redmi-note-14-5g-2.webp","fotos/redmi-note-14-5g-3.webp"], preco:null,
+    destaque:"Câmera de 108 MP com OIS e conexão 5G em tela AMOLED.",
+    ficha:[["Tela",'6,67" AMOLED · 120 Hz · 2100 nits'],["Processador","MediaTek Dimensity 7025 Ultra · 5G"],["Câmera","50 MP OIS + 8 MP ultrawide + 2 MP"],["Frontal","20 MP"],["Bateria","5110 mAh · 45 W turbo"],["Áudio","Estéreo duplo · Dolby Atmos"],["Resistência","IP64"],["Conexão","5G · Wi-Fi · NFC"],["Versões","8 GB RAM + 256 GB"],["Sistema","Android · HyperOS"]] },
+  { marca:"Redmi", nome:"Redmi Note 15", categoria:"smartphone", tag:"novo", cor:"blue", img:"fotos/redmi-note-15-1.webp", fotos:["fotos/redmi-note-15-2.webp","fotos/redmi-note-15-3.webp"], preco:null,
+    destaque:"Bateria de 6000 mAh, câmera de 108 MP e tela AMOLED de 6,77\".",
+    ficha:[["Tela",'6,77" AMOLED Full HD+ · 120 Hz · até 3200 nits'],["Processador","MediaTek Helio G100-Ultra (6 nm)"],["Câmera","108 MP f/1.7 + 2 MP · frontal 20 MP"],["Bateria","6000 mAh · 33 W"],["Resistência","IP64 · vidro reforçado (quedas até 1,8 m)"],["Áudio","Alto-falantes duplos · Dolby Atmos · Hi-Res"],["Conexão","4G · Wi-Fi 5 · Bluetooth 5.3 · infravermelho · microSD"],["Versões","8 GB RAM + 256 GB"],["Sistema","Android 15 · HyperOS 2"]] },
+  { marca:"Redmi", nome:"Redmi Note 13 Pro 5G", categoria:"smartphone", tag:"5g", cor:"blue", img:"fotos/redmi-note-13-pro-5g-1.webp", fotos:["fotos/redmi-note-13-pro-5g-2.webp"], preco:null,
+    destaque:"Câmera de 200 MP com OIS, tela AMOLED 1.5K e carga turbo de 67 W.",
+    ficha:[["Tela",'6,67" AMOLED 1.5K · 120 Hz · 1800 nits · Gorilla Glass Victus'],["Processador","Snapdragon 7s Gen 2 (4 nm) · 5G"],["Câmera","200 MP OIS + 8 MP ultrawide + 2 MP macro"],["Frontal","16 MP"],["Bateria","5100 mAh · 67 W (carregador incluso)"],["Resistência","IP54"],["Áudio","Estéreo · Dolby Atmos · Hi-Res"],["Conexão","5G · NFC · Bluetooth · infravermelho"],["Versões","8 GB RAM (até 16 GB dinâmica) + 256 GB"],["Sistema","Android · HyperOS"]] },
+  { marca:"Redmi", nome:"Redmi 14C", categoria:"smartphone", tag:"", cor:"green", img:"fotos/redmi-14c-3.webp", fotos:["fotos/redmi-14c-1.webp","fotos/redmi-14c-2.webp"], preco:null,
+    destaque:"Tela grande de 6,88\" com 120 Hz e câmera de 50 MP.",
+    ficha:[["Tela",'6,88" IPS · 120 Hz · HD+'],["Processador","MediaTek Helio G81 Ultra"],["Câmera","50 MP com IA"],["Frontal","13 MP"],["Bateria","5160 mAh · 18 W"],["Conexão","4G · Wi-Fi · microSD"],["Versões","8 GB + 256 GB · 6 GB + 128 GB (com NFC) · 4 GB + 128 GB"],["Sistema","Android · HyperOS"]] },
+  { marca:"Redmi", nome:"Redmi 13", categoria:"smartphone", tag:"", cor:"blue", img:"fotos/redmi-13-1.webp", fotos:["fotos/redmi-13-2.webp","fotos/redmi-13-3.webp"], preco:null,
+    destaque:"Câmera de 108 MP e tela Full HD+ por um preço acessível.",
+    ficha:[["Tela",'6,79" IPS Full HD+ · 90 Hz'],["Processador","MediaTek Helio G91 Ultra"],["Câmera","108 MP + 2 MP"],["Frontal","13 MP"],["Bateria","5030 mAh · 33 W"],["Conexão","4G · Wi-Fi · microSD"],["Versões","8 GB + 256 GB · 6 GB + 128 GB"],["Sistema","Android · HyperOS"]] },
+  { marca:"Redmi", nome:"Redmi A5", categoria:"smartphone", tag:"", cor:"green", img:"fotos/redmi-a5-2.webp", fotos:["fotos/redmi-a5-1.webp","fotos/redmi-a5-3.webp"], preco:null,
+    destaque:"Entrada com tela enorme de 6,88\" e 120 Hz.",
+    ficha:[["Tela",'6,88" IPS · 120 Hz · HD+'],["Processador","Unisoc T7250 (12 nm)"],["Câmera","32 MP com IA"],["Frontal","8 MP"],["Bateria","5200 mAh · 15 W"],["Conexão","4G · Wi-Fi 5 · microSD · rádio FM"],["Versões","4 GB RAM + 128 GB"],["Sistema","Android 15 (Go) · HyperOS"]] },
+  { marca:"Poco", nome:"Poco C75", categoria:"smartphone", tag:"", cor:"black", img:"fotos/poco-c75-2.webp", fotos:["fotos/poco-c75-1.webp","fotos/poco-c75-3.webp"], preco:null,
+    destaque:"Tela de 6,88\" com 120 Hz e câmera principal de 50 MP.",
+    ficha:[["Tela",'6,88" IPS · 120 Hz · HD+'],["Processador","MediaTek Helio G81 Ultra"],["Câmera","50 MP com IA"],["Frontal","13 MP"],["Bateria","5160 mAh · 18 W"],["Conexão","4G · Wi-Fi · microSD"],["Versões","8 GB + 256 GB · 6 GB + 128 GB"],["Sistema","Android · HyperOS"]] },
+  { marca:"Realme", nome:"Realme C85 Pro", categoria:"smartphone", tag:"novo", cor:"green", img:"fotos/realme-c85-pro-2.webp", fotos:["fotos/realme-c85-pro-1.webp","fotos/realme-c85-pro-3.webp"], preco:null,
+    destaque:"Bateria gigante de 7000 mAh, tela AMOLED e resistência IP69.",
+    ficha:[["Tela",'6,8" AMOLED Full HD+ · 120 Hz'],["Processador","Snapdragon 685 (6 nm)"],["Câmera","50 MP f/1.8"],["Frontal","8 MP"],["Bateria","7000 mAh · 45 W SUPERVOOC"],["Resistência","IP68 · IP69 · MIL-STD-810H"],["Conexão","4G · NFC · microSD"],["Versões","8 GB RAM + 256 GB"],["Sistema","Android 15 · realme UI 6.0"]] },
+  { marca:"Realme", nome:"Realme 14T 5G", categoria:"smartphone", tag:"5g", cor:"purple", img:"fotos/realme-14t-5g-2.webp", fotos:["fotos/realme-14t-5g-1.webp","fotos/realme-14t-5g-3.webp"], preco:null,
+    destaque:"AMOLED de 120 Hz, bateria de 6000 mAh e resistência IP69.",
+    ficha:[["Tela",'6,67" AMOLED Full HD+ · 120 Hz · 2100 nits'],["Processador","MediaTek Dimensity 6300 (6 nm) · 5G"],["Câmera","50 MP OIS + 2 MP"],["Frontal","16 MP"],["Bateria","6000 mAh · 45 W"],["Resistência","IP66 · IP68 · IP69"],["Conexão","5G · NFC · Bluetooth 5.3"],["Versões","8 GB RAM + 256 GB"],["Sistema","Android 15 · realme UI 6.0"]] },
+  { marca:"Realme", nome:"Realme 14 5G", categoria:"smartphone", tag:"5g", cor:"silver", img:"", fotos:[], preco:null,
+    destaque:"Voltado a jogos: Snapdragon 6 Gen 4, 12 GB de RAM e 6000 mAh.",
+    ficha:[["Tela",'6,67" AMOLED Full HD+ · 120 Hz · 2000 nits'],["Processador","Snapdragon 6 Gen 4 (4 nm) · 5G"],["Câmera","50 MP · vídeo 4K"],["Frontal","16 MP"],["Bateria","6000 mAh · 45 W"],["Resistência","IP68 · IP69"],["Conexão","5G · Wi-Fi 6 · NFC · Dual SIM"],["Versões","12 GB RAM + 256 GB"],["Sistema","Android 15 · realme UI 6.0"]] },
+  { marca:"Realme", nome:"Realme C71 5G", categoria:"smartphone", tag:"5g", cor:"black", img:"", fotos:[], preco:null,
+    destaque:"Conexão 5G com tela de 120 Hz e RAM dinâmica de até 18 GB.",
+    ficha:[["Tela",'6,67" IPS · 120 Hz · HD+'],["Processador","MediaTek Dimensity 6300 (6 nm) · 5G"],["Câmera","50 MP f/1.8"],["Frontal","8 MP"],["Bateria","5000 mAh"],["Resistência","IP64 · resistência militar a impactos"],["Conexão","5G · NFC · microSD"],["Versões","8 GB RAM + 256 GB"],["Sistema","Android 15 · realme UI 6.0"]] },
+  { marca:"Realme", nome:"Realme C75x", categoria:"smartphone", tag:"", cor:"blue", img:"", fotos:[], preco:null,
+    destaque:"Resistência IP69 e bateria de 5600 mAh com carga de 45 W.",
+    ficha:[["Tela",'6,67" IPS · 120 Hz · HD+ · ArmorShell'],["Processador","MediaTek Helio G81 Ultra"],["Câmera","50 MP com IA"],["Frontal","5 MP"],["Bateria","5600 mAh · 45 W"],["Resistência","IP69 · MIL-STD-810H · quedas até 1,8 m"],["Conexão","4G · NFC · microSD"],["Versões","8 GB RAM + 256 GB"],["Sistema","Android 15 · realme UI 6.0"]] },
+  { marca:"Realme", nome:"Realme C63", categoria:"smartphone", tag:"", cor:"gold", img:"", fotos:[], preco:null,
+    destaque:"Câmera de 50 MP com IA e carregamento rápido de 45 W.",
+    ficha:[["Tela",'6,74" · 90 Hz · HD+'],["Processador","Unisoc T612"],["Câmera","50 MP com IA"],["Frontal","8 MP"],["Bateria","5000 mAh · 45 W"],["Conexão","4G · NFC · microSD"],["Versões","6 GB RAM + 128 GB (com NFC)"],["Sistema","Android · realme UI"]] },
+  { marca:"Realme", nome:"Realme Note 50", categoria:"smartphone", tag:"", cor:"black", img:"", fotos:[], preco:null,
+    destaque:"Entrada com tela de 90 Hz e bateria para o dia todo.",
+    ficha:[["Tela",'6,74" · 90 Hz · HD+'],["Processador","Unisoc T612"],["Câmera","13 MP"],["Frontal","5 MP"],["Bateria","5000 mAh"],["Conexão","4G · Wi-Fi · microSD"],["Versões","3 GB RAM + 64 GB"],["Sistema","Android · realme UI"]] },
+  { marca:"Infinix", nome:"Infinix Smart 10", categoria:"smartphone", tag:"", cor:"blue", img:"", fotos:[], preco:null,
+    destaque:"Tela de 6,67\" com 120 Hz e resistência IP64 na faixa de entrada.",
+    ficha:[["Tela",'6,67" IPS · 120 Hz · HD+'],["Processador","Unisoc T7250 Octa-core"],["Câmera","8 MP com flash LED"],["Frontal","8 MP"],["Bateria","5000 mAh"],["Resistência","IP64"],["Conexão","4G · Wi-Fi 5 · Bluetooth 5.2 · microSD"],["Versões","4 GB RAM + 128 GB"],["Sistema","Android 15 (Go) · XOS 15"]] },
+  { marca:"Honor", nome:"Honor Magic 7 Lite", categoria:"smartphone", tag:"5g", cor:"purple", img:"", fotos:[], preco:null,
+    destaque:"Câmera de 108 MP, bateria de 6600 mAh e tela de até 4000 nits.",
+    ficha:[["Tela",'6,78" AMOLED · 120 Hz · 4000 nits'],["Processador","Snapdragon 6 Gen 1 (4 nm) · 5G"],["Câmera","108 MP OIS + 5 MP ultrawide"],["Frontal","16 MP"],["Bateria","6600 mAh · 66 W"],["Resistência","IP64 · Ultra-Bounce 2.0"],["Conexão","5G · Wi-Fi · NFC · Dual SIM"],["Versões","12 GB RAM + 512 GB"],["Sistema","Android · MagicOS"]] },
+  { marca:"Positivo", nome:"Positivo P26", categoria:"basico", tag:"", cor:"", img:"fotos/positivo-p26.webp", fotos:[], preco:null,
+    destaque:"Celular básico 4G com função de modem para compartilhar internet.",
+    ficha:[["Tipo","Celular básico (teclas)"],["Conexão","4G · função modem (tethering)"],["Chips","Dual chip"],["Recursos","Câmera · lanterna · rádio FM"],["Extra","Teclas grandes"]] },
+
+  { marca:"Positivo", nome:"Positivo P38", categoria:"basico", tag:"", cor:"", img:"fotos/positivo-p38.webp", fotos:[], preco:null,
+    destaque:"Básico 3G, leve e simples — ideal para reserva ou emergência.",
+    ficha:[["Tipo","Celular básico (teclas)"],["Tela",'2,4" TFT'],["Conexão","3G · Bluetooth 2.1 · USB"],["Recursos","Câmera VGA · rádio FM · lanterna"],["Bateria","1000 mAh"],["Chips","Dual chip nano"]] },
+
+  { marca:"Positivo", nome:"Positivo P51", categoria:"basico", tag:"", cor:"", img:"fotos/positivo-p51.webp", fotos:[], preco:null,
+    destaque:"Celular básico com teclas grandes — prático no dia a dia.",
+    ficha:[["Tipo","Celular básico (teclas)"],["Chips","Dual chip"],["Recursos","Câmera · lanterna · rádio FM"],["Uso","Reserva / linha secundária"]] },
+
+  { marca:"Lenoxx", nome:"Lenoxx CX-908", categoria:"basico", tag:"", cor:"", img:"fotos/lenoxx-cx908.webp", fotos:[], preco:null,
+    destaque:"Flip clássico com tecla SOS e Bluetooth — simples e durável.",
+    ficha:[["Tipo","Celular flip básico"],["Tela",'2,4"'],["Conexão","GSM · Bluetooth · USB"],["Recursos","Câmera VGA · MP3 · rádio FM · tecla SOS"],["Memória","32 MB + microSD até 8 GB"],["Bateria","800 mAh"],["Chips","Dual chip"]] }
+];
+
+/* ================================================================
+   3) MOTOR — não precisa mexer daqui pra baixo
+   ================================================================ */
+const slugify = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+produtos.forEach(p=> p.slug = slugify(p.nome));
+
+/* Edite estas duas listas quando quiser:
+   POPULAR -> aparece na faixa "Mais procurados"
+   ULTIMAS -> mostra o selo "Últimas unidades"           */
+const POPULAR = ["Galaxy A07","Realme Note 70","Realme C71","Redmi 15C","Realme C75 5G"];
+const ULTIMAS = ["Poco X7","Realme C61","Positivo P51","Redmi A7 Pro 5G","Lenoxx CX-908"];
+produtos.forEach(p=>{ p.popular = POPULAR.includes(p.nome); p.estoque = ULTIMAS.includes(p.nome) ? "ultimas" : ""; });
+const bySlug = Object.fromEntries(produtos.map((p,i)=>[p.slug,i]));
+
+function waLink(produto){
+  const msg = produto && produto !== "catálogo"
+    ? `Olá! Tenho interesse no ${produto}. Pode me passar mais informações?`
+    : "Olá! Vim pelo catálogo e gostaria de mais informações sobre os aparelhos.";
+  return `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+}
+function waBuy(nome){
+  const msg = `Olá! Tenho interesse em adquirir o ${nome}. Pode me ajudar?`;
+  return `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+}
+document.querySelectorAll(".wa-link").forEach(el=> el.href = waLink(el.dataset.produto));
+document.getElementById("wa-header").href = waLink("catálogo");
+
+if(HERO_IMG){
+  document.getElementById("cover-visual").innerHTML =
+    `<div class="cover-photo-glow"></div><img class="hero-photo" src="${HERO_IMG}" alt="Aparelhos Cell Store" onerror="this.remove()">`;
+}
+
+// frase-gatilho de venda (rotativa)
+const triggers = [
+  "Os lançamentos que você procura",
+  "Atendimento rápido no WhatsApp",
+  "20 anos de tradição e confiança",
+  "Tem o aparelho certo pra você"
+];
+const tEl = document.getElementById("trigger-text");
+if(tEl){
+  let ti = 0;
+  setInterval(()=>{
+    ti = (ti+1) % triggers.length;
+    tEl.textContent = triggers[ti];
+    tEl.classList.remove("in"); void tEl.offsetWidth; tEl.classList.add("in");
+  }, 3000);
+}
+
+/* ---------------- CARDS ---------------- */
+function deviceMini(p){
+  const basic = p.categoria==="basico" ? " basic" : "";
+  if(p.img){
+    // quando há foto: aparelho padrão fica oculto (sem "sombra" atrás); só reaparece se a foto falhar
+    return `<div class="mini ${p.cor}${basic}" style="display:none"></div>`
+         + `<img class="card-img" src="${p.img}" alt="${p.nome}" loading="lazy" decoding="async" width="560" height="690" onerror="this.previousElementSibling.style.display='';this.remove()">`;
+  }
+  return `<div class="mini ${p.cor}${basic}"></div>`;
+}
+function cardHTML(p, i){
+  const tag = p.categoria==="basico" ? `<span class="card-tag basic">Básico</span>`
+            : p.tag==="novo" ? `<span class="card-tag new">Destaque</span>`
+            : p.tag==="5g"   ? `<span class="card-tag">5G</span>` : "";
+  const stock = p.estoque==="ultimas" ? `<span class="card-stock">Últimas unidades</span>` : "";
+  const resumo = p.ficha.slice(0,4).map(([,v])=>`<li>${v}</li>`).join("");
+  const price = p.preco==null ? `<span class="price consulta">Sob consulta</span>` : `<span class="price">R$ ${p.preco.toLocaleString("pt-BR")}</span>`;
+  return `
+    <article class="card" data-i="${i}" data-marca="${p.marca}" tabindex="0" role="button" aria-label="Ver ${p.nome}">
+      <div class="card-media">${tag}${stock}${deviceMini(p)}</div>
+      <div class="card-body">
+        <div class="card-brand">${p.marca}</div>
+        <div class="card-name">${p.nome}</div>
+        <ul class="card-specs">${resumo}</ul>
+        <div class="card-foot">${price}<span class="see">Ver detalhes</span></div>
+      </div>
+    </article>`;
+}
+
+const grid = document.getElementById("grid");
+const countEl = document.getElementById("count");
+const emptyEl = document.getElementById("empty");
+let fMarca = "Todos", fCat = "todos", fBusca = "";
+
+function matches(p){
+  if(fMarca!=="Todos" && p.marca!==fMarca) return false;
+  if(fCat!=="todos" && p.categoria!==fCat) return false;
+  if(fBusca){
+    const hay = (p.nome+" "+p.marca+" "+p.ficha.map(([,v])=>v).join(" ")).toLowerCase();
+    if(!hay.includes(fBusca)) return false;
+  }
+  return true;
+}
+function render(){
+  const lista = produtos.filter(matches);
+  grid.innerHTML = lista.map(p=>cardHTML(p, produtos.indexOf(p))).join("");
+  emptyEl.hidden = lista.length>0;
+  const tot = produtos.length;
+  countEl.innerHTML = lista.length===tot ? `<b>${tot}</b> aparelhos disponíveis` : `<b>${lista.length}</b> de ${tot} aparelhos`;
+}
+
+// abas de categoria
+const tabsDef = [["todos","Todos"],["smartphone","Smartphones"],["basico","Básicos"]];
+const tabsEl = document.getElementById("tabs");
+tabsEl.innerHTML = tabsDef.map(([v,l],i)=>`<button class="${i===0?'on':''}" data-c="${v}">${l}</button>`).join("");
+tabsEl.addEventListener("click", e=>{ const b=e.target.closest("button"); if(!b)return; tabsEl.querySelectorAll("button").forEach(x=>x.classList.remove("on")); b.classList.add("on"); fCat=b.dataset.c; render(); });
+
+// filtros por marca
+const marcas = ["Todos", ...new Set(produtos.map(p=>p.marca))];
+const filters = document.getElementById("filters");
+filters.innerHTML = marcas.map((m,i)=>`<button class="${i===0?'on':''}" data-m="${m}">${m}</button>`).join("");
+filters.addEventListener("click", e=>{ const b=e.target.closest("button"); if(!b)return; filters.querySelectorAll("button").forEach(x=>x.classList.remove("on")); b.classList.add("on"); fMarca=b.dataset.m; render(); });
+
+// busca
+const searchEl = document.getElementById("search");
+searchEl.addEventListener("input", ()=>{ fBusca = searchEl.value.trim().toLowerCase(); render(); });
+
+// faixa "Mais procurados"
+const rail = document.getElementById("rail");
+const populares = produtos.filter(p=>p.popular);
+function railThumb(p){
+  return p.img ? `<img src="${p.img}" alt="${p.nome}" loading="lazy" onerror="this.remove()">` : `<div class="mini ${p.cor}" style="transform:scale(.7)"></div>`;
+}
+rail.innerHTML = populares.map(p=>`
+  <article class="rcard" data-slug="${p.slug}" tabindex="0" role="button" aria-label="Ver ${p.nome}">
+    <div class="rcard-media">${railThumb(p)}</div>
+    <div class="rcard-b"><div class="br">${p.marca}</div><div class="nm">${p.nome}</div></div>
+  </article>`).join("");
+rail.addEventListener("click", e=>{ const c=e.target.closest(".rcard"); if(c) location.hash="aparelho/"+c.dataset.slug; });
+rail.addEventListener("keydown", e=>{ if(e.key!=="Enter"&&e.key!==" ")return; const c=e.target.closest(".rcard"); if(!c)return; e.preventDefault(); location.hash="aparelho/"+c.dataset.slug; });
+
+// nossas lojas (dados reais)
+const LOJAS = [
+  {cidade:"Gravataí", end:"Av. José Loureiro da Silva, 1515 — Centro", tel:"(51) 3042-3289", map:"https://www.google.com/maps/search/?api=1&query=Av.+Jos%C3%A9+Loureiro+da+Silva,+1515+Gravata%C3%AD+RS"},
+  {cidade:"Gravataí", end:"Av. Anápio Gomes, 1459", tel:"(51) 3043-6888", map:"https://www.google.com/maps/search/?api=1&query=Av.+An%C3%A1pio+Gomes,+1459+Gravata%C3%AD+RS"},
+  {cidade:"Porto Alegre", end:"Av. Assis Brasil, 2624 — Passo d'Areia", tel:"(51) 3557-5283", map:"https://www.google.com/maps/search/?api=1&query=Av.+Assis+Brasil,+2624+Porto+Alegre+RS"},
+  {cidade:"Cachoeirinha", end:"Av. Gen. Flores da Cunha, 1674 — Vila Imbui", tel:"(51) 3470-4713", map:"https://www.google.com/maps/search/?api=1&query=Av.+Gen.+Flores+da+Cunha,+1674+Cachoeirinha+RS"},
+  {cidade:"Canoas", end:"Rua Tiradentes, 319 — Centro", tel:"(51) 3939-8181", map:"https://www.google.com/maps/search/?api=1&query=Rua+Tiradentes,+319+Canoas+RS"},
+  {cidade:"São Leopoldo", end:"Rua Independência, 485 — Centro", tel:"(51) 3509-2886", map:"https://www.google.com/maps/search/?api=1&query=Rua+Independ%C3%AAncia,+485+S%C3%A3o+Leopoldo+RS"}
+];
+const lojasGrid = document.getElementById("lojas-grid");
+const telDigits = t => t.replace(/\D/g,"");
+lojasGrid.innerHTML = LOJAS.map(l=>`
+  <div class="loja">
+    <div class="city">${l.cidade}</div>
+    <div class="addr">${l.end}</div>
+    <div class="loja-links">
+      <a class="map" href="${l.map}" target="_blank" rel="noopener">Como chegar</a>
+      <a href="tel:+55${telDigits(l.tel)}">${l.tel}</a>
+    </div>
+  </div>`).join("");
+
+/* ---------------- PÁGINA DO APARELHO ---------------- */
+const page = document.getElementById("product-page");
+const ppStage = document.getElementById("pp-stage");
+const ppThumbs = document.getElementById("pp-thumbs");
+const ppBrand = document.getElementById("pp-brand");
+const ppName = document.getElementById("pp-name");
+const ppDesc = document.getElementById("pp-desc");
+const ppTags = document.getElementById("pp-tags");
+const ppFicha = document.getElementById("pp-ficha");
+const ppPrice = document.getElementById("pp-price");
+const ppWa = document.getElementById("pp-wa");
+const ppAdq = document.getElementById("pp-adq");
+
+function deviceBig(p){
+  const basic = p.categoria==="basico" ? " basic" : "";
+  return `
+    <div class="pdev ${p.cor}${basic}"><div class="bump"><i></i><i></i><i></i></div><div class="word">${p.marca.toLowerCase()}</div></div>
+    <div class="pp-rings"><div class="ring r2"></div><div class="ring r1"></div></div>`;
+}
+let currentP = null;
+window.__photoFail = ()=>{ if(currentP) ppStage.innerHTML = deviceBig(currentP); };
+function setMainPhoto(p, src){
+  if(src){
+    // com foto: mostra só a foto (sem o aparelho padrão atrás), com entrada suave
+    ppStage.innerHTML = `<div class="pp-photo-wrap"><img class="pp-photo" src="${src}" alt="${p.nome}" onerror="window.__photoFail()"></div>`;
+  } else {
+    ppStage.innerHTML = deviceBig(p);
+  }
+}
+function fillPage(p){
+  currentP = p;
+  const galeria = [p.img, ...(p.fotos||[])].filter(Boolean);
+  setMainPhoto(p, galeria[0] || "");
+  if(galeria.length > 1){
+    ppThumbs.innerHTML = galeria.map((src,idx)=>
+      `<button class="pp-thumb ${idx===0?'on':''}" style="background-image:url('${src}')" data-src="${src}" aria-label="Foto ${idx+1}"></button>`).join("");
+    ppThumbs.querySelectorAll(".pp-thumb").forEach(t=>t.addEventListener("click",()=>{
+      ppThumbs.querySelectorAll(".pp-thumb").forEach(x=>x.classList.remove("on"));
+      t.classList.add("on"); setMainPhoto(p, t.dataset.src);
+    }));
+  } else { ppThumbs.innerHTML = ""; }
+
+  ppBrand.textContent = p.marca + (p.categoria==="basico" ? " · Celular básico" : "");
+  ppName.textContent = p.nome;
+  ppDesc.textContent = p.destaque || "";
+  const pills = [];
+  if(p.tag==="5g") pills.push(`<span class="pp-pill">5G</span>`);
+  if(p.tag==="novo") pills.push(`<span class="pp-pill">Destaque</span>`);
+  if(p.estoque==="ultimas") pills.push(`<span class="pp-pill" style="background:linear-gradient(100deg,#ffb648,#ff7a45)">Últimas unidades</span>`);
+  if(p.categoria==="basico") pills.push(`<span class="pp-pill soft">Celular básico</span>`);
+  ppTags.innerHTML = pills.join("");
+  ppFicha.innerHTML = p.ficha.map(([k,v])=>`<div class="pp-row"><div class="pp-k">${k}</div><div class="pp-v">${v}</div></div>`).join("");
+  ppPrice.innerHTML = p.preco==null ? "Sob consulta" : `R$ ${p.preco.toLocaleString("pt-BR")}`;
+  ppPrice.className = p.preco==null ? "pp-price consulta" : "pp-price";
+  ppWa.href = waLink(p.nome);
+  ppAdq.href = "#comprar/" + p.slug;
+}
+function openPage(i){
+  fillPage(produtos[i]);
+  page.classList.add("open"); page.setAttribute("aria-hidden","false");
+  document.body.classList.add("page-open");
+  page.scrollTop = 0;
+  document.getElementById("pp-back").focus();
+}
+function closePage(){
+  page.classList.remove("open"); page.setAttribute("aria-hidden","true");
+  document.body.classList.remove("page-open");
+}
+const coPage  = document.getElementById("checkout-page");
+const coThumb = document.getElementById("co-thumb");
+const coBrand = document.getElementById("co-brand");
+const coName  = document.getElementById("co-name");
+const coPrice = document.getElementById("co-price");
+let coProduct = null, coPay = "";
+function openCheckout(p){
+  coProduct = p; coPay = "";
+  coThumb.style.backgroundImage = p.img ? `url('${p.img}')` : "";
+  coBrand.textContent = p.marca;
+  coName.textContent  = p.nome;
+  coPrice.textContent = p.preco==null ? "Sob consulta" : ("R$ " + p.preco.toLocaleString("pt-BR"));
+  document.querySelectorAll(".co-pay").forEach(b=>b.classList.remove("on"));
+  document.querySelectorAll(".co-panel").forEach(x=>x.classList.remove("show"));
+  coPage.classList.add("open"); coPage.setAttribute("aria-hidden","false");
+  document.body.classList.add("page-open"); coPage.scrollTop = 0;
+}
+function closeCheckout(){
+  coPage.classList.remove("open"); coPage.setAttribute("aria-hidden","true");
+  if(!page.classList.contains("open")) document.body.classList.remove("page-open");
+}
+function handleHash(){
+  const mc = location.hash.match(/^#comprar\/(.+)$/);
+  const ma = location.hash.match(/^#aparelho\/(.+)$/);
+  if(mc && bySlug[mc[1]] != null){ closePage(); openCheckout(produtos[bySlug[mc[1]]]); }
+  else if(ma && bySlug[ma[1]] != null){ closeCheckout(); openPage(bySlug[ma[1]]); }
+  else { closeCheckout(); closePage(); }
+}
+document.querySelectorAll(".co-pay").forEach(btn=>btn.addEventListener("click",()=>{
+  coPay = btn.dataset.pay;
+  document.querySelectorAll(".co-pay").forEach(b=>b.classList.toggle("on", b===btn));
+  document.querySelectorAll(".co-panel").forEach(x=>x.classList.remove("show"));
+  const panel = document.getElementById("panel-"+coPay); if(panel) panel.classList.add("show");
+}));
+document.getElementById("co-back").addEventListener("click", ()=>{
+  if(history.length>1) history.back();
+  else location.hash = coProduct ? ("aparelho/"+coProduct.slug) : "";
+});
+document.getElementById("co-confirm").addEventListener("click", ()=>{
+  if(!coProduct) return;
+  const nome  = (document.getElementById("co-nome").value||"").trim();
+  const cidade= (document.getElementById("co-cidade").value||"").trim();
+  const nomes = { pix:"Pix", payjoy:"PayJoy (parcelado)" };
+  const forma = nomes[coPay] || "a combinar";
+  let msg = `Olá! Quero adquirir o ${coProduct.nome}.\nForma de pagamento: ${forma}.`;
+  if(nome)   msg += `\nNome: ${nome}.`;
+  if(cidade) msg += `\nCidade/retirada: ${cidade}.`;
+  msg += `\nPode finalizar meu pedido?`;
+  window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`, "_blank", "noopener");
+});
+window.addEventListener("hashchange", handleHash);
+grid.addEventListener("click", e=>{ const c=e.target.closest(".card"); if(c) location.hash = "aparelho/"+produtos[+c.dataset.i].slug; });
+grid.addEventListener("keydown", e=>{
+  if(e.key!=="Enter" && e.key!==" ") return;
+  const c=e.target.closest(".card"); if(!c) return;
+  e.preventDefault(); location.hash = "aparelho/"+produtos[+c.dataset.i].slug;
+});
+document.getElementById("pp-back").addEventListener("click", ()=>{ if(history.length>1) history.back(); else location.hash=""; });
+document.addEventListener("keydown", e=>{ if(e.key==="Escape" && page.classList.contains("open")){ if(history.length>1) history.back(); else location.hash=""; }});
+
+// compartilhar este aparelho
+function toast(msg){
+  let t=document.querySelector(".copied");
+  if(!t){ t=document.createElement("div"); t.className="copied"; document.body.appendChild(t); }
+  t.textContent=msg; requestAnimationFrame(()=>t.classList.add("show"));
+  setTimeout(()=>t.classList.remove("show"), 1800);
+}
+document.getElementById("pp-share").addEventListener("click", async ()=>{
+  const url = location.href;
+  const titulo = currentP ? `${currentP.nome} · Cell Store` : "Cell Store";
+  if(navigator.share){
+    try{ await navigator.share({title:titulo, text:`Confira o ${currentP?currentP.nome:"aparelho"} na Cell Store`, url}); }catch(e){}
+  } else {
+    try{ await navigator.clipboard.writeText(url); toast("Link copiado!"); }
+    catch(e){ prompt("Copie o link deste aparelho:", url); }
+  }
+});
+
+render();
+handleHash();
+
+/* ---- menu mobile ---- */
+(function(){
+  const t=document.getElementById("nav-toggle"), n=document.getElementById("nav-links");
+  if(!t||!n) return;
+  t.addEventListener("click", ()=>{
+    const open=n.classList.toggle("mobile-open");
+    t.setAttribute("aria-expanded", open?"true":"false");
+    t.setAttribute("aria-label", open?"Fechar menu":"Abrir menu");
+  });
+  n.addEventListener("click", e=>{ if(e.target.tagName==="A"){ n.classList.remove("mobile-open"); t.setAttribute("aria-expanded","false"); }});
+})();
+/* ---- barra fixa do mobile acompanha o aparelho aberto ---- */
+(function(){
+  const da=document.getElementById("dock-adq"), dw=document.getElementById("dock-wa");
+  if(!da||!dw) return;
+  const sync=()=>{ da.setAttribute("href", ppAdq.getAttribute("href")||"#"); dw.setAttribute("href", ppWa.getAttribute("href")||"#"); };
+  window.addEventListener("hashchange", ()=>setTimeout(sync,0));
+  setTimeout(sync,0);
+})();
+
+
+/* ================= COMPARADOR ================= */
+(function(){
+  const MAX=3, sel=[];
+  const bar=document.getElementById("cmp-bar"), chips=document.getElementById("cmp-chips"),
+        nEl=document.getElementById("cmp-n"), modal=document.getElementById("cmp-modal"),
+        body=document.getElementById("cmp-body");
+  if(!bar) return;
+
+  function label(i){ return produtos[i].nome; }
+  function render(){
+    nEl.textContent = sel.length;
+    bar.classList.toggle("show", sel.length>0);
+    chips.innerHTML = sel.map(i=>{
+      const p=produtos[i];
+      const img = p.img ? `<img src="${p.img}" alt="">` : "";
+      return `<span class="cmp-chip">${img}${p.nome}<button type="button" data-rm="${i}" aria-label="Remover ${p.nome}">&times;</button></span>`;
+    }).join("");
+    document.querySelectorAll(".cmp-btn").forEach(b=>{
+      const on = sel.includes(+b.dataset.cmp);
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-pressed", on?"true":"false");
+      b.title = on ? "Remover da comparação" : "Adicionar à comparação";
+    });
+    document.getElementById("cmp-open").disabled = sel.length<2;
+    document.getElementById("cmp-open").style.opacity = sel.length<2 ? .5 : 1;
+  }
+  function toggle(i){
+    const k=sel.indexOf(i);
+    if(k>=0) sel.splice(k,1);
+    else { if(sel.length>=MAX){ toast(`Dá para comparar até ${MAX} aparelhos`); return; } sel.push(i); }
+    render();
+  }
+  function toast(msg){
+    let t=document.getElementById("cmp-toast");
+    if(!t){ t=document.createElement("div"); t.id="cmp-toast";
+      t.style.cssText="position:fixed;left:50%;transform:translateX(-50%);bottom:96px;z-index:130;background:rgba(20,16,42,.97);border:1px solid var(--line-glow);color:var(--ink);padding:.7rem 1.1rem;border-radius:12px;font-size:.86rem;box-shadow:var(--elev-2);transition:opacity .25s";
+      document.body.appendChild(t); }
+    t.textContent=msg; t.style.opacity="1";
+    clearTimeout(t._h); t._h=setTimeout(()=>{ t.style.opacity="0"; },2200);
+  }
+  // injeta o botão de comparar em cada card
+  function inject(){
+    document.querySelectorAll("#grid .card").forEach(c=>{
+      if(c.querySelector(".cmp-btn")) return;
+      const i=+c.dataset.i;
+      const b=document.createElement("button");
+      b.type="button"; b.className="cmp-btn"; b.dataset.cmp=i; b.setAttribute("aria-pressed","false");
+      b.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg>';
+      b.addEventListener("click", e=>{ e.stopPropagation(); e.preventDefault(); toggle(i); });
+      c.appendChild(b);
+    });
+    render();
+  }
+  const grid=document.getElementById("grid");
+  new MutationObserver(inject).observe(grid,{childList:true});
+  inject();
+
+  chips.addEventListener("click", e=>{ const b=e.target.closest("[data-rm]"); if(b) toggle(+b.dataset.rm); });
+  document.getElementById("cmp-clear").addEventListener("click", ()=>{ sel.length=0; render(); });
+
+  function buildTable(){
+    const ps = sel.map(i=>produtos[i]);
+    const chaves=[]; ps.forEach(p=>p.ficha.forEach(([k])=>{ if(!chaves.includes(k)) chaves.push(k); }));
+    const val=(p,k)=>{ const r=p.ficha.find(([kk])=>kk===k); return r?r[1]:"—"; };
+    let html='<table class="cmp-table"><thead><tr><th></th>';
+    ps.forEach(p=>{
+      const img=p.img?`<img src="${p.img}" alt="${p.nome}">`:"";
+      html+=`<th class="cmp-dev">${img}<div class="m">${p.marca}</div><div class="n">${p.nome}</div></th>`;
+    });
+    html+='</tr></thead><tbody>';
+    chaves.forEach(k=>{
+      const vals=ps.map(p=>val(p,k));
+      const same = new Set(vals).size===1;
+      html+=`<tr class="${same?'cmp-row-same':''}"><th>${k}</th>`+vals.map(v=>`<td>${v}</td>`).join("")+'</tr>';
+    });
+    html+='<tr><th>Ver</th>'+ps.map(p=>`<td><a class="btn btn-ghost" style="padding:.5rem .9rem;font-size:.82rem" href="#aparelho/${p.slug}">Abrir ficha</a></td>`).join("")+'</tr>';
+    html+='</tbody></table>';
+    body.innerHTML=html;
+  }
+  function openModal(){ if(sel.length<2) return; buildTable(); modal.classList.add("open"); document.body.style.overflow="hidden"; document.getElementById("cmp-close").focus(); }
+  function closeModal(){ modal.classList.remove("open"); document.body.style.overflow=""; }
+  document.getElementById("cmp-open").addEventListener("click", openModal);
+  document.getElementById("cmp-close").addEventListener("click", closeModal);
+  modal.addEventListener("click", e=>{ if(e.target===modal) closeModal(); });
+  document.addEventListener("keydown", e=>{ if(e.key==="Escape" && modal.classList.contains("open")) closeModal(); });
+  body.addEventListener("click", e=>{ if(e.target.closest("a[href^='#aparelho/']")) closeModal(); });
+})();
+
+</script>
+</body>
+</html>
