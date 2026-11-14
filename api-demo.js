@@ -166,6 +166,8 @@ function criarApiDemo() {
       avisar();
     },
     async salvarTema(t) { exigir("admin"); Object.assign(db.temas.find(x => x.pasta_id === t.pasta_id), t); avisar(); },
+    async usoEspaco() { exigir("admin"); return { banco_bytes: 9e6, fotos_bytes: 0, fotos_qtd: 0, backups_bytes: 0, ultimo_backup: null, fotos_para_limpar: 0 }; },
+    async manutencao() { exigir("admin"); throw new Error("No modo demonstração não há servidor para limpar ou copiar."); },
     async sincronizarCatalogo() { exigir("admin"); await new Promise(r => setTimeout(r, 600)); return { temas: db.temas.length, estampas: window.DEMO_CATALOGO.itens.length, novas: 0, removidas: 0, demo: true }; },
     async zerarDemo() { db = semente(); db.sessao = null; gravar(); }
   };

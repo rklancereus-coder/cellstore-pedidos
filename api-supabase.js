@@ -103,17 +103,29 @@ function criarApiSupabase(cfg) {
     async mensagens(conversaId) { return ok(await sb.from("wa_mensagens").select("*").eq("conversa_id", conversaId).order("id", { ascending: true }).limit(400)); },
     async waAcao(acao, dados) { return funcao("whatsapp-enviar", { acao, ...dados }); },
     async fotoUrl(path) { return ok(await sb.storage.from("fotos").createSignedUrl(path, 3600)).signedUrl; },
+    // um pedido só (usado para atualizar a lista sem baixar tudo de novo)
+    async pedido(id) { const p = ok(await sb.from("pedidos").select(CAMPOS).eq("id", id).maybeSingle()); return p ? umaCompra(p) : null; },
+    async compraLogistica(id) { return ok(await sb.from("compras_logistica").select("*").eq("pedido_id", id).maybeSingle()); },
+    // avisa o que mudou: f([{ tabela, id }]) com só os itens alterados, ou f(null) quando é preciso recarregar tudo
+    // (voltou depois de um tempo fora, ou a conexão caiu e voltou e pode ter perdido avisos)
     ouvir(f) {
-      let t; const chamar = () => { clearTimeout(t); t = setTimeout(f, 400); };
+      let t, fila = [];
+      const chamar = ev => { fila.push(ev); clearTimeout(t); t = setTimeout(() => { const l = fila; fila = []; f(l.includes(null) ? null : l); }, 400); };
+      const ev = tabela => pl => {
+        const r = pl.new && Object.keys(pl.new).length ? pl.new : (pl.old || {});
+        chamar({ tabela, id: tabela === "compras" ? r.pedido_id : r.id });
+      };
+      let conectou = false;
       sb.channel("mudancas")
-        .on("postgres_changes", { event: "*", schema: "public", table: "pedidos" }, chamar)
-        .on("postgres_changes", { event: "*", schema: "public", table: "compras" }, chamar)
-        .on("postgres_changes", { event: "*", schema: "public", table: "romaneios" }, chamar)
-        .on("postgres_changes", { event: "*", schema: "public", table: "wa_conversas" }, chamar)
-        .on("postgres_changes", { event: "INSERT", schema: "public", table: "wa_mensagens" }, chamar)
-        .subscribe();
-      // ao voltar para a aba (celular bloqueado, por exemplo) recarrega
-      document.addEventListener("visibilitychange", () => { if (!document.hidden) chamar(); });
+        .on("postgres_changes", { event: "*", schema: "public", table: "pedidos" }, ev("pedidos"))
+        .on("postgres_changes", { event: "*", schema: "public", table: "compras" }, ev("compras"))
+        .on("postgres_changes", { event: "*", schema: "public", table: "romaneios" }, ev("romaneios"))
+        .on("postgres_changes", { event: "*", schema: "public", table: "wa_conversas" }, ev("wa_conversas"))
+        .on("postgres_changes", { event: "INSERT", schema: "public", table: "wa_mensagens" }, ev("wa_mensagens"))
+        .subscribe(st => { if (st === "SUBSCRIBED") { if (conectou) chamar(null); conectou = true; } });
+      // voltou para a aba depois de mais de 30 s (celular bloqueado, por exemplo): recarrega tudo uma vez
+      let saiu = 0;
+      document.addEventListener("visibilitychange", () => { if (document.hidden) saiu = Date.now(); else if (saiu && Date.now() - saiu > 30000) chamar(null); });
     },
     // administração (usuários passam pela função do servidor; o resto o banco protege)
     async usuarios(acao, d = {}) { const r = await funcao("admin-usuarios", { acao, ...d }); return acao === "listar" ? r.usuarios : r; },
@@ -121,6 +133,9 @@ function criarApiSupabase(cfg) {
     async salvarModelo(m) { m.id ? ok(await sb.from("modelos").update({ nome: m.nome, marca: m.marca, ativo: m.ativo }).eq("id", m.id)) : ok(await sb.from("modelos").insert({ nome: m.nome.trim(), marca: m.marca || "" })); },
     async salvarLoja(l) { l.id ? ok(await sb.from("lojas").update({ nome: l.nome, ativa: l.ativa, whatsapp: l.whatsapp ?? "" }).eq("id", l.id)) : ok(await sb.from("lojas").insert({ nome: l.nome.trim(), ordem: S.lojas.length })); },
     async salvarTema(t) { ok(await sb.from("temas").update({ prefixo: t.prefixo, ativo: t.ativo }).eq("pasta_id", t.pasta_id)); },
-    async sincronizarCatalogo() { return funcao("sync-catalogo", {}); }
+    async sincronizarCatalogo() { return funcao("sync-catalogo", {}); },
+    // manutenção: espaço usado, limpeza de fotos antigas e cópia de segurança
+    async usoEspaco() { return ok(await sb.rpc("uso_espaco")); },
+    async manutencao(acao) { return funcao("manutencao", { acao }); }
   };
 }

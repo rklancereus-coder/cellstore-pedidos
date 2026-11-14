@@ -364,3 +364,7 @@ a.cat-entrada{text-decoration:none}
 
 /* etiquetas dos cartões da tela inicial um pouco maiores */
 .inicio .cat-entrada .tag{font-size:13px;padding:6px 12px;border-radius:8px;margin-bottom:9px}
+/* administração: barras de espaço usado */
+.barra-uso{display:grid;gap:6px}
+.barra-uso i{display:block;height:10px;border-radius:5px;background:linear-gradient(90deg,var(--accent) var(--pc),var(--sunk) var(--pc))}
+.barra-uso i.alto{background:linear-gradient(90deg,var(--urg) var(--pc),var(--sunk) var(--pc))}

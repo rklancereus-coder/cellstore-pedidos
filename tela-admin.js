@@ -3,7 +3,7 @@ let secAdmin = "usuarios", usuariosCache = null;
 const PAPEL_NOME = { loja: "Loja", fabrica: "Fábrica", logistica: "Logística", admin: "Administrador" };
 
 async function telaAdmin() {
-  const secs = [["usuarios", "Usuários e senhas"], ["lojas", "Lojas"], ["precos", "Preços"], ["modelos", "Modelos de celular"], ["catalogo", "Catálogo"]];
+  const secs = [["usuarios", "Usuários e senhas"], ["lojas", "Lojas"], ["precos", "Preços"], ["modelos", "Modelos de celular"], ["catalogo", "Catálogo"], ["manutencao", "Espaço e cópias"]];
   let corpo = "";
   try {
     if (secAdmin === "usuarios") { if (!usuariosCache) usuariosCache = await api.usuarios("listar"); corpo = secUsuarios(); }
@@ -11,6 +11,7 @@ async function telaAdmin() {
     if (secAdmin === "precos") corpo = secPrecos();
     if (secAdmin === "modelos") corpo = secModelos();
     if (secAdmin === "catalogo") corpo = secCatalogo();
+    if (secAdmin === "manutencao") corpo = secManutencao(await api.usoEspaco());
   } catch (e) { corpo = `<div class="aviso"><b>Não consegui carregar.</b> ${esc(e.message)}</div>`; }
   if (!$("admin")) return;
   $("admin").innerHTML = `<div class="pills" style="margin-bottom:18px">${secs.map(([k, n]) => `<button class="${secAdmin === k ? "on" : ""}" data-sec="${k}">${n}</button>`).join("")}</div>${corpo}`;
@@ -66,6 +67,25 @@ function secCatalogo() {
    ${S.temas.map(t => `<div class="linha"><span class="grow"><b>${esc(t.nome)}</b> <span class="sub">${porTema[t.pasta_id] || 0} estampas</span></span><input value="${esc(t.prefixo)}" data-tpref="${t.pasta_id}" style="width:90px;text-transform:uppercase" aria-label="Prefixo ${esc(t.nome)}"><button class="soft mini" data-tsalvar="${t.pasta_id}">Salvar</button></div>`).join("")}</section>`;
 }
 
+// espaço usado (plano gratuito: 500 MB de banco e 1 GB de arquivos) e cópias de segurança
+function secManutencao(u) {
+  const mb = b => (b / 1048576).toLocaleString("pt-BR", { maximumFractionDigits: 1 }) + " MB";
+  const barra = (usado, total, nome, extra) => { const pc = Math.min(100, usado / total * 100); return `<div class="barra-uso"><div class="hd"><b>${nome}</b><span class="right">${mb(usado)} de ${mb(total)}</span></div><i style="--pc:${pc.toFixed(1)}%" class="${pc > 80 ? "alto" : ""}"></i>${extra ? `<span class="sub">${extra}</span>` : ""}</div>`; };
+  const arquivos = u.fotos_bytes + u.backups_bytes;
+  const ult = u.ultimo_backup ? new Date(u.ultimo_backup).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" }) : "nenhuma ainda";
+  return `<section class="admin-sec"><h2>Espaço usado</h2>
+   <div class="card">${barra(u.banco_bytes, 500 * 1048576, "Banco de dados", "Pedidos, catálogo, conversas.")}
+   ${barra(arquivos, 1024 * 1048576, "Fotos e cópias", `${u.fotos_qtd} fotos de pedidos (${mb(u.fotos_bytes)}) e cópias de segurança (${mb(u.backups_bytes)}).`)}
+   ${arquivos / (1024 * 1048576) > .8 ? `<div class="aviso"><b>Espaço quase cheio.</b> Toque em "Limpar fotos antigas" ou fale comigo para ajustar.</div>` : ""}</div></section>
+   <section class="admin-sec"><h2>Limpeza automática das fotos</h2>
+   <div class="card"><p class="lead" style="margin:0">Todo domingo de madrugada o sistema apaga as fotos de pedidos <b>entregues ou cancelados há mais de 60 dias</b>. O pedido continua no histórico e no fechamento; só a foto sai.</p>
+   <div class="acts"><button class="soft mini" id="mlimpar">Limpar fotos antigas agora</button><span class="sub">${u.fotos_para_limpar} foto(s) prontas para sair</span></div></div></section>
+   <section class="admin-sec"><h2>Cópia de segurança</h2>
+   <div class="card"><p class="lead" style="margin:0">Todo domingo de madrugada o sistema guarda uma cópia de todo o banco (pedidos, lojas, acessos, catálogo, conversas). Ficam as 8 últimas. Para ter uma cópia fora do servidor, baixe de vez em quando e guarde no seu Google Drive.</p>
+   <p class="sub" style="margin:0">Última cópia: <b>${ult}</b></p>
+   <div class="acts"><button class="primary" id="mbaixar">Baixar última cópia</button><button class="soft mini" id="mbackup">Fazer cópia agora</button></div></div></section>`;
+}
+
 function ligarAdmin() {
   const recarregarAdmin = async (msg) => { await recarregar(true); msg && toast(msg); telaAdmin(); };
   const tenta = async (fn, msg) => { try { await fn(); await recarregarAdmin(msg); } catch (e) { erroTela(e); } };
@@ -92,6 +112,10 @@ function ligarAdmin() {
   const fm = $("fmodelo"); if (fm) fm.onsubmit = e => { e.preventDefault(); const n = $("mnome").value.trim(); if (!n) return toast("Digite o nome do modelo."); tenta(() => api.salvarModelo({ nome: n, marca: $("mmarca").value.trim() }), "Modelo adicionado."); };
   $$("[data-mativo]").forEach(b => b.onclick = () => { const m = S.modelos.find(x => x.id === +b.dataset.mativo); tenta(() => api.salvarModelo({ ...m, ativo: b.dataset.v === "1" })); });
   $$("[data-tsalvar]").forEach(b => b.onclick = () => { const t = S.temas.find(x => x.pasta_id === b.dataset.tsalvar); const p = $$(`[data-tpref="${t.pasta_id}"]`)[0].value.toUpperCase().replace(/[^A-Z]/g, ""); if (p.length !== 3) return toast("Use 3 letras."); if (S.temas.some(x => x.prefixo === p && x.pasta_id !== t.pasta_id)) return toast("Outro tema já usa esse prefixo."); tenta(() => api.salvarTema({ ...t, prefixo: p }), "Prefixo salvo."); });
+  const acaoM = (id, acao, txt, fim) => { const b = $(id); if (b) b.onclick = async () => { const t = b.textContent; b.disabled = true; b.textContent = txt; try { const r = await api.manutencao(acao); await fim(r); } catch (e) { erroTela(e); } b.disabled = false; b.textContent = t; }; };
+  acaoM("mlimpar", "limpar", "Limpando…", async r => { toast(r.fotos_apagadas ? `${r.fotos_apagadas} foto(s) antigas apagadas.` : "Nenhuma foto antiga para apagar."); telaAdmin(); });
+  acaoM("mbackup", "backup", "Copiando…", async () => { toast("Cópia de segurança feita."); telaAdmin(); });
+  acaoM("mbaixar", "baixar", "Preparando…", async r => { const a = document.createElement("a"); a.href = r.url; a.download = r.nome; document.body.appendChild(a); a.click(); a.remove(); toast("Baixando " + r.nome); });
   const sy = $("sync"); if (sy) sy.onclick = async () => {
     sy.disabled = true; sy.textContent = "Lendo o Drive… pode levar 1 minuto"; $("syncmsg").textContent = "";
     try { const r = await api.sincronizarCatalogo(); await recarregar(true); toast("Catálogo atualizado."); telaAdmin(); setTimeout(() => { if ($("syncmsg")) $("syncmsg").textContent = `${r.estampas} estampas em ${r.temas} temas · ${r.novas} novas · ${r.removidas} saíram${r.demo ? " (modo demonstração: nada foi lido do Drive)" : ""}.`; }, 50); }
