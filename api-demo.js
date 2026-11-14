@@ -131,6 +131,9 @@ function criarApiDemo() {
       db.pedidos.filter(p => p.romaneio_id === id && p.status === "enviado").forEach(p => { p.status = "na_loja"; marcaEtapa(p, "na_loja"); });
       avisar();
     },
+    async conversas() { exigir("fabrica", "admin"); return []; },
+    async mensagens() { return []; },
+    async waAcao() { throw new Error("No modo demonstração o WhatsApp não está ligado."); },
     async fotoUrl(path) { exigir(); const f = db.fotos[path]; if (!f) throw new Error("Foto não encontrada."); return f; },
     ouvir(f) { ouvintes.push(f); },
     // administração

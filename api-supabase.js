@@ -98,6 +98,10 @@ function criarApiSupabase(cfg) {
       ok(await sb.from("romaneios").update({ recebido_em: new Date().toISOString() }).eq("id", id));
       ok(await sb.from("pedidos").update({ status: "na_loja" }).eq("romaneio_id", id).eq("status", "enviado"));
     },
+    // WhatsApp (painel Conversas)
+    async conversas() { return ok(await sb.from("wa_conversas").select("*").order("ultima_msg_em", { ascending: false }).limit(200)); },
+    async mensagens(conversaId) { return ok(await sb.from("wa_mensagens").select("*").eq("conversa_id", conversaId).order("id", { ascending: true }).limit(400)); },
+    async waAcao(acao, dados) { return funcao("whatsapp-enviar", { acao, ...dados }); },
     async fotoUrl(path) { return ok(await sb.storage.from("fotos").createSignedUrl(path, 3600)).signedUrl; },
     ouvir(f) {
       let t; const chamar = () => { clearTimeout(t); t = setTimeout(f, 400); };
@@ -105,6 +109,8 @@ function criarApiSupabase(cfg) {
         .on("postgres_changes", { event: "*", schema: "public", table: "pedidos" }, chamar)
         .on("postgres_changes", { event: "*", schema: "public", table: "compras" }, chamar)
         .on("postgres_changes", { event: "*", schema: "public", table: "romaneios" }, chamar)
+        .on("postgres_changes", { event: "*", schema: "public", table: "wa_conversas" }, chamar)
+        .on("postgres_changes", { event: "INSERT", schema: "public", table: "wa_mensagens" }, chamar)
         .subscribe();
       // ao voltar para a aba (celular bloqueado, por exemplo) recarrega
       document.addEventListener("visibilitychange", () => { if (!document.hidden) chamar(); });
@@ -113,7 +119,7 @@ function criarApiSupabase(cfg) {
     async usuarios(acao, d = {}) { const r = await funcao("admin-usuarios", { acao, ...d }); return acao === "listar" ? r.usuarios : r; },
     async salvarPreco(chave, valor) { ok(await sb.from("precos").update({ valor: Number(valor), atualizado_em: new Date().toISOString() }).eq("chave", chave)); },
     async salvarModelo(m) { m.id ? ok(await sb.from("modelos").update({ nome: m.nome, marca: m.marca, ativo: m.ativo }).eq("id", m.id)) : ok(await sb.from("modelos").insert({ nome: m.nome.trim(), marca: m.marca || "" })); },
-    async salvarLoja(l) { l.id ? ok(await sb.from("lojas").update({ nome: l.nome, ativa: l.ativa }).eq("id", l.id)) : ok(await sb.from("lojas").insert({ nome: l.nome.trim(), ordem: S.lojas.length })); },
+    async salvarLoja(l) { l.id ? ok(await sb.from("lojas").update({ nome: l.nome, ativa: l.ativa, whatsapp: l.whatsapp ?? "" }).eq("id", l.id)) : ok(await sb.from("lojas").insert({ nome: l.nome.trim(), ordem: S.lojas.length })); },
     async salvarTema(t) { ok(await sb.from("temas").update({ prefixo: t.prefixo, ativo: t.ativo }).eq("pasta_id", t.pasta_id)); },
     async sincronizarCatalogo() { return funcao("sync-catalogo", {}); }
   };

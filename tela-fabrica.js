@@ -1,12 +1,13 @@
 /* ---------- FÁBRICA (e administrador) ---------- */
 let abaFab = "pedidos", filtroFab = { status: "aberto", loja: "todas", busca: "" }, mesSel = hoje().slice(0, 7);
-const ABAS_FAB = [["pedidos", "Pedidos"], ["producao", "Produção do dia"], ["envios", "Envios"], ["numeros", "Números"], ["fechamento", "Fechamento"]];
+const ABAS_FAB = [["pedidos", "Pedidos"], ["conversas", "Conversas"], ["producao", "Produção do dia"], ["envios", "Envios"], ["numeros", "Números"], ["fechamento", "Fechamento"]];
 
 function telaFabrica() {
   const novos = S.pedidos.filter(p => !p.visto_fabrica && ABERTOS.includes(p.status)).length;
   const abas = [...ABAS_FAB, ...(papel() === "admin" ? [["admin", "Administração"]] : [])];
-  let html = `<div class="tabs noprint" style="margin-top:0">${abas.map(([k, n]) => `<button data-fab="${k}" class="${abaFab === k ? "on" : ""}">${n}${k === "pedidos" && novos ? ` · ${novos} novo${novos > 1 ? "s" : ""}` : ""}</button>`).join("")}</div>`;
+  let html = `<div class="tabs noprint" style="margin-top:0">${abas.map(([k, n]) => `<button data-fab="${k}" class="${abaFab === k ? "on" : ""}">${n}${k === "pedidos" && novos ? ` · ${novos} novo${novos > 1 ? "s" : ""}` : ""}${k === "conversas" && naoLidas() ? ` · ${naoLidas()}` : ""}</button>`).join("")}</div>`;
   if (abaFab === "pedidos") html += abaPedidos();
+  if (abaFab === "conversas") html += abaConversas();
   if (abaFab === "producao") html += abaProducao();
   if (abaFab === "envios") html += abaEnvios();
   if (abaFab === "numeros") html += abaNumeros();
@@ -15,6 +16,7 @@ function telaFabrica() {
   $("app").innerHTML = html;
   $$("[data-fab]").forEach(b => b.onclick = () => { abaFab = b.dataset.fab; desenhar(); });
   ligarFabrica();
+  if (abaFab === "conversas") ligarConversas();
   carregarFotos($("app"));
   if (abaFab === "admin") telaAdmin();
 }

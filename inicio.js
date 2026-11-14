@@ -24,6 +24,13 @@ async function recarregar(tudo) {
   }
   if (p === "logistica") S.compras = await api.comprasLogistica();
   else { [S.pedidos, S.romaneios] = await Promise.all([api.pedidos(), api.romaneios()]); }
+  if (eFabrica()) {
+    const antes = (S.conversas || []).reduce((a, c) => a + c.nao_lidas, 0);
+    try { S.conversas = await api.conversas(); } catch (e) { S.conversas = []; }
+    const agora = S.conversas.reduce((a, c) => a + c.nao_lidas, 0);
+    if (idsConhecidos && agora > antes) { toast("Mensagem nova no WhatsApp esperando você", 4000); bip(); }
+    if (conversaAberta) { try { S.mensagens = await api.mensagens(conversaAberta); } catch (e) { } }
+  }
   // aviso de pedido novo para a fábrica e a logística
   const ids = p === "logistica" ? S.compras.map(c => c.pedido_id) : S.pedidos.map(x => x.id);
   if (idsConhecidos && p !== "loja") {
@@ -48,7 +55,8 @@ function ouvirMudancas() {
     if (tela === "novo" && papel() === "loja") { try { await recarregar(); } catch (e) { } return; } // não atrapalha quem está preenchendo
     const foco = document.activeElement && document.activeElement.id;
     if (!$("modal").hidden) { try { await recarregar(); } catch (e) { } return; }
-    try { await recarregar(); desenhar(); if (foco && $(foco)) $(foco).focus(); } catch (e) { }
+    const rascunho = $("ctexto") ? $("ctexto").value : null; // resposta sendo digitada nas Conversas
+    try { await recarregar(); desenhar(); if (rascunho && $("ctexto")) $("ctexto").value = rascunho; if (foco && $(foco)) $(foco).focus(); } catch (e) { }
   });
 }
 
