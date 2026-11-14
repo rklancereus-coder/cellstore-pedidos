@@ -581,3 +581,11 @@ a.cat-entrada{text-decoration:none}
 .login.inicio{gap:10px}
 .inicio .cat-entrada{padding:9px 14px 9px 4px}
 .inicio .cat-entrada .fan{height:90px}
+
+/* abertura do app instalado: logo completo sobre o fundo escuro do Portal */
+#abertura{display:none}
+#abertura.mostra{display:grid;place-items:center;position:fixed;inset:0;z-index:100;background:radial-gradient(circle at 85% 20%,rgba(255,45,143,.35),transparent 55%),radial-gradient(circle at 15% 85%,rgba(62,230,255,.22),transparent 55%),#0b0816;transition:opacity .45s ease}
+#abertura img{width:min(62vw,300px);height:auto;animation:abre .9s cubic-bezier(.2,.8,.2,1) both}
+#abertura.some{opacity:0;pointer-events:none}
+@keyframes abre{from{opacity:0;transform:scale(.92) translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){#abertura img{animation:none}}
