@@ -63,6 +63,8 @@ function criarApiDemo() {
     async base() { exigir(); return { lojas: db.lojas, precos: db.precos, modelos: db.modelos, temas: db.temas }; },
     async temasCatalogo() { return db.temas; },
     async maisPedidas() { return []; },
+    async modelosPublicos() { return db.modelos; },
+    async enviarFotoSos() { return ""; },
     async salvarCapa() { throw new Error("No modo demonstração a capa não é salva."); },
     async contarEstampas() { return window.DEMO_CATALOGO.itens.length; },
     async catalogo() {

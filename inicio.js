@@ -94,6 +94,7 @@ $("sair").onclick = async () => { await api.sair(); S.perfil = null; idsConhecid
   if (S.perfil) await iniciarSessao(); else desenhar();
   // link mandado ao cliente: .../#estampas abre direto o catálogo de estampas
   if (location.hash === "#estampas") { history.replaceState(null, "", location.pathname + location.search); catalogoPublico(); }
+  if (location.hash === "#sos") { history.replaceState(null, "", location.pathname + location.search); abrirSos(); }
 })();
 
 /* ---------- versão nova publicada: recarrega sozinho (sem precisar de Ctrl+F5) ---------- */

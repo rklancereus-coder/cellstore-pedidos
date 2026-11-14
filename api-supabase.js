@@ -61,6 +61,14 @@ function criarApiSupabase(cfg) {
     },
     // catálogo público (funciona sem login: o banco libera só as estampas e coleções ativas)
     async temasCatalogo() { return ok(await sb.from("temas").select("pasta_id, nome, prefixo, ordem, nome_exibicao, ativo, capa").order("ordem")); },
+    // SOS Celular (sem login): lista de modelos e envio da foto do estrago (depósito público "sos")
+    async modelosPublicos() { return ok(await sb.from("modelos").select("id, nome, marca, ativo").eq("ativo", true).order("nome")); },
+    async enviarFotoSos(blob) {
+      const dia = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+      const path = `${dia}/${crypto.randomUUID()}.jpg`;
+      ok(await sb.storage.from("sos").upload(path, blob, { contentType: "image/jpeg", upsert: false }));
+      return sb.storage.from("sos").getPublicUrl(path).data.publicUrl;
+    },
     async maisPedidas() { return ok(await sb.rpc("mais_pedidas", { limite: 12 })); },
     async salvarCapa(prefixo, capa) { ok(await sb.from("temas").update({ capa }).eq("prefixo", prefixo)); },
     async contarEstampas() { const { count, error } = await sb.from("catalogo").select("codigo", { count: "exact", head: true }).eq("ativo", true); if (error) throw traduzir(error); return count; },
