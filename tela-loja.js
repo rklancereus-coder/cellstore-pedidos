@@ -282,14 +282,13 @@ function renderPasso() {
     corpo += `</div>`;
   }
   if (passo === 4) {
-    const d1 = addDias(hoje(), 1), d2 = addDias(hoje(), 2), d3 = addDias(hoje(), 3);
     corpo = `<div class="form">
      <label class="f"><span>Seu nome (vendedor)</span><input id="vendedor" value="${esc(w.vendedor)}" placeholder="Quem está fazendo o pedido"></label>
      <div class="row"><label class="f"><span>Nome do cliente</span><input id="cliente" value="${esc(w.cliente)}"></label>
      <label class="f"><span>WhatsApp do cliente <em>(para avisar quando chegar)</em></span><input id="whats" inputmode="tel" value="${esc(w.whats)}" placeholder="(11) 90000-0000"></label></div>
      ${lojaEhOnline(S.perfil.loja_id) ? `<div class="f"><span>Cliente vai retirar em</span><div class="pills" id="retiradas">${lojasFisicas().map(l => `<button type="button" data-ret="${l.id}" class="${w.retirada === l.id ? "on" : ""}">${esc(l.nome)}</button>`).join("")}</div><span class="hint">A capinha vai para esta loja, e o cliente busca lá.</span></div>` : ""}
      <div class="f"><span>Quantidade</span><div class="qty"><button type="button" id="menos" aria-label="Diminuir">−</button><b id="q">${w.qtd}</b><button type="button" id="mais" aria-label="Aumentar">+</button></div></div>
-     <div class="f"><span>Entregar na loja até</span><div class="pills" id="atalhos">${[[d1, "Amanhã"], [d2, "Em 2 dias"], [d3, "Em 3 dias"]].map(([d, n]) => `<button type="button" data-d="${d}" class="${w.entrega === d ? "on" : ""}">${n}</button>`).join("")}</div><input type="date" id="entrega" value="${w.entrega}" min="${hoje()}"></div>
+     <label class="f"><span>Entregar na loja até</span><input type="date" id="entrega" value="${w.entrega}" min="${hoje()}"></label>
      <label class="toggle" for="urgente"><input type="checkbox" id="urgente" ${w.urgente ? "checked" : ""} style="accent-color:var(--urg)"> É urgente</label>
      ${w.produto !== "popsocket" ? blocoLisa() : ""}
      <label class="f"><span>Observações <em>(opcional)</em></span><textarea id="obs" rows="3" placeholder="Algo que a fábrica precisa saber">${esc(w.obs)}</textarea></label>
@@ -343,7 +342,6 @@ function ligarPasso() {
   if (passo === 4) {
     $("menos").onclick = () => { w.qtd = Math.max(1, w.qtd - 1); $("q").textContent = w.qtd; };
     $("mais").onclick = () => { w.qtd = Math.min(50, w.qtd + 1); $("q").textContent = w.qtd; };
-    $$("#atalhos button").forEach(b => b.onclick = () => { guardar(); w.entrega = b.dataset.d; desenhar(); });
     $$("[data-ret]").forEach(b => b.onclick = () => { guardar(); w.retirada = b.dataset.ret; desenhar(); });
     $("entrega").onchange = () => { guardar(); desenhar(); };
     $$("[data-orig]").forEach(b => b.onclick = () => { guardar(); w.origem = b.dataset.orig; if (w.origem === "logistica") { w.compra = w.compra || {}; if (!w.compra.precisa_ate) { const d = addDias(w.entrega, -1); w.compra.precisa_ate = d < hoje() ? hoje() : d; } } desenhar(); });
