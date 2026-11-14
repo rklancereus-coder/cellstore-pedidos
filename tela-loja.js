@@ -10,7 +10,7 @@ function telaLogin() {
     <div class="err" id="err" hidden></div>
     <button class="btn primary" type="submit" id="bentrar">Entrar</button>
    </form>
-   <button type="button" class="cat-entrada" id="bcatpub"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span><span class="tx"><b>Ver catálogo de estampas</b><small>${window.DEMO_CATALOGO ? window.DEMO_CATALOGO.itens.length.toLocaleString("pt-BR") + " estampas · " : ""}não precisa entrar</small></span><span class="seta">›</span></button>
+   <button type="button" class="cat-entrada" id="bcatpub"><span class="fan" aria-hidden="true"><img src="estampas/PET-001.webp" alt=""><img src="estampas/FLO-001.webp" alt=""><img src="estampas/LUX-002.webp" alt=""></span><span class="tx"><span class="tag">Catálogo</span><b>Ver catálogo de estampas</b><small>${window.DEMO_CATALOGO ? window.DEMO_CATALOGO.itens.length.toLocaleString("pt-BR") + " estampas · " : ""}não precisa entrar</small></span><span class="seta">›</span></button>
    ${api.modo === "demo" ? `<div class="aviso"><b>Modo demonstração.</b> Os dados ficam só neste navegador. Usuários de teste: <b>loja01</b> a <b>loja07</b> e <b>lojaon</b> (senha 1234), <b>fabrica</b>, <b>logistica</b> e <b>admin</b> (senha igual ao usuário).</div>` : ""}
   </div>`;
   const erro = m => { const x = $("err"); x.textContent = m; x.hidden = false; };
@@ -29,7 +29,7 @@ function telaLogin() {
     const sinc = () => { const v = $("usuario").value; $("senha").inputMode = v === "admin" ? "text" : "numeric"; };
     $("usuario").onchange = () => { sinc(); if ($("usuario").value) $("senha").focus(); }; sinc();
   })();
-  $("bcatpub").onclick = catalogoPublico;
+  $("bcatpub").onclick = () => catalogoPublico();
   $("flogin").onsubmit = async e => {
     e.preventDefault();
     const u = $("usuario").value.trim(), s = $("senha").value;
@@ -116,39 +116,59 @@ function blocoCat(titulo) {
    <div id="catmsg" class="catsel">${msgCat()}</div></div>`;
 }
 
-/* ---------- janela do catálogo: procurar a estampa sem sair do pedido ---------- */
+/* ---------- janela do catálogo: coleções com miniaturas → estampas da coleção ---------- */
+const NOME_COLECAO = { CAP: "Capivara", JAN: "Coleção Janeiro 24", DRA: "Como Treinar o Seu Dragão", STI: "Lilo & Stitch", MRB: "Mármore", CRT: "Para Correntes", POK: "Pokémon" };
 let catTema = null, catBusca = "";
-function abrirCatalogo(aoEscolher) {
-  const itens = [...S.catalogo.values()].filter(c => c.ativo);
-  const ordemTema = Object.fromEntries(S.temas.map(t => [t.pasta_id, t.ordem]));
-  const temas = [...new Map(itens.map(c => [c.pasta_id, c.tema])).entries()].sort((a, b) => (ordemTema[a[0]] ?? 99) - (ordemTema[b[0]] ?? 99) || a[1].localeCompare(b[1], "pt-BR"));
-  const conta = Object.fromEntries(temas.map(([p]) => [p, itens.filter(c => c.pasta_id === p).length]));
+function colecoesCatalogo() {
+  const ordem = Object.fromEntries(S.temas.map(t => [t.pasta_id, t.ordem]));
+  const m = new Map();
+  for (const c of S.catalogo.values()) {
+    if (!c.ativo) continue;
+    if (!m.has(c.pasta_id)) m.set(c.pasta_id, { id: c.pasta_id, tema: c.tema, itens: [] });
+    m.get(c.pasta_id).itens.push(c);
+  }
+  const L = [...m.values()];
+  L.forEach(t => { t.itens.sort((a, b) => a.codigo.localeCompare(b.codigo)); t.pre = t.itens[0].codigo.split("-")[0]; t.nome = NOME_COLECAO[t.pre] || t.tema; });
+  return L.sort((a, b) => (ordem[a.id] ?? 99) - (ordem[b.id] ?? 99) || a.nome.localeCompare(b.nome, "pt-BR"));
+}
+// manter = true volta para a mesma coleção (ex.: depois de ver uma estampa); senão abre nas coleções
+function abrirCatalogo(aoEscolher, manter) {
+  const L = colecoesCatalogo(), porId = new Map(L.map(t => [t.id, t]));
+  const itens = L.flatMap(t => t.itens);
   const atual = acharCat(w && w.codigo);
-  if (!catTema || !conta[catTema]) catTema = atual ? atual.pasta_id : temas[0][0];
-  modal(`<div class="cat-topo"><h2>Catálogo de estampas</h2><button class="cat-x" id="catfechar" aria-label="Fechar">×</button></div>
-    <div class="busca">${ICON.lupa}<input id="catq" type="search" placeholder="Buscar coleção ou código (ex.: flores, PET-012)" value="${esc(catBusca)}" autocomplete="off"></div>
-    <div class="cat-temas" id="cattemas">${temas.map(([p, n]) => `<button type="button" data-ctema="${esc(p)}" class="${p === catTema ? "on" : ""}">${esc(n)} <small>${conta[p]}</small></button>`).join("")}</div>
-    <div class="cat-grade" id="catgrade"></div>`, () => {
-    const grade = () => {
-      const q = semAcento(catBusca).trim(), qc = normCod(catBusca);
-      let L;
-      if (q) L = itens.filter(c => normCod(c.codigo).startsWith(qc) || semAcento(c.tema).includes(q) || semAcento(c.codigo).includes(q)).slice(0, 150);
-      else L = itens.filter(c => c.pasta_id === catTema);
-      $("catgrade").innerHTML = L.length ? L.map(c => `<button type="button" class="cat-item ${atual && atual.codigo === c.codigo ? "sel" : ""}" data-ccod="${esc(c.codigo)}"><img src="${imgDrive(c.arquivo_id, 300)}" alt="" loading="lazy"><b>${esc(c.codigo)}</b>${q ? `<small>${esc(c.tema)}</small>` : ""}</button>`).join("")
-        : `<p class="sub" style="grid-column:1/-1;text-align:center;padding:24px">Nada encontrado. Tente o nome da coleção ou o código.</p>`;
-      $("cattemas").hidden = !!q;
+  if (!manter) { catTema = atual ? atual.pasta_id : null; catBusca = ""; }
+  if (!porId.has(catTema)) catTema = null;
+  modal(`<div class="cat-topo"><button type="button" class="cat-voltar" id="catvoltar" hidden>‹ Coleções</button><h2 id="cattit">Catálogo de estampas</h2><button class="cat-x" id="catfechar" aria-label="Fechar">×</button></div>
+    <div class="busca">${ICON.lupa}<input id="catq" type="search" placeholder="Já sabe o código? Busque aqui (ex.: PET-012)" value="${esc(catBusca)}" autocomplete="off"></div>
+    <div class="cat-corpo" id="catcorpo"></div>`, () => {
+    const estampa = (c, comTema) => `<button type="button" class="cat-item ${atual && atual.codigo === c.codigo ? "sel" : ""}" data-ccod="${esc(c.codigo)}"><img src="${imgDrive(c.arquivo_id, 300)}" alt="" loading="lazy"><b>${esc(c.codigo)}</b>${comTema ? `<small>${esc(c.tema)}</small>` : ""}</button>`;
+    const desenharCat = () => {
+      const q = semAcento(catBusca).trim(), qc = normCod(catBusca), corpo = $("catcorpo");
+      let html, tit = "Catálogo de estampas";
+      if (q) {
+        const R = itens.filter(c => normCod(c.codigo).startsWith(qc) || semAcento(c.tema).includes(q) || semAcento(NOME_COLECAO[c.codigo.split("-")[0]] || "").includes(q)).slice(0, 150);
+        tit = "Busca";
+        html = R.length ? `<div class="cat-grade">${R.map(c => estampa(c, true)).join("")}</div>` : `<p class="cat-vazio">Nada encontrado. Apague a busca para ver as coleções.</p>`;
+      } else if (catTema) {
+        const t = porId.get(catTema); tit = t.nome;
+        html = `<p class="cat-sub"><span class="cat-pre">${esc(t.pre)}</span> ${t.itens.length} estampas · toque para escolher</p><div class="cat-grade">${t.itens.map(c => estampa(c)).join("")}</div>`;
+      } else {
+        html = `<p class="cat-sub">${L.length} coleções · ${itens.length.toLocaleString("pt-BR")} estampas · toque numa coleção</p><div class="cat-cols">${L.map(t => `<button type="button" class="cat-col" data-ctema="${esc(t.id)}"><span class="fan">${t.itens.slice(0, 3).map(c => `<img src="${imgDrive(c.arquivo_id, 300)}" alt="" loading="lazy">`).join("")}</span><span class="tx"><b>${esc(t.nome)}</b><small><span class="cat-pre">${esc(t.pre)}</span> ${t.itens.length} estampas</small></span></button>`).join("")}</div>`;
+      }
+      $("cattit").textContent = tit;
+      $("catvoltar").hidden = !catTema || !!q;
+      corpo.innerHTML = html; corpo.scrollTop = 0;
+      $$("[data-ctema]").forEach(b => b.onclick = () => { catTema = b.dataset.ctema; desenharCat(); });
       $$("[data-ccod]").forEach(b => b.onclick = () => { fecharModal(); aoEscolher(b.dataset.ccod); });
-      $("catgrade").scrollTop = 0;
     };
     $("catfechar").onclick = fecharModal;
-    $$("[data-ctema]").forEach(b => b.onclick = () => { catTema = b.dataset.ctema; $$("[data-ctema]").forEach(x => x.classList.toggle("on", x === b)); grade(); });
-    const q = $("catq"); q.oninput = () => { catBusca = q.value; grade(); };
-    grade();
-    const sel = document.querySelector("[data-ctema].on"); if (sel) sel.scrollIntoView({ block: "nearest", inline: "center" });
+    $("catvoltar").onclick = () => { catTema = null; desenharCat(); };
+    const q = $("catq"); q.oninput = () => { catBusca = q.value; desenharCat(); };
+    desenharCat();
   }, "box-cat");
 }
 /* catálogo aberto na tela de entrada (sem login): usa a lista local de estampas */
-function catalogoPublico() {
+function catalogoPublico(manter) {
   if (!S.catalogo.size && window.DEMO_CATALOGO) {
     const cat = window.DEMO_CATALOGO;
     S.temas = cat.temas.map((n, i) => ({ pasta_id: "T" + i, nome: n, ordem: i }));
@@ -156,13 +176,13 @@ function catalogoPublico() {
   }
   abrirCatalogo(cod => {
     const c = acharCat(cod); if (!c) return;
-    modal(`<div class="cat-topo"><h2>${esc(c.codigo)}</h2><button class="cat-x" id="vfechar" aria-label="Fechar">×</button></div>
+    const nome = NOME_COLECAO[c.codigo.split("-")[0]] || c.tema;
+    modal(`<div class="cat-topo"><button type="button" class="cat-voltar" id="vvoltar">‹ ${esc(nome)}</button><h2>${esc(c.codigo)}</h2><button class="cat-x" id="vfechar" aria-label="Fechar">×</button></div>
       <img class="cat-grande" src="${imgDrive(c.arquivo_id, 600)}" alt="Estampa ${esc(c.codigo)}">
-      <p class="hint" style="text-align:center;margin:0">Coleção <b>${esc(c.tema)}</b>. Para pedir, informe o código <b>${esc(c.codigo)}</b>.</p>
-      <button class="btn soft" id="vvoltar">‹ Voltar ao catálogo</button>`, () => {
-      $("vfechar").onclick = fecharModal; $("vvoltar").onclick = catalogoPublico;
+      <p class="hint" style="text-align:center;margin:0">Para pedir, informe o código <b>${esc(c.codigo)}</b>.</p>`, () => {
+      $("vfechar").onclick = fecharModal; $("vvoltar").onclick = () => catalogoPublico(true);
     }, "box-ver");
-  });
+  }, manter === true);
 }
 function msgCat() {
   const c = acharCat(w.codigo);
