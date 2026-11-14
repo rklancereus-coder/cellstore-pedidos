@@ -534,3 +534,14 @@ a.cat-entrada{text-decoration:none}
 .sos-zap svg{width:22px;height:22px}
 .sos-zap.esperando{opacity:.7}
 .modal .box img.sos-mini{max-height:140px;width:auto}.modal .box .drop img{max-height:220px}
+/* SOS: escolha da marca em botões grandes */
+.sos-marcas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.sos-marcas button{display:grid;gap:4px;justify-items:start;text-align:left;background:var(--surface);border:2px solid var(--line);color:var(--fg);padding:18px 16px;border-radius:var(--r-l);min-height:86px;align-content:center}
+.sos-marcas button b{font-size:19px;font-weight:900;letter-spacing:-.02em}
+.sos-marcas button small{color:var(--muted);font-weight:600;font-size:13px}
+.sos-marcas button:hover,.sos-marcas button:focus-visible{border-color:var(--accent)}
+.sos-marcas button:nth-last-child(-n+2){background:var(--sunk);border-style:dashed}
+.sos-trocar{justify-self:start;padding:4px 0}
+.sos-modelos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.sos-modelos button{padding:14px 12px;font-size:15px;text-align:left}
+.sos-rodape:empty{display:none}

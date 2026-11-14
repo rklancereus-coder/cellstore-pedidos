@@ -5,6 +5,8 @@ const SOS = {
   whatsapp: "5551996517306",
   cidades: ["Porto Alegre", "Cachoeirinha", "Gravataí", "Canoas", "São Leopoldo"],
   periodos: [["manha", "Manhã", "9h às 12h"], ["tarde", "Tarde", "12h às 18h"]],
+  // marca no banco → [como o cliente chama, exemplo de linha, exemplo para a busca]
+  marcas: [["Apple", "iPhone", "iPhone 11 ao 16", "13 Pro"], ["Samsung", "Samsung", "Galaxy A, S, M…", "A15"], ["Motorola", "Motorola", "Moto G, Edge…", "G54"], ["Xiaomi", "Xiaomi", "Redmi, Poco…", "Note 13"]],
   problemas: [
     ["tela", "💥", "Tela quebrada"], ["carrega", "🔌", "Não carrega"], ["bateria", "🔋", "Bateria fraca"], ["liga", "⛔", "Não liga"],
     ["agua", "💧", "Caiu na água"], ["camera", "📷", "Câmera"], ["som", "🔊", "Som ou microfone"], ["outro", "❓", "Outro problema"],
@@ -22,6 +24,7 @@ const SOS = {
   },
 };
 let sos = null;
+const marcaSos = k => { const m = SOS.marcas.find(x => x[0] === k); return m ? [m[1], m[2], m[3]] : [k, "", "nome do modelo"]; };
 function novoSos() { sos = { passo: 1, marca: "", modelo: "", naoSei: false, modeloTexto: "", busca: "", problema: "", resp: {}, obs: "", foto: null, fotoUrl: "", enviandoFoto: null, cidade: "", outraCidade: "", bairro: "", periodo: "", nome: "" }; }
 
 async function abrirSos() {
@@ -35,18 +38,20 @@ function desenharSos() {
   const p = sos.passo;
   let corpo = "";
   if (p === 1) {
-    const marcas = [...new Set(S.modelos.filter(m => m.ativo !== false).map(m => m.marca || "Outras"))].sort((a, b) => a.localeCompare(b, "pt-BR"));
+    // primeiro a marca (botões grandes), depois só os modelos dela
     const q = semAcento(sos.busca).trim();
-    const L = S.modelos.filter(m => m.ativo !== false && (!sos.marca || (m.marca || "Outras") === sos.marca) && (!q || semAcento(m.nome).includes(q)));
-    corpo = sos.naoSei ? `
-      <p class="lead" style="margin:0">Sem problema! Escreva o que souber: marca, cor, mais ou menos de quando é.</p>
-      <label class="f"><span>Seu celular</span><input id="smodtx" value="${esc(sos.modeloTexto)}" placeholder="Ex.: Samsung azul, comprei em 2023"></label>
+    const L = S.modelos.filter(m => m.ativo !== false && (m.marca || "") === sos.marca && (!q || semAcento(m.nome).includes(q)));
+    if (sos.naoSei) corpo = `
+      <p class="lead" style="margin:0">Sem problema! Escreva o que souber: ${sos.marca ? `qual ${esc(marcaSos(sos.marca)[0])} é, ` : "marca, "}cor, mais ou menos de quando é.</p>
+      <label class="f"><span>Seu celular</span><input id="smodtx" value="${esc(sos.modeloTexto)}" placeholder="${sos.marca ? `Ex.: ${esc(marcaSos(sos.marca)[0])} preto, comprei em 2023` : "Ex.: Samsung azul, comprei em 2023"}"></label>
       <div class="aviso"><b>Dica:</b> o modelo costuma aparecer em <b>Configurações → Sobre o telefone</b>.</div>
-      <button type="button" class="link" id="slista">‹ Voltar para a lista de modelos</button>`
-    : `<div class="pills" id="smarcas"><button type="button" class="${!sos.marca ? "on" : ""}" data-smarca="">Todas</button>${marcas.map(m => `<button type="button" class="${sos.marca === m ? "on" : ""}" data-smarca="${esc(m)}">${esc(m)}</button>`).join("")}</div>
-      <div class="busca">${ICON.lupa}<input id="sbusca" type="search" placeholder="Procure o modelo (ex.: A15, iPhone 13)" value="${esc(sos.busca)}" autocomplete="off"></div>
-      <div class="sos-modelos">${L.length ? L.map(m => `<button type="button" class="${sos.modelo === m.nome ? "on" : ""}" data-smod="${esc(m.nome)}">${esc(m.nome)}</button>`).join("") : `<p class="hint">Não achei esse modelo na lista.</p>`}</div>
-      <button type="button" class="btn soft" id="snaosei">Não sei o modelo / não está na lista</button>`;
+      <button type="button" class="link" id="strocar">‹ Escolher a marca de novo</button>`;
+    else if (!sos.marca) corpo = `<div class="sos-marcas">${SOS.marcas.map(([k, n, ex]) => `<button type="button" data-smarca="${esc(k)}"><b>${n}</b><small>${ex}</small></button>`).join("")}
+      <button type="button" data-smarca="__outra"><b>Outra marca</b><small>LG, Asus, Positivo…</small></button><button type="button" data-smarca="__naosei"><b>Não sei</b><small>A gente descobre junto</small></button></div>`;
+    else corpo = `<button type="button" class="link sos-trocar" id="strocar">‹ Trocar a marca</button>
+      ${L.length > 8 || q ? `<div class="busca">${ICON.lupa}<input id="sbusca" type="search" placeholder="Procure (ex.: ${esc(marcaSos(sos.marca)[2])})" value="${esc(sos.busca)}" autocomplete="off"></div>` : ""}
+      <div class="sos-modelos">${L.length ? L.map(m => `<button type="button" class="${sos.modelo === m.nome ? "on" : ""}" data-smod="${esc(m.nome)}">${esc(m.nome)}</button>`).join("") : `<p class="hint">Não achei esse modelo.</p>`}</div>
+      <button type="button" class="btn soft" id="snaosei">Meu modelo não está aqui</button>`;
   }
   if (p === 2) corpo = `<div class="sos-problemas">${SOS.problemas.map(([k, ic, n]) => `<button type="button" class="${sos.problema === k ? "on" : ""}" data-sprob="${k}"><span>${ic}</span>${n}</button>`).join("")}</div>`;
   if (p === 3) {
@@ -73,10 +78,10 @@ function desenharSos() {
   const ultimo = p === 6;
   modal(`<div class="cat-topo">${p > 1 ? `<button type="button" class="cat-voltar" id="svolta">‹ Voltar</button>` : ""}<h2>SOS Celular</h2><button class="cat-x" id="sfechar" aria-label="Fechar">×</button></div>
     <div class="prog">${SOS_PASSOS.map((_, i) => `<i class="${i < p ? "on" : ""}"></i>`).join("")}</div>
-    <div class="sos-corpo" id="scorpo"><h3 class="sos-tit">${SOS_PASSOS[p - 1]}</h3>${corpo}</div>
+    <div class="sos-corpo" id="scorpo"><h3 class="sos-tit">${p === 1 && sos.marca && !sos.naoSei ? `Qual é o seu ${esc(marcaSos(sos.marca)[0])}?` : p === 1 && sos.naoSei ? "Conta pra gente qual é" : SOS_PASSOS[p - 1]}</h3>${corpo}</div>
     <div class="sos-rodape">${ultimo
       ? `<a class="btn primary sos-zap" id="senviar" href="#" target="_blank" rel="noopener">${ICON.chat} Enviar pelo WhatsApp</a>`
-      : `<button type="button" class="btn primary" id="ssegue">${p === 4 && !sos.foto ? "Pular" : "Continuar"}</button>`}</div>`, ligarSos, "box-sos");
+      : p === 1 && !sos.naoSei ? "" : `<button type="button" class="btn primary" id="ssegue">${p === 4 && !sos.foto ? "Pular" : "Continuar"}</button>`}</div>`, ligarSos, "box-sos");
 }
 
 function resumoSos() {
@@ -137,11 +142,15 @@ function ligarSos() {
   $("sfechar").onclick = fecharModal;
   if ($("svolta")) $("svolta").onclick = () => ir(sos.passo - 1);
   // passo 1
-  $$("[data-smarca]").forEach(b => b.onclick = () => { sos.marca = b.dataset.smarca; desenharSos(); });
+  $$("[data-smarca]").forEach(b => b.onclick = () => {
+    const k = b.dataset.smarca; sos.busca = ""; sos.modelo = "";
+    if (k === "__outra" || k === "__naosei") { sos.marca = ""; sos.naoSei = true; } else { sos.marca = k; sos.naoSei = false; }
+    desenharSos();
+  });
+  if ($("strocar")) $("strocar").onclick = () => { guardar(); sos.marca = ""; sos.naoSei = false; sos.busca = ""; desenharSos(); };
   const sb = $("sbusca"); if (sb) sb.oninput = () => { sos.busca = sb.value; const pos = sb.selectionStart; desenharSos(); const n = $("sbusca"); n.focus(); n.setSelectionRange(pos, pos); };
   $$("[data-smod]").forEach(b => b.onclick = () => { sos.modelo = b.dataset.smod; sos.naoSei = false; ir(2); });
   if ($("snaosei")) $("snaosei").onclick = () => { sos.naoSei = true; desenharSos(); };
-  if ($("slista")) $("slista").onclick = () => { guardar(); sos.naoSei = false; desenharSos(); };
   // passo 2
   $$("[data-sprob]").forEach(b => b.onclick = () => { if (sos.problema !== b.dataset.sprob) sos.resp = {}; sos.problema = b.dataset.sprob; ir(3); });
   // passo 3
@@ -163,7 +172,7 @@ function ligarSos() {
   const sg = $("ssegue"); if (sg) sg.onclick = () => {
     guardar();
     const p = sos.passo;
-    if (p === 1 && !sos.modelo && !(sos.naoSei && sos.modeloTexto)) return toast(sos.naoSei ? "Escreva o que souber do seu celular." : "Escolha o modelo na lista ou toque em \"Não sei o modelo\".");
+    if (p === 1 && !sos.modelo && !(sos.naoSei && sos.modeloTexto)) return toast(sos.naoSei ? "Escreva o que souber do seu celular." : "Escolha a marca e depois o modelo.");
     if (p === 2 && !sos.problema) return toast("Escolha o que aconteceu.");
     if (p === 3 && sos.problema === "outro" && !sos.obs) return toast("Conte rapidinho o que está acontecendo.");
     if (p === 5) {
