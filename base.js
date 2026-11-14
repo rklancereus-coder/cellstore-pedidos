@@ -15,12 +15,29 @@ const ls = { get(k) { try { return localStorage.getItem(k) } catch (e) { return 
 
 function toast(m, ms = 2800) { const t = $("toast"); t.textContent = m; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => t.hidden = true, ms); }
 function erroTela(e) { console.error(e); toast(e && e.message ? e.message : "Algo deu errado. Tente de novo.", 4500); }
+// Janelas entram no histórico do navegador: o "voltar" do celular fecha a janela em vez de sair do site.
+let modalNoHist = false, fechandoModal = false, ignorarPop = false;
 function modal(html, aoAbrir, classe = "") {
   const m = $("modal"); m.innerHTML = `<div class="box ${classe}" role="dialog" aria-modal="true">${html}</div>`; m.hidden = false;
   m.onclick = e => { if (e.target === m) fecharModal(); };
+  if (fechandoModal) { fechandoModal = false; modalNoHist = true; } // uma janela trocou por outra: aproveita a mesma entrada
+  else if (!modalNoHist) { try { history.pushState({ janela: 1 }, ""); modalNoHist = true; } catch (e) { } }
   aoAbrir && aoAbrir(m);
 }
-function fecharModal() { const m = $("modal"); m.hidden = true; m.innerHTML = ""; }
+function esconderModal() { const m = $("modal"); m.hidden = true; m.innerHTML = ""; }
+function fecharModal() {
+  esconderModal();
+  if (!modalNoHist) return;
+  modalNoHist = false; fechandoModal = true;
+  setTimeout(() => { if (!fechandoModal) return; fechandoModal = false; ignorarPop = true; history.back(); }, 0);
+}
+// telas internas (passos do pedido) também usam o "voltar"
+function marcarTelaNoHistorico() { try { if (!(history.state && history.state.tela)) history.pushState({ tela: 1 }, ""); } catch (e) { } }
+addEventListener("popstate", () => {
+  if (ignorarPop) { ignorarPop = false; return; }
+  if (modalNoHist) { modalNoHist = false; esconderModal(); return; }
+  if (typeof voltarTela === "function") voltarTela();
+});
 document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("modal").hidden) fecharModal(); });
 
 /* ---------- textos fixos ---------- */
@@ -68,7 +85,8 @@ function imgDrive(arquivoId, w = 400) {
   if (!arquivoId) return "";
   if (codPorArquivoTam !== S.catalogo.size) { codPorArquivo = new Map(); for (const c of S.catalogo.values()) codPorArquivo.set(c.arquivo_id, c.codigo); codPorArquivoTam = S.catalogo.size; }
   const cod = codPorArquivo.get(arquivoId);
-  return cod ? `estampas/${encodeURIComponent(cod)}.webp?r=2#${encodeURIComponent(arquivoId)}` : urlDrive(arquivoId, w);
+  // até 150 px usa a miniatura leve (capas das coleções, cartões de pedido); acima, a imagem normal
+  return cod ? `estampas/${w <= 150 ? "mini/" : ""}${encodeURIComponent(cod)}.webp?r=2#${encodeURIComponent(arquivoId)}` : urlDrive(arquivoId, w);
 }
 document.addEventListener("error", e => {
   const i = e.target;
@@ -89,7 +107,7 @@ function descr(p) {
 }
 function miniatura(p, cls = "thumb") {
   if (p.foto_path) return `<img class="photo" data-foto="${esc(p.foto_path)}" alt="Foto do cliente">`;
-  if (p.arquivo_id) return `<img class="${cls}" src="${imgDrive(p.arquivo_id, 200)}" alt="" loading="lazy">`;
+  if (p.arquivo_id) return `<img class="${cls}" src="${imgDrive(p.arquivo_id, 130)}" alt="" loading="lazy">`;
   return "";
 }
 // fotos ficam em pasta protegida: busca o endereço temporário depois de desenhar

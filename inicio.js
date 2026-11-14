@@ -9,7 +9,7 @@ function desenhar() {
   $("brand").innerHTML = `<span class="logo" role="img" aria-label="Cell Store"></span><span class="sep"></span><span style="min-width:0"><b>${esc(S.perfil.nome)}</b><small>${{ loja: "Pedidos de capinhas", fabrica: "Pedidos de todas as lojas", admin: "Fábrica · administrador", logistica: "Compra de capinhas lisas" }[p]}${api.modo === "demo" ? ` <span class="demo-tag">demo</span>` : ""}</small></span>`;
   const novos = p === "logistica" ? S.compras.filter(c => !c.visto && c.status_pedido !== "cancelado").length : p !== "loja" ? S.pedidos.filter(x => !x.visto_fabrica && ABERTOS.includes(x.status)).length : 0;
   document.title = (novos ? `(${novos}) ` : "") + "Cell Store Pedidos";
-  if (p === "loja") return telaLoja();
+  if (p === "loja") { if (tela !== "inicio") marcarTelaNoHistorico(); return telaLoja(); }
   if (p === "logistica") return telaLogistica();
   return telaFabrica();
 }
@@ -109,3 +109,11 @@ async function conferirVersao() {
 conferirVersao();
 document.addEventListener("visibilitychange", () => { if (!document.hidden) conferirVersao(); });
 setInterval(conferirVersao, 20 * 60 * 1000);
+
+// "voltar" do celular dentro do pedido: volta um passo (ou para o início), sem sair do site
+function voltarTela() {
+  if (!S.perfil || papel() !== "loja" || tela === "inicio") return;
+  if (tela === "novo" && $("voltar")) { $("voltar").click(); }
+  else { tela = "inicio"; desenhar(); }
+  if (tela !== "inicio") marcarTelaNoHistorico();
+}

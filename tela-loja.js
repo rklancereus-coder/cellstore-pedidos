@@ -4,7 +4,7 @@ function telaLogin() {
   // tela inicial pública: os catálogos em destaque; o login fica escondido na "Área da equipe"
   $("app").innerHTML = `<div class="login inicio">
    <section class="clube"> <div class="txt"> <h1><em>Clube</em><span class="logo" role="img" aria-label="Cell Store"></span></h1> <p>Capinhas personalizadas e celulares das nossas lojas.</p> <div class="chips"><span>Capinhas</span><span>Celulares</span></div> </div> <div class="prod" aria-hidden="true"> <img class="fone" src="aparelhos/fotos/iphone-17-pro-1.webp" alt=""> <img class="capa" src="estampas/PET-001.webp?r=2" alt=""> </div> </section>
-   <button type="button" class="cat-entrada" id="bcatpub"><span class="fan" aria-hidden="true"><img src="estampas/PET-001.webp?r=2" alt=""><img src="estampas/FLO-001.webp?r=2" alt=""><img src="estampas/LUX-002.webp?r=2" alt=""></span><span class="tx"><span class="tag">Capinhas</span><b>Catálogo de estampas</b><small>${window.DEMO_CATALOGO ? window.DEMO_CATALOGO.itens.length.toLocaleString("pt-BR") + " estampas para personalizar" : "Estampas para personalizar"}</small></span><span class="seta">›</span></button>
+   <button type="button" class="cat-entrada" id="bcatpub"><span class="fan" aria-hidden="true"><img src="estampas/mini/PET-001.webp?r=2" alt=""><img src="estampas/mini/FLO-001.webp?r=2" alt=""><img src="estampas/mini/LUX-002.webp?r=2" alt=""></span><span class="tx"><span class="tag">Capinhas</span><b>Catálogo de estampas</b><small>${window.DEMO_CATALOGO ? window.DEMO_CATALOGO.itens.length.toLocaleString("pt-BR") + " estampas para personalizar" : "Estampas para personalizar"}</small></span><span class="seta">›</span></button>
    <a class="cat-entrada fones" href="aparelhos/"><span class="fan" aria-hidden="true"><img src="aparelhos/fotos/redmi-note-15-1.webp" alt=""><img src="aparelhos/fotos/iphone-17-pro-1.webp" alt=""><img src="aparelhos/fotos/realme-14t-5g-1.webp" alt=""></span><span class="tx"><span class="tag">Celulares</span><b>Catálogo de aparelhos</b><small>Fichas, comparação e pedido pelo WhatsApp</small></span><span class="seta">›</span></a>
    <button type="button" class="equipe-btn" id="bequipe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Área da equipe</button>
   </div>`;
@@ -72,6 +72,10 @@ function telaLoja() {
    <div class="hero">
     <button class="btn primary bigbtn" id="novo">${ICON.mais} Fazer novo pedido</button>
     ${zap ? `<a class="wpp" href="${zap}" target="_blank" rel="noopener">${ICON.chat}<span>Falar com a fábrica<small>pelo WhatsApp</small></span></a>` : `<button class="wpp" id="wpp">${ICON.chat}<span>Falar com a fábrica<small>pelo WhatsApp · em breve</small></span></button>`}
+    <div class="atalhos">
+     <button type="button" class="atalho" id="atcat"><span class="fan" aria-hidden="true"><img src="estampas/mini/PET-001.webp?r=2" alt=""><img src="estampas/mini/FLO-001.webp?r=2" alt=""><img src="estampas/mini/LUX-002.webp?r=2" alt=""></span><b>Catálogo de estampas</b></button>
+     <a class="atalho fones" href="aparelhos/"><span class="fan" aria-hidden="true"><img src="aparelhos/fotos/redmi-note-15-1.webp" alt=""><img src="aparelhos/fotos/iphone-17-pro-1.webp" alt=""><img src="aparelhos/fotos/realme-14t-5g-1.webp" alt=""></span><b>Catálogo de aparelhos</b></a>
+    </div>
     ${chegando.map(r => { const n = S.pedidos.filter(p => p.romaneio_id === r.id).length; return `<div class="chegando"><b>Remessa ${nro(r.id)} a caminho: ${n} pedido${n > 1 ? "s" : ""}</b><span class="sub">Quando chegar, confira as capinhas e toque em recebi.</span><button class="btn primary" data-receber="${r.id}" style="padding:12px">Conferi e recebi</button></div>`; }).join("")}
     ${naLoja ? `<div class="card" style="border-color:var(--s-loja)"><b style="color:var(--s-loja)">${naLoja} pedido${naLoja > 1 ? "s" : ""} na loja esperando o cliente.</b><span class="sub">Use o botão “Avisar cliente” em cada pedido.</span></div>` : ""}
    </div>
@@ -80,6 +84,7 @@ function telaLoja() {
    <div class="tabs"><button data-aba="andamento" class="${abaLoja === "andamento" ? "on" : ""}">Em andamento (${and.length})</button><button data-aba="fin" class="${abaLoja === "fin" ? "on" : ""}">Finalizados (${fin.length})</button></div>
    <div class="list">${lista.length ? lista.map(cardLoja).join("") : `<div class="empty">${q ? "Nenhum pedido encontrado com essa busca." : abaLoja === "andamento" ? "Nenhum pedido em andamento. Toque em <b>Fazer novo pedido</b> para começar." : "Os pedidos entregues aparecem aqui."}</div>`}</div>`;
   $("novo").onclick = () => { novoPedido(); tela = "novo"; desenhar(); scrollTo(0, 0); };
+  $("atcat").onclick = () => catalogoPublico();
   if ($("wpp")) $("wpp").onclick = () => toast("Em breve: este botão abre a conversa com a fábrica no WhatsApp.");
   const bl = $("bl"); bl.oninput = () => { buscaLoja = bl.value; const pos = bl.selectionStart; desenhar(); const n = $("bl"); n.focus(); n.setSelectionRange(pos, pos); };
   $$("[data-aba]").forEach(b => b.onclick = () => { abaLoja = b.dataset.aba; desenhar(); });
@@ -167,7 +172,7 @@ function abrirCatalogo(aoEscolher, manter) {
         const t = porId.get(catTema); tit = t.nome;
         html = `<p class="cat-sub"><span class="cat-pre">${esc(t.pre)}</span> ${t.itens.length} estampas · toque para escolher</p><div class="cat-grade">${t.itens.map(c => estampa(c)).join("")}</div>`;
       } else {
-        html = `<p class="cat-sub">${L.length} coleções · ${itens.length.toLocaleString("pt-BR")} estampas · toque numa coleção</p><div class="cat-cols">${L.map(t => `<button type="button" class="cat-col" data-ctema="${esc(t.id)}"><span class="fan">${t.itens.slice(0, 3).map(c => `<img src="${imgDrive(c.arquivo_id, 300)}" alt="" loading="lazy">`).join("")}</span><span class="tx"><b>${esc(t.nome)}</b><small><span class="cat-pre">${esc(t.pre)}</span> ${t.itens.length} estampas</small></span></button>`).join("")}</div>`;
+        html = `<p class="cat-sub">${L.length} coleções · ${itens.length.toLocaleString("pt-BR")} estampas · toque numa coleção</p><div class="cat-cols">${L.map(t => `<button type="button" class="cat-col" data-ctema="${esc(t.id)}"><span class="fan">${t.itens.slice(0, 3).map(c => `<img src="${imgDrive(c.arquivo_id, 130)}" alt="" loading="lazy">`).join("")}</span><span class="tx"><b>${esc(t.nome)}</b><small><span class="cat-pre">${esc(t.pre)}</span> ${t.itens.length} estampas</small></span></button>`).join("")}</div>`;
       }
       $("cattit").textContent = tit;
       $("catvoltar").hidden = !catTema || !!q;
@@ -200,7 +205,9 @@ function catalogoPublico(manter) {
     modal(`<div class="cat-topo"><button type="button" class="cat-voltar" id="vvoltar">‹ ${esc(nome)}</button><h2>${esc(c.codigo)}</h2><button class="cat-x" id="vfechar" aria-label="Fechar">×</button></div>
       <img class="cat-grande" src="${imgDrive(c.arquivo_id, 600)}" alt="Estampa ${esc(c.codigo)}">
       <p class="hint" style="text-align:center;margin:0">Para pedir, informe o código:</p>
-      <div class="cod-copiar"><span class="cod" id="vcod">${esc(c.codigo)}</span><button type="button" class="primary" id="vcopiar">${ICON_COPIAR}<span>Copiar</span></button></div>`, () => {
+      <div class="cod-copiar"><span class="cod" id="vcod">${esc(c.codigo)}</span><button type="button" class="primary" id="vcopiar">${ICON_COPIAR}<span>Copiar</span></button></div>
+      ${papel() === "loja" ? `<button type="button" class="btn soft" id="vpedir">${ICON.mais} Fazer pedido com esta estampa</button>` : ""}`, () => {
+      if ($("vpedir")) $("vpedir").onclick = () => { fecharModal(); setTimeout(() => { novoPedido(); w.codigo = c.codigo; tela = "novo"; desenhar(); scrollTo(0, 0); }, 80); }; // espera o "voltar" da janela antes de abrir o pedido
       $("vfechar").onclick = fecharModal; $("vvoltar").onclick = () => catalogoPublico(true);
       $("vcopiar").onclick = async () => {
         if (await copiarTexto(c.codigo)) { $("vcopiar").classList.add("ok"); $("vcopiar").innerHTML = `${ICON_OK}<span>Copiado</span>`; toast(`Código ${c.codigo} copiado`); }

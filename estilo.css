@@ -368,3 +368,18 @@ a.cat-entrada{text-decoration:none}
 .barra-uso{display:grid;gap:6px}
 .barra-uso i{display:block;height:10px;border-radius:5px;background:linear-gradient(90deg,var(--accent) var(--pc),var(--sunk) var(--pc))}
 .barra-uso i.alto{background:linear-gradient(90deg,var(--urg) var(--pc),var(--sunk) var(--pc))}
+/* atalhos dos catálogos na tela da loja */
+.atalhos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.atalho{position:relative;overflow:hidden;display:grid;justify-items:center;gap:6px;background:var(--ink);color:#fff;border-radius:16px;padding:10px 10px 12px;text-decoration:none;text-align:center;transition:transform .15s}
+.atalho:hover{transform:translateY(-2px)}
+.atalho .fan{position:relative;width:110px;height:74px}
+.atalho .fan img{position:absolute;width:32px;left:39px;top:4px;filter:drop-shadow(0 6px 8px rgba(0,0,0,.5))}
+.atalho .fan img:nth-child(1){transform:translate(-22px,4px) rotate(-12deg)}
+.atalho .fan img:nth-child(2){z-index:2}
+.atalho .fan img:nth-child(3){transform:translate(22px,4px) rotate(12deg)}
+.atalho.fones .fan img{width:44px;left:33px;top:8px}
+.atalho.fones .fan img:nth-child(1){transform:translate(-20px,4px) rotate(-10deg)}
+.atalho.fones .fan img:nth-child(3){transform:translate(20px,4px) rotate(10deg)}
+.atalho b{font-size:14px;font-weight:800;line-height:1.2}
+.box-ver #vpedir{display:flex;align-items:center;justify-content:center;gap:8px;font-size:16px}
+.box-ver #vpedir svg{width:20px;height:20px}
