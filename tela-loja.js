@@ -91,7 +91,7 @@ function telaLoja() {
   $("atcat").onclick = () => catalogoPublico();
   if ($("wpp")) $("wpp").onclick = () => toast("Em breve: este botão abre a conversa com a fábrica no WhatsApp.");
   const bl = $("bl"); bl.oninput = () => { buscaLoja = bl.value; const pos = bl.selectionStart; desenhar(); const n = $("bl"); n.focus(); n.setSelectionRange(pos, pos); };
-  $$("[data-aba]").forEach(b => b.onclick = () => { abaLoja = b.dataset.aba; desenhar(); });
+  $$("[data-aba]").forEach(b => b.onclick = () => { if (abaLoja === b.dataset.aba) return; const ant = abaLoja; abaLoja = b.dataset.aba; navTela(() => { abaLoja = ant; desenhar(); }); desenhar(); });
   $$("[data-edit]").forEach(b => b.onclick = () => { editarPedido(+b.dataset.edit); scrollTo(0, 0); });
   $$("[data-cancel]").forEach(b => b.onclick = () => confirmar(`Cancelar o pedido ${nro(b.dataset.cancel)}?`, "A fábrica deixa de produzir esta capinha.", "Cancelar pedido", () => acao(() => api.mudarStatus([+b.dataset.cancel], "cancelado"), "Pedido cancelado")));
   $$("[data-entregue]").forEach(b => b.onclick = () => acao(() => api.mudarStatus([+b.dataset.entregue], "entregue"), "Pedido entregue ao cliente"));
@@ -164,7 +164,8 @@ function colecoesCatalogo() {
   return L.sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
 }
 // manter = true volta para a mesma coleção (ex.: depois de ver uma estampa); senão abre nas coleções
-function abrirCatalogo(aoEscolher, manter) {
+// opcoes.detalhe = true: tocar na estampa abre a ficha DENTRO da janela (catálogo aberto); senão fecha e devolve o código (pedido)
+function abrirCatalogo(aoEscolher, manter, opcoes = {}) {
   const L = colecoesCatalogo(), porId = new Map(L.map(t => [t.id, t]));
   const itens = L.flatMap(t => t.itens);
   const atual = acharCat(w && w.codigo);
@@ -192,8 +193,8 @@ function abrirCatalogo(aoEscolher, manter) {
       $("cattit").textContent = tit;
       $("catvoltar").hidden = !catTema || !!q;
       corpo.innerHTML = html; corpo.scrollTop = 0;
-      $$("[data-ctema]").forEach(b => b.onclick = () => { catTema = b.dataset.ctema; desenharCat(); });
-      $$("[data-ccod]").forEach(b => b.onclick = () => { fecharModal(); aoEscolher(b.dataset.ccod); });
+      $$("[data-ctema]").forEach(b => b.onclick = () => { const ant = catTema; catTema = b.dataset.ctema; subNivel(() => { catTema = ant; desenharCat(); }); desenharCat(); });
+      $$("[data-ccod]").forEach(b => b.onclick = () => { if (opcoes.detalhe) return aoEscolher(b.dataset.ccod); fecharModal(); aoEscolher(b.dataset.ccod); });
       $$("[data-capa]").forEach(b => b.onclick = async () => {
         const t = porId.get(catTema), c = t.itens.find(i => i.codigo === b.dataset.capa);
         let capa = t.capa.map(x => x.codigo);
@@ -203,7 +204,7 @@ function abrirCatalogo(aoEscolher, manter) {
       });
     };
     $("catfechar").onclick = fecharModal;
-    $("catvoltar").onclick = () => { catTema = null; desenharCat(); };
+    $("catvoltar").onclick = () => history.back(); // mesmo caminho do "voltar" do celular
     const q = $("catq"); q.oninput = () => { catBusca = q.value; desenharCat(); };
     desenharCat();
   }, "box-cat");
@@ -232,6 +233,7 @@ async function catalogoPublico(manter) {
   }
   abrirCatalogo(cod => {
     const c = acharCat(cod); if (!c) return;
+    subNivel(() => catalogoPublico(true)); // "voltar" da estampa volta para a coleção
     const nome = nomeColecao(c.codigo.split("-")[0], c.tema);
     modal(`<div class="cat-topo"><button type="button" class="cat-voltar" id="vvoltar">‹ ${esc(nome)}</button><h2>${esc(c.codigo)}</h2><button class="cat-x" id="vfechar" aria-label="Fechar">×</button></div>
       <img class="cat-grande" src="${imgDrive(c.arquivo_id, 600)}" alt="Estampa ${esc(c.codigo)}">
@@ -239,13 +241,13 @@ async function catalogoPublico(manter) {
       <div class="cod-copiar"><span class="cod" id="vcod">${esc(c.codigo)}</span><button type="button" class="primary" id="vcopiar">${ICON_COPIAR}<span>Copiar</span></button></div>
       ${papel() === "loja" ? `<button type="button" class="btn soft" id="vpedir">${ICON.mais} Fazer pedido com esta estampa</button>` : ""}`, () => {
       if ($("vpedir")) $("vpedir").onclick = () => { fecharModal(); setTimeout(() => { novoPedido(); w.codigo = c.codigo; tela = "novo"; desenhar(); scrollTo(0, 0); }, 80); }; // espera o "voltar" da janela antes de abrir o pedido
-      $("vfechar").onclick = fecharModal; $("vvoltar").onclick = () => catalogoPublico(true);
+      $("vfechar").onclick = fecharModal; $("vvoltar").onclick = () => history.back();
       $("vcopiar").onclick = async () => {
         if (await copiarTexto(c.codigo)) { $("vcopiar").classList.add("ok"); $("vcopiar").innerHTML = `${ICON_OK}<span>Copiado</span>`; toast(`Código ${c.codigo} copiado`); }
         else { const r = document.createRange(); r.selectNodeContents($("vcod")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); toast("Selecionei o código: é só copiar"); }
       };
     }, "box-ver");
-  }, manter === true);
+  }, manter === true, { detalhe: true });
 }
 function msgCat() {
   const c = acharCat(w.codigo);

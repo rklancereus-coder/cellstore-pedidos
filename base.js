@@ -16,26 +16,44 @@ const ls = { get(k) { try { return localStorage.getItem(k) } catch (e) { return 
 function toast(m, ms = 2800) { const t = $("toast"); t.textContent = m; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => t.hidden = true, ms); }
 function erroTela(e) { console.error(e); toast(e && e.message ? e.message : "Algo deu errado. Tente de novo.", 4500); }
 // Janelas entram no histórico do navegador: o "voltar" do celular fecha a janela em vez de sair do site.
-let modalNoHist = false, fechandoModal = false, ignorarPop = false;
+// O "voltar" do celular anda UM passo para trás, como num app:
+//  - dentro de uma janela (catálogo, SOS…), cada nível aberto entra no histórico (subNivel);
+//  - nas telas, cada troca de aba entra no histórico (navTela);
+//  - os botões "‹ Voltar" internos usam history.back(), para ficar tudo sincronizado.
+let modalNoHist = false, fechandoModal = false, ignorarPop = 0, pilhaJanela = [], pilhaTela = [], fechandoN = 0;
 function modal(html, aoAbrir, classe = "") {
   const m = $("modal"); m.innerHTML = `<div class="box ${classe}" role="dialog" aria-modal="true">${html}</div>`; m.hidden = false;
   m.onclick = e => { if (e.target === m) fecharModal(); };
-  if (fechandoModal) { fechandoModal = false; modalNoHist = true; } // uma janela trocou por outra: aproveita a mesma entrada
-  else if (!modalNoHist) { try { history.pushState({ janela: 1 }, ""); modalNoHist = true; } catch (e) { } }
+  if (fechandoModal) { // uma janela trocou por outra: aproveita a primeira entrada e descarta os níveis da anterior
+    fechandoModal = false; modalNoHist = true;
+    if (fechandoN > 1) { ignorarPop++; history.go(-(fechandoN - 1)); }
+  }
+  else if (!modalNoHist) { try { history.pushState({ janela: 1 }, ""); modalNoHist = true; pilhaJanela = []; } catch (e) { } }
   aoAbrir && aoAbrir(m);
 }
 function esconderModal() { const m = $("modal"); m.hidden = true; m.innerHTML = ""; }
 function fecharModal() {
   esconderModal();
   if (!modalNoHist) return;
+  fechandoN = pilhaJanela.length + 1; pilhaJanela = [];
   modalNoHist = false; fechandoModal = true;
-  setTimeout(() => { if (!fechandoModal) return; fechandoModal = false; ignorarPop = true; history.back(); }, 0);
+  setTimeout(() => { if (!fechandoModal) return; fechandoModal = false; ignorarPop++; history.go(-fechandoN); }, 0);
 }
+// abre um nível dentro da janela (ex.: uma coleção do catálogo, o próximo passo do SOS); fnVoltar redesenha o nível anterior
+function subNivel(fnVoltar) { if (!modalNoHist) return; try { history.pushState({ sub: 1 }, ""); pilhaJanela.push(fnVoltar); } catch (e) { } }
+// troca de aba/tela fora das janelas (fábrica, administração, loja, conversas)
+function navTela(fnVoltar) { if (modalNoHist) return; try { history.pushState({ nav: 1 }, ""); pilhaTela.push(fnVoltar); } catch (e) { } }
+function limparNavegacao() { pilhaTela = []; }
 // telas internas (passos do pedido) também usam o "voltar"
 function marcarTelaNoHistorico() { try { if (!(history.state && history.state.tela)) history.pushState({ tela: 1 }, ""); } catch (e) { } }
 addEventListener("popstate", () => {
-  if (ignorarPop) { ignorarPop = false; return; }
-  if (modalNoHist) { modalNoHist = false; esconderModal(); return; }
+  if (ignorarPop) { ignorarPop--; return; }
+  if (modalNoHist) {
+    if (pilhaJanela.length) { pilhaJanela.pop()(); return; }  // volta um nível dentro da janela
+    modalNoHist = false; esconderModal(); return;               // fecha a janela
+  }
+  if (S.perfil && typeof papel === "function" && papel() === "loja" && typeof tela !== "undefined" && tela !== "inicio" && typeof voltarTela === "function") return voltarTela();
+  if (pilhaTela.length) { pilhaTela.pop()(); return; }         // aba anterior
   if (typeof voltarTela === "function") voltarTela();
 });
 document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("modal").hidden) fecharModal(); });

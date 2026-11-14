@@ -48,6 +48,7 @@ function msgHtml(m) {
     <small class="msg-hora">${m.pedido_id ? `${nro(m.pedido_id)} · ` : ""}${horaCurta(m.criado_em)} ${st}${m.erro && m.situacao === "falhou" ? ` · ${esc(m.erro)}` : ""}</small></div>`;
 }
 async function abrirConversa(id) {
+  if (!conversaAberta) navTela(() => { conversaAberta = null; desenhar(); }); // "voltar" fecha a conversa e volta para a lista
   conversaAberta = id; S.mensagens = [];
   desenhar();
   try {
@@ -61,7 +62,7 @@ function ligarConversas() {
   $$("[data-fconv]").forEach(b => b.onclick = () => { filtroConv = b.dataset.fconv; desenhar(); });
   $$("[data-conv]").forEach(b => b.onclick = () => abrirConversa(+b.dataset.conv));
   const box = $("cmsgs"); if (box) box.scrollTop = box.scrollHeight;
-  if ($("cvoltar")) $("cvoltar").onclick = () => { conversaAberta = null; desenhar(); };
+  if ($("cvoltar")) $("cvoltar").onclick = () => history.back();
   $$("[data-modo]").forEach(b => b.onclick = async () => {
     try { await api.waAcao("modo", { conversa_id: conversaAberta, modo: b.dataset.modo }); await recarregar(); desenhar(); toast(b.dataset.modo === "robo" ? "O robô voltou a atender esta conversa." : "Você assumiu a conversa. O robô parou de responder."); } catch (e) { erroTela(e); }
   });

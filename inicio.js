@@ -86,7 +86,7 @@ function ouvirMudancas() {
   });
 }
 
-$("sair").onclick = async () => { await api.sair(); S.perfil = null; idsConhecidos = null; usuariosCache = null; desenhar(); };
+$("sair").onclick = async () => { limparNavegacao(); await api.sair(); S.perfil = null; idsConhecidos = null; usuariosCache = null; desenhar(); };
 
 (async () => {
   try { S.perfil = await api.sessao(); } catch (e) { S.perfil = null; }

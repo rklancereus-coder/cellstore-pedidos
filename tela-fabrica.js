@@ -15,7 +15,8 @@ function telaFabrica() {
   if (abaFab === "admin") html += `<div id="admin"><p class="carregando" style="margin-top:10vh">Carregando…</p></div>`;
   $("app").innerHTML = html;
   if ($("bavisos")) $("bavisos").onclick = ativarAvisos;
-  $$("[data-fab]").forEach(b => b.onclick = () => { abaFab = b.dataset.fab; desenhar(); });
+  const irAba = nova => { if (abaFab === nova) return; const ant = abaFab; abaFab = nova; navTela(() => { abaFab = ant; desenhar(); }); desenhar(); };
+  $$("[data-fab]").forEach(b => b.onclick = () => irAba(b.dataset.fab));
   ligarFabrica();
   if (abaFab === "conversas") ligarConversas();
   carregarFotos($("app"));
@@ -154,7 +155,7 @@ function ligarFabrica() {
   $$("[data-av]").forEach(b => b.onclick = ev => { ev.preventDefault(); const p = S.pedidos.find(x => x.id === +b.dataset.av); const prox = FLUXO[FLUXO.indexOf(p.status) + 1]; acao(() => api.mudarStatus([p.id], prox), `${nro(p.id)}: ${ST[prox][0]}`); });
   $$("[data-set]").forEach(s => s.onchange = () => { if (s.value) acao(() => api.mudarStatus([+s.dataset.set], s.value), `${nro(s.dataset.set)}: ${ST[s.value][0]}`); });
   $$("[data-visto]").forEach(b => b.onclick = () => acao(() => api.vistoFabrica(+b.dataset.visto)));
-  $$("[data-ir]").forEach(b => b.onclick = () => { abaFab = b.dataset.ir; desenhar(); });
+  $$("[data-ir]").forEach(b => b.onclick = () => irAba(b.dataset.ir));
   if ($("iniciarSel")) $("iniciarSel").onclick = () => { const ids = $$("[data-sel]:checked").map(x => +x.dataset.sel); if (!ids.length) return toast("Marque pelo menos um pedido."); acao(() => api.mudarStatus(ids, "producao"), `${ids.length} pedido${ids.length > 1 ? "s" : ""} em produção`); };
   $$("[data-gerar]").forEach(b => b.onclick = () => {
     const loja = b.dataset.gerar, ids = $$(`[data-rom="${loja}"]:checked`).map(x => +x.value);

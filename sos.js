@@ -129,6 +129,15 @@ function fotoSos(file) {
   });
 }
 
+// guarda o que está digitado no passo atual (usado também quando o "voltar" do celular sai do passo)
+function guardarSos() {
+  const v = id => $(id) ? $(id).value.trim() : null;
+  if (v("smodtx") !== null) sos.modeloTexto = v("smodtx");
+  if (v("sobs") !== null) sos.obs = v("sobs");
+  if (v("soutra") !== null) sos.outraCidade = v("soutra");
+  if (v("sbairro") !== null) sos.bairro = v("sbairro");
+  if (v("snome") !== null) sos.nome = v("snome");
+}
 function ligarSos() {
   const $v = id => $(id) ? $(id).value.trim() : null;
   const guardar = () => {
@@ -138,19 +147,20 @@ function ligarSos() {
     if ($v("sbairro") !== null) sos.bairro = $v("sbairro");
     if ($v("snome") !== null) sos.nome = $v("snome");
   };
-  const ir = n => { guardar(); sos.passo = n; desenharSos(); };
+  const ir = n => { guardar(); const ant = sos.passo; sos.passo = n; subNivel(() => { guardarSos(); sos.passo = ant; desenharSos(); }); desenharSos(); };
   $("sfechar").onclick = fecharModal;
-  if ($("svolta")) $("svolta").onclick = () => ir(sos.passo - 1);
+  if ($("svolta")) $("svolta").onclick = () => history.back();
   // passo 1
   $$("[data-smarca]").forEach(b => b.onclick = () => {
     const k = b.dataset.smarca; sos.busca = ""; sos.modelo = "";
     if (k === "__outra" || k === "__naosei") { sos.marca = ""; sos.naoSei = true; } else { sos.marca = k; sos.naoSei = false; }
+    subNivel(() => { guardarSos(); sos.marca = ""; sos.naoSei = false; sos.busca = ""; desenharSos(); });
     desenharSos();
   });
-  if ($("strocar")) $("strocar").onclick = () => { guardar(); sos.marca = ""; sos.naoSei = false; sos.busca = ""; desenharSos(); };
+  if ($("strocar")) $("strocar").onclick = () => history.back();
   const sb = $("sbusca"); if (sb) sb.oninput = () => { sos.busca = sb.value; const pos = sb.selectionStart; desenharSos(); const n = $("sbusca"); n.focus(); n.setSelectionRange(pos, pos); };
   $$("[data-smod]").forEach(b => b.onclick = () => { sos.modelo = b.dataset.smod; sos.naoSei = false; ir(2); });
-  if ($("snaosei")) $("snaosei").onclick = () => { sos.naoSei = true; desenharSos(); };
+  if ($("snaosei")) $("snaosei").onclick = () => { sos.naoSei = true; subNivel(() => { guardarSos(); sos.naoSei = false; desenharSos(); }); desenharSos(); };
   // passo 2
   $$("[data-sprob]").forEach(b => b.onclick = () => { if (sos.problema !== b.dataset.sprob) sos.resp = {}; sos.problema = b.dataset.sprob; ir(3); });
   // passo 3

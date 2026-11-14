@@ -16,7 +16,7 @@ async function telaAdmin() {
   } catch (e) { corpo = `<div class="aviso"><b>Não consegui carregar.</b> ${esc(e.message)}</div>`; }
   if (!$("admin")) return;
   $("admin").innerHTML = `<div class="pills" style="margin-bottom:18px">${secs.map(([k, n]) => `<button class="${secAdmin === k ? "on" : ""}" data-sec="${k}">${n}</button>`).join("")}</div>${corpo}`;
-  $$("[data-sec]").forEach(b => b.onclick = () => { secAdmin = b.dataset.sec; telaAdmin(); });
+  $$("[data-sec]").forEach(b => b.onclick = () => { if (secAdmin === b.dataset.sec) return; const ant = secAdmin; secAdmin = b.dataset.sec; navTela(() => { secAdmin = ant; if ($("admin")) telaAdmin(); else desenhar(); }); telaAdmin(); });
   ligarAdmin();
 }
 const optLojas = sel => S.lojas.filter(l => l.ativa).map(l => `<option value="${l.id}" ${sel === l.id ? "selected" : ""}>${esc(l.nome)}</option>`).join("");
