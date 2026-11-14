@@ -62,6 +62,8 @@ function criarApiDemo() {
     async sair() { db.sessao = null; gravar(); },
     async base() { exigir(); return { lojas: db.lojas, precos: db.precos, modelos: db.modelos, temas: db.temas }; },
     async temasCatalogo() { return db.temas; },
+    async maisPedidas() { return []; },
+    async salvarCapa() { throw new Error("No modo demonstração a capa não é salva."); },
     async contarEstampas() { return window.DEMO_CATALOGO.itens.length; },
     async catalogo() {
       const c = window.DEMO_CATALOGO; // catálogo é público (vitrine), como no servidor

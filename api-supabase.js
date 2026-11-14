@@ -60,7 +60,9 @@ function criarApiSupabase(cfg) {
       return todos;
     },
     // catálogo público (funciona sem login: o banco libera só as estampas e coleções ativas)
-    async temasCatalogo() { return ok(await sb.from("temas").select("pasta_id, nome, prefixo, ordem, nome_exibicao, ativo").order("ordem")); },
+    async temasCatalogo() { return ok(await sb.from("temas").select("pasta_id, nome, prefixo, ordem, nome_exibicao, ativo, capa").order("ordem")); },
+    async maisPedidas() { return ok(await sb.rpc("mais_pedidas", { limite: 12 })); },
+    async salvarCapa(prefixo, capa) { ok(await sb.from("temas").update({ capa }).eq("prefixo", prefixo)); },
     async contarEstampas() { const { count, error } = await sb.from("catalogo").select("codigo", { count: "exact", head: true }).eq("ativo", true); if (error) throw traduzir(error); return count; },
     async pedidos() {
       const todos = []; let de = 0;

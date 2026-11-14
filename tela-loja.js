@@ -152,7 +152,11 @@ function colecoesCatalogo() {
     m.get(pre).itens.push(c);
   }
   const L = [...m.values()];
-  L.forEach(t => { t.itens.sort((a, b) => a.codigo.localeCompare(b.codigo)); t.nome = nomeColecao(t.pre, t.tema); });
+  L.forEach(t => {
+    t.itens.sort((a, b) => a.codigo.localeCompare(b.codigo)); t.nome = nomeColecao(t.pre, t.tema);
+    const tm = S.temas.find(x => x.prefixo === t.pre), escolhidas = ((tm && tm.capa) || []).map(c => t.itens.find(i => i.codigo === c)).filter(Boolean);
+    t.capa = [...escolhidas, ...t.itens.filter(i => !escolhidas.includes(i))].slice(0, 3);
+  });
   return L.sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
 }
 // manter = true volta para a mesma coleção (ex.: depois de ver uma estampa); senão abre nas coleções
@@ -165,7 +169,8 @@ function abrirCatalogo(aoEscolher, manter) {
   modal(`<div class="cat-topo"><button type="button" class="cat-voltar" id="catvoltar" hidden>‹ Coleções</button><h2 id="cattit">Catálogo de estampas</h2><button class="cat-x" id="catfechar" aria-label="Fechar">×</button></div>
     <div class="busca">${ICON.lupa}<input id="catq" type="search" placeholder="Já sabe o código? Busque aqui (ex.: PET-012)" value="${esc(catBusca)}" autocomplete="off"></div>
     <div class="cat-corpo" id="catcorpo"></div>`, () => {
-    const estampa = (c, comTema) => `<button type="button" class="cat-item ${atual && atual.codigo === c.codigo ? "sel" : ""}" data-ccod="${esc(c.codigo)}"><img src="${imgDrive(c.arquivo_id, 300)}" alt="" loading="lazy"><b>${esc(c.codigo)}</b>${comTema ? `<small>${esc(c.tema)}</small>` : ""}</button>`;
+    const ehAdmin = papel() === "admin";
+    const estampa = (c, comTema, capa) => `<div class="cat-cel"><button type="button" class="cat-item ${atual && atual.codigo === c.codigo ? "sel" : ""}" data-ccod="${esc(c.codigo)}"><img src="${imgDrive(c.arquivo_id, 300)}" alt="" loading="lazy"><b>${esc(c.codigo)}</b>${comTema ? `<small>${esc(nomeColecao(c.codigo.split("-")[0], c.tema))}</small>` : ""}</button>${capa ? `<button type="button" class="cat-estrela ${capa.includes(c) ? "on" : ""}" data-capa="${esc(c.codigo)}" title="Usar na capa da coleção" aria-label="Usar ${esc(c.codigo)} na capa">★</button>` : ""}</div>`;
     const desenharCat = () => {
       const q = semAcento(catBusca).trim(), qc = normCod(catBusca), corpo = $("catcorpo");
       let html, tit = "Catálogo de estampas";
@@ -175,15 +180,23 @@ function abrirCatalogo(aoEscolher, manter) {
         html = R.length ? `<div class="cat-grade">${R.map(c => estampa(c, true)).join("")}</div>` : `<p class="cat-vazio">Nada encontrado. Apague a busca para ver as coleções.</p>`;
       } else if (catTema) {
         const t = porId.get(catTema); tit = t.nome;
-        html = `<p class="cat-sub"><span class="cat-pre">${esc(t.pre)}</span> ${t.itens.length} estampas · toque para escolher</p><div class="cat-grade">${t.itens.map(c => estampa(c)).join("")}</div>`;
+        html = `<p class="cat-sub"><span class="cat-pre">${esc(t.pre)}</span> ${t.itens.length} estampas · toque para escolher</p>${ehAdmin ? `<p class="hint" style="margin:-6px 0 10px">★ Administrador: toque na estrela para escolher as 3 estampas da capa desta coleção.</p>` : ""}<div class="cat-grade">${t.itens.map(c => estampa(c, false, ehAdmin ? t.capa : null)).join("")}</div>`;
       } else {
-        html = `<p class="cat-sub">${L.length} coleções · ${itens.length.toLocaleString("pt-BR")} estampas · toque numa coleção</p><div class="cat-cols">${L.map(t => `<button type="button" class="cat-col" data-ctema="${esc(t.id)}"><span class="fan">${t.itens.slice(0, 3).map(c => `<img src="${imgDrive(c.arquivo_id, 130)}" alt="" loading="lazy">`).join("")}</span><span class="tx"><b>${esc(t.nome)}</b><small><span class="cat-pre">${esc(t.pre)}</span> ${t.itens.length} estampas</small></span></button>`).join("")}</div>`;
+        const top = (S.maisPedidas || []).map(m => acharCat(m.codigo)).filter(Boolean);
+        html = (top.length >= 3 ? `<div class="cat-top"><h3>🔥 Mais pedidas</h3><div class="cat-faixa">${top.map(c => estampa(c, true)).join("")}</div></div>` : "") + `<p class="cat-sub">${L.length} coleções · ${itens.length.toLocaleString("pt-BR")} estampas · toque numa coleção</p><div class="cat-cols">${L.map(t => `<button type="button" class="cat-col" data-ctema="${esc(t.id)}"><span class="fan">${t.capa.map(c => `<img src="${imgDrive(c.arquivo_id, 130)}" alt="" loading="lazy">`).join("")}</span><span class="tx"><b>${esc(t.nome)}</b><small><span class="cat-pre">${esc(t.pre)}</span> ${t.itens.length} estampas</small></span></button>`).join("")}</div>`;
       }
       $("cattit").textContent = tit;
       $("catvoltar").hidden = !catTema || !!q;
       corpo.innerHTML = html; corpo.scrollTop = 0;
       $$("[data-ctema]").forEach(b => b.onclick = () => { catTema = b.dataset.ctema; desenharCat(); });
       $$("[data-ccod]").forEach(b => b.onclick = () => { fecharModal(); aoEscolher(b.dataset.ccod); });
+      $$("[data-capa]").forEach(b => b.onclick = async () => {
+        const t = porId.get(catTema), c = t.itens.find(i => i.codigo === b.dataset.capa);
+        let capa = t.capa.map(x => x.codigo);
+        capa = capa.includes(c.codigo) ? capa.filter(x => x !== c.codigo) : [c.codigo, ...capa].slice(0, 3);
+        try { await api.salvarCapa(t.pre, capa); const tm = S.temas.find(x => x.prefixo === t.pre); if (tm) tm.capa = capa; Object.assign(t, colecoesCatalogo().find(x => x.id === t.id)); toast("Capa da coleção atualizada."); desenharCat(); }
+        catch (e) { erroTela(e); }
+      });
     };
     $("catfechar").onclick = fecharModal;
     $("catvoltar").onclick = () => { catTema = null; desenharCat(); };
@@ -208,6 +221,7 @@ async function garantirCatalogo() {
   return carregandoCatalogo;
 }
 async function catalogoPublico(manter) {
+  if (!S.maisPedidas) api.maisPedidas().then(r => { S.maisPedidas = r || []; }).catch(() => { S.maisPedidas = []; });
   if (!S.catalogo.size) {
     toast("Abrindo o catálogo…", 1500);
     try { await garantirCatalogo(); } catch (e) { return erroTela(new Error("Não consegui abrir o catálogo. Confira a internet e tente de novo.")); }
