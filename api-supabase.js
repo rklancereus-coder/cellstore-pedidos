@@ -59,6 +59,9 @@ function criarApiSupabase(cfg) {
       for (;;) { const lote = ok(await sb.from("catalogo").select("codigo, arquivo_id, tema, pasta_id, ativo").range(de, de + 999)); todos.push(...lote); if (lote.length < 1000) break; de += 1000; }
       return todos;
     },
+    // catálogo público (funciona sem login: o banco libera só as estampas e coleções ativas)
+    async temasCatalogo() { return ok(await sb.from("temas").select("pasta_id, nome, prefixo, ordem, nome_exibicao, ativo").order("ordem")); },
+    async contarEstampas() { const { count, error } = await sb.from("catalogo").select("codigo", { count: "exact", head: true }).eq("ativo", true); if (error) throw traduzir(error); return count; },
     async pedidos() {
       const todos = []; let de = 0;
       const desde = addDias(hoje(), -400); // pedidos dos últimos ~13 meses
@@ -132,9 +135,20 @@ function criarApiSupabase(cfg) {
     async salvarPreco(chave, valor) { ok(await sb.from("precos").update({ valor: Number(valor), atualizado_em: new Date().toISOString() }).eq("chave", chave)); },
     async salvarModelo(m) { m.id ? ok(await sb.from("modelos").update({ nome: m.nome, marca: m.marca, ativo: m.ativo }).eq("id", m.id)) : ok(await sb.from("modelos").insert({ nome: m.nome.trim(), marca: m.marca || "" })); },
     async salvarLoja(l) { l.id ? ok(await sb.from("lojas").update({ nome: l.nome, ativa: l.ativa, whatsapp: l.whatsapp ?? "" }).eq("id", l.id)) : ok(await sb.from("lojas").insert({ nome: l.nome.trim(), ordem: S.lojas.length })); },
-    async salvarTema(t) { ok(await sb.from("temas").update({ prefixo: t.prefixo, ativo: t.ativo }).eq("pasta_id", t.pasta_id)); },
+    async salvarTema(t) { ok(await sb.from("temas").update({ prefixo: t.prefixo, ativo: t.ativo, nome_exibicao: t.nome_exibicao || null }).eq("pasta_id", t.pasta_id)); },
     async sincronizarCatalogo() { return funcao("sync-catalogo", {}); },
     // manutenção: espaço usado, limpeza de fotos antigas e cópia de segurança
+    // aparelhos (catálogo de celulares): o administrador vê todos, inclusive os escondidos
+    async aparelhos() { return ok(await sb.from("aparelhos").select("*").order("ordem").order("id")); },
+    async salvarAparelho(a) {
+      const { id, ...d } = a;
+      return id ? ok(await sb.from("aparelhos").update(d).eq("id", id).select("*").single()) : ok(await sb.from("aparelhos").insert(d).select("*").single());
+    },
+    async enviarFotoAparelho(blob) {
+      const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.webp`;
+      ok(await sb.storage.from("aparelhos").upload(path, blob, { contentType: "image/webp", upsert: false, cacheControl: "31536000" }));
+      return sb.storage.from("aparelhos").getPublicUrl(path).data.publicUrl;
+    },
     async usoEspaco() { return ok(await sb.rpc("uso_espaco")); },
     async manutencao(acao) { return funcao("manutencao", { acao }); }
   };

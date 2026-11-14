@@ -383,3 +383,32 @@ a.cat-entrada{text-decoration:none}
 .atalho b{font-size:14px;font-weight:800;line-height:1.2}
 .box-ver #vpedir{display:flex;align-items:center;justify-content:center;gap:8px;font-size:16px}
 .box-ver #vpedir svg{width:20px;height:20px}
+
+/* administração: aparelhos */
+.ap-lista{display:grid;gap:8px}
+.ap-linha{display:grid;grid-template-columns:56px minmax(0,1fr) 150px auto;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+.ap-linha.off{opacity:.55}
+.ap-linha img{width:56px;height:56px;object-fit:contain}
+.ap-tx{display:grid;gap:2px;min-width:0}
+.ap-tx b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ap-flags{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:4px;font-size:13px;font-weight:600;color:var(--muted)}
+.ap-flags label{display:flex;align-items:center;gap:5px;cursor:pointer}
+.ap-flags input{width:17px;height:17px;accent-color:var(--accent);padding:0}
+.ap-preco{display:flex;align-items:center;gap:6px;font-weight:700;color:var(--muted)}
+.ap-preco input{padding:9px 10px;font-weight:700}
+.ap-acoes{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.ap-acoes .link{padding:4px 8px;font-size:16px}
+@media (max-width:640px){.ap-linha{grid-template-columns:48px minmax(0,1fr)}.ap-linha img{width:48px;height:48px}.ap-preco{grid-column:2}.ap-acoes{grid-column:1/-1;flex-direction:row;justify-content:space-between}}
+.modal .box.box-ap{width:min(640px,100%)}
+.box-ap textarea{resize:vertical;font-size:15px}
+.ap-fotos{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.ap-fotos figure{position:relative;margin:0;width:84px;height:84px;background:var(--sunk);border-radius:12px;display:grid;place-items:center}
+.ap-fotos figure img{max-width:76px;max-height:76px;object-fit:contain;border-radius:0}
+.ap-fotos figure button{position:absolute;top:-6px;right:-6px;width:24px;height:24px;border-radius:50%;background:var(--urg);color:#fff;font-weight:800;line-height:1;padding:0}
+.ap-add{display:grid;place-items:center;min-width:84px;height:84px;padding:0 12px;border:2px dashed var(--line);border-radius:12px;color:var(--accent);font-weight:700;font-size:14px;cursor:pointer;text-align:center}
+.ap-add:hover{border-color:var(--accent)}
+#apnovo{display:inline-flex;align-items:center;gap:8px}
+#apnovo svg{width:18px;height:18px}
+.ap-linha{grid-template-columns:56px minmax(0,1fr) 175px auto}
+@media (max-width:640px){.ap-linha{grid-template-columns:48px minmax(0,1fr)}}
+.modal .box .ap-fotos figure img{max-width:76px;max-height:76px;border-radius:0}

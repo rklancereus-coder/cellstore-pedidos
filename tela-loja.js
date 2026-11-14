@@ -4,13 +4,14 @@ function telaLogin() {
   // tela inicial pública: os catálogos em destaque; o login fica escondido na "Área da equipe"
   $("app").innerHTML = `<div class="login inicio">
    <section class="clube"> <div class="txt"> <h1><em>Clube</em><span class="logo" role="img" aria-label="Cell Store"></span></h1> <p>Capinhas personalizadas e celulares das nossas lojas.</p> <div class="chips"><span>Capinhas</span><span>Celulares</span></div> </div> <div class="prod" aria-hidden="true"> <img class="fone" src="aparelhos/fotos/iphone-17-pro-1.webp" alt=""> <img class="capa" src="estampas/PET-001.webp?r=2" alt=""> </div> </section>
-   <button type="button" class="cat-entrada" id="bcatpub"><span class="fan" aria-hidden="true"><img src="estampas/mini/PET-001.webp?r=2" alt=""><img src="estampas/mini/FLO-001.webp?r=2" alt=""><img src="estampas/mini/LUX-002.webp?r=2" alt=""></span><span class="tx"><span class="tag">Capinhas</span><b>Catálogo de estampas</b><small>${window.DEMO_CATALOGO ? window.DEMO_CATALOGO.itens.length.toLocaleString("pt-BR") + " estampas para personalizar" : "Estampas para personalizar"}</small></span><span class="seta">›</span></button>
+   <button type="button" class="cat-entrada" id="bcatpub"><span class="fan" aria-hidden="true"><img src="estampas/mini/PET-001.webp?r=2" alt=""><img src="estampas/mini/FLO-001.webp?r=2" alt=""><img src="estampas/mini/LUX-002.webp?r=2" alt=""></span><span class="tx"><span class="tag">Capinhas</span><b>Catálogo de estampas</b><small id="ncat">Estampas para personalizar</small></span><span class="seta">›</span></button>
    <a class="cat-entrada fones" href="aparelhos/"><span class="fan" aria-hidden="true"><img src="aparelhos/fotos/redmi-note-15-1.webp" alt=""><img src="aparelhos/fotos/iphone-17-pro-1.webp" alt=""><img src="aparelhos/fotos/realme-14t-5g-1.webp" alt=""></span><span class="tx"><span class="tag">Celulares</span><b>Catálogo de aparelhos</b><small>Fichas, comparação e pedido pelo WhatsApp</small></span><span class="seta">›</span></a>
    <button type="button" class="equipe-btn" id="bequipe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Área da equipe</button>
   </div>`;
   document.title = "Clube Cell Store";
   $("bcatpub").onclick = () => catalogoPublico();
   $("bequipe").onclick = abrirLogin;
+  api.contarEstampas().then(n => { if (n && $("ncat")) $("ncat").textContent = `${n.toLocaleString("pt-BR")} estampas para personalizar`; }).catch(() => { });
 }
 
 /* ---------- janela de login da equipe (lojas, fábrica, logística) ---------- */
@@ -134,8 +135,11 @@ function blocoCat(titulo) {
 }
 
 /* ---------- janela do catálogo: coleções com miniaturas → estampas da coleção ---------- */
-// nome que aparece para cada coleção (pelo prefixo do código); o resto usa o nome da pasta do Drive
-const NOME_COLECAO = { CAP: "Capivara", SOR: "Sortidos", DRA: "Como Treinar o Seu Dragão", STI: "Lilo & Stitch", MRB: "Mármore", CRT: "Para Correntes", POK: "Pokémon", NAM: "Namorados", PAI: "Pais", P24: "Pais" };
+// nome que aparece para cada coleção: vem do banco (Administração → Catálogo → "Nome no catálogo"), pelo prefixo do código
+function nomeColecao(pre, temaPasta) {
+  const t = S.temas.find(x => x.prefixo === pre);
+  return (t && (t.nome_exibicao || t.nome)) || temaPasta || pre;
+}
 let catTema = null, catBusca = "";
 // coleções agrupadas pelo prefixo do código (assim "Pais" junta PAI-001 a PAI-020, mesmo vindo de duas pastas)
 function colecoesCatalogo() {
@@ -147,7 +151,7 @@ function colecoesCatalogo() {
     m.get(pre).itens.push(c);
   }
   const L = [...m.values()];
-  L.forEach(t => { t.itens.sort((a, b) => a.codigo.localeCompare(b.codigo)); t.nome = NOME_COLECAO[t.pre] || t.tema; });
+  L.forEach(t => { t.itens.sort((a, b) => a.codigo.localeCompare(b.codigo)); t.nome = nomeColecao(t.pre, t.tema); });
   return L.sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
 }
 // manter = true volta para a mesma coleção (ex.: depois de ver uma estampa); senão abre nas coleções
@@ -165,7 +169,7 @@ function abrirCatalogo(aoEscolher, manter) {
       const q = semAcento(catBusca).trim(), qc = normCod(catBusca), corpo = $("catcorpo");
       let html, tit = "Catálogo de estampas";
       if (q) {
-        const R = itens.filter(c => normCod(c.codigo).startsWith(qc) || semAcento(c.tema).includes(q) || semAcento(NOME_COLECAO[c.codigo.split("-")[0]] || "").includes(q)).slice(0, 150);
+        const R = itens.filter(c => normCod(c.codigo).startsWith(qc) || semAcento(c.tema).includes(q) || semAcento(nomeColecao(c.codigo.split("-")[0], c.tema)).includes(q)).slice(0, 150);
         tit = "Busca";
         html = R.length ? `<div class="cat-grade">${R.map(c => estampa(c, true)).join("")}</div>` : `<p class="cat-vazio">Nada encontrado. Apague a busca para ver as coleções.</p>`;
       } else if (catTema) {
@@ -192,16 +196,24 @@ async function copiarTexto(t) {
   try { await navigator.clipboard.writeText(t); return true; } catch (e) { }
   try { const x = document.createElement("textarea"); x.value = t; x.style.cssText = "position:fixed;opacity:0"; document.body.appendChild(x); x.select(); const ok = document.execCommand("copy"); x.remove(); return ok; } catch (e) { return false; }
 }
-/* catálogo aberto na tela de entrada (sem login): usa a lista local de estampas */
-function catalogoPublico(manter) {
-  if (!S.catalogo.size && window.DEMO_CATALOGO) {
-    const cat = window.DEMO_CATALOGO;
-    S.temas = cat.temas.map((n, i) => ({ pasta_id: "T" + i, nome: n, ordem: i }));
-    cat.itens.forEach(([codigo, arquivo_id, t]) => S.catalogo.set(normCod(codigo), { codigo, arquivo_id, tema: cat.temas[t], pasta_id: "T" + t, ativo: true }));
+/* catálogo aberto na tela de entrada (sem login): lê as estampas ativas direto do banco (mesma fonte da área da equipe) */
+let carregandoCatalogo = null;
+async function garantirCatalogo() {
+  if (S.catalogo.size) return;
+  if (!carregandoCatalogo) carregandoCatalogo = (async () => {
+    const [itens, temas] = await Promise.all([api.catalogo(), api.temasCatalogo()]);
+    S.temas = temas; S.catalogo = new Map(); itens.forEach(c => S.catalogo.set(normCod(c.codigo), c));
+  })().finally(() => { carregandoCatalogo = null; });
+  return carregandoCatalogo;
+}
+async function catalogoPublico(manter) {
+  if (!S.catalogo.size) {
+    toast("Abrindo o catálogo…", 1500);
+    try { await garantirCatalogo(); } catch (e) { return erroTela(new Error("Não consegui abrir o catálogo. Confira a internet e tente de novo.")); }
   }
   abrirCatalogo(cod => {
     const c = acharCat(cod); if (!c) return;
-    const nome = NOME_COLECAO[c.codigo.split("-")[0]] || c.tema;
+    const nome = nomeColecao(c.codigo.split("-")[0], c.tema);
     modal(`<div class="cat-topo"><button type="button" class="cat-voltar" id="vvoltar">‹ ${esc(nome)}</button><h2>${esc(c.codigo)}</h2><button class="cat-x" id="vfechar" aria-label="Fechar">×</button></div>
       <img class="cat-grande" src="${imgDrive(c.arquivo_id, 600)}" alt="Estampa ${esc(c.codigo)}">
       <p class="hint" style="text-align:center;margin:0">Para pedir, informe o código:</p>

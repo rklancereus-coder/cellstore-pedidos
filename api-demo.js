@@ -61,8 +61,10 @@ function criarApiDemo() {
     },
     async sair() { db.sessao = null; gravar(); },
     async base() { exigir(); return { lojas: db.lojas, precos: db.precos, modelos: db.modelos, temas: db.temas }; },
+    async temasCatalogo() { return db.temas; },
+    async contarEstampas() { return window.DEMO_CATALOGO.itens.length; },
     async catalogo() {
-      exigir(); const c = window.DEMO_CATALOGO;
+      const c = window.DEMO_CATALOGO; // catálogo é público (vitrine), como no servidor
       return c.itens.map(([codigo, arquivo_id, t]) => ({ codigo, arquivo_id, tema: c.temas[t], pasta_id: "T" + t, ativo: true }));
     },
     async pedidos() {
@@ -166,6 +168,9 @@ function criarApiDemo() {
       avisar();
     },
     async salvarTema(t) { exigir("admin"); Object.assign(db.temas.find(x => x.pasta_id === t.pasta_id), t); avisar(); },
+    async aparelhos() { exigir("admin"); return []; },
+    async salvarAparelho() { exigir("admin"); throw new Error("No modo demonstração os aparelhos não são salvos."); },
+    async enviarFotoAparelho() { throw new Error("No modo demonstração não há onde guardar fotos."); },
     async usoEspaco() { exigir("admin"); return { banco_bytes: 9e6, fotos_bytes: 0, fotos_qtd: 0, backups_bytes: 0, ultimo_backup: null, fotos_para_limpar: 0 }; },
     async manutencao() { exigir("admin"); throw new Error("No modo demonstração não há servidor para limpar ou copiar."); },
     async sincronizarCatalogo() { exigir("admin"); await new Promise(r => setTimeout(r, 600)); return { temas: db.temas.length, estampas: window.DEMO_CATALOGO.itens.length, novas: 0, removidas: 0, demo: true }; },

@@ -3,7 +3,7 @@ let secAdmin = "usuarios", usuariosCache = null;
 const PAPEL_NOME = { loja: "Loja", fabrica: "Fábrica", logistica: "Logística", admin: "Administrador" };
 
 async function telaAdmin() {
-  const secs = [["usuarios", "Usuários e senhas"], ["lojas", "Lojas"], ["precos", "Preços"], ["modelos", "Modelos de celular"], ["catalogo", "Catálogo"], ["manutencao", "Espaço e cópias"]];
+  const secs = [["usuarios", "Usuários e senhas"], ["lojas", "Lojas"], ["precos", "Preços"], ["modelos", "Modelos de celular"], ["catalogo", "Catálogo"], ["aparelhos", "Aparelhos"], ["manutencao", "Espaço e cópias"]];
   let corpo = "";
   try {
     if (secAdmin === "usuarios") { if (!usuariosCache) usuariosCache = await api.usuarios("listar"); corpo = secUsuarios(); }
@@ -11,6 +11,7 @@ async function telaAdmin() {
     if (secAdmin === "precos") corpo = secPrecos();
     if (secAdmin === "modelos") corpo = secModelos();
     if (secAdmin === "catalogo") corpo = secCatalogo();
+    if (secAdmin === "aparelhos") corpo = await secAparelhos();
     if (secAdmin === "manutencao") corpo = secManutencao(await api.usoEspaco());
   } catch (e) { corpo = `<div class="aviso"><b>Não consegui carregar.</b> ${esc(e.message)}</div>`; }
   if (!$("admin")) return;
@@ -63,8 +64,8 @@ function secCatalogo() {
   return `<section class="admin-sec"><h2>Catálogo (${total} estampas)</h2>
    <div class="card"><p class="lead" style="margin:0">O catálogo vem da pasta do Google Drive. Subiu ou apagou estampas lá? Toque em atualizar. Cada estampa tem um código no formato da planilha (3 letras da coleção + número, ex.: FLO-005). Estampas novas entram no fim da coleção, e um código nunca muda depois de criado.</p>
    <div class="acts"><button class="primary" id="sync">Atualizar catálogo agora</button><a class="link" href="${esc(CONFIG.pastaCatalogoDrive)}" target="_blank" rel="noopener">Abrir pasta no Drive</a></div><div id="syncmsg" class="sub"></div></div>
-   <h3 style="margin-top:8px">Temas e prefixos</h3><p class="hint">Mudar o prefixo só vale para estampas novas daquela coleção.</p>
-   ${S.temas.map(t => `<div class="linha"><span class="grow"><b>${esc(t.nome)}</b> <span class="sub">${porTema[t.pasta_id] || 0} estampas</span></span><input value="${esc(t.prefixo)}" data-tpref="${t.pasta_id}" style="width:90px;text-transform:uppercase" aria-label="Prefixo ${esc(t.nome)}"><button class="soft mini" data-tsalvar="${t.pasta_id}">Salvar</button></div>`).join("")}</section>`;
+   <h3 style="margin-top:8px">Coleções</h3><p class="hint">"Nome no catálogo" é o que lojas e clientes veem (vazio = nome da pasta do Drive). Mudar o prefixo só vale para estampas novas daquela coleção.</p>
+   ${S.temas.map(t => `<div class="linha"><span class="grow"><b>${esc(t.nome)}</b> <span class="sub">${porTema[t.pasta_id] || 0} estampas · pasta do Drive</span><input value="${esc(t.nome_exibicao || "")}" data-tnome="${t.pasta_id}" placeholder="${esc(t.nome)}" aria-label="Nome no catálogo de ${esc(t.nome)}" style="margin-top:6px"></span><input value="${esc(t.prefixo)}" data-tpref="${t.pasta_id}" style="width:90px;text-transform:uppercase" aria-label="Prefixo ${esc(t.nome)}"><button class="soft mini" data-tsalvar="${t.pasta_id}">Salvar</button></div>`).join("")}</section>`;
 }
 
 // espaço usado (plano gratuito: 500 MB de banco e 1 GB de arquivos) e cópias de segurança
@@ -87,6 +88,7 @@ function secManutencao(u) {
 }
 
 function ligarAdmin() {
+  ligarAparelhos();
   const recarregarAdmin = async (msg) => { await recarregar(true); msg && toast(msg); telaAdmin(); };
   const tenta = async (fn, msg) => { try { await fn(); await recarregarAdmin(msg); } catch (e) { erroTela(e); } };
   const up = $("upapel"); if (up) { const sinc = () => $("uljw").hidden = up.value !== "loja"; up.onchange = sinc; sinc(); }
@@ -111,7 +113,7 @@ function ligarAdmin() {
   $$("[data-psalvar]").forEach(b => b.onclick = () => { const k = b.dataset.psalvar, v = $$(`[data-preco="${k}"]`)[0].value; if (v === "" || +v < 0) return toast("Digite um valor válido."); tenta(() => api.salvarPreco(k, v), "Preço salvo. Vale para os próximos pedidos."); });
   const fm = $("fmodelo"); if (fm) fm.onsubmit = e => { e.preventDefault(); const n = $("mnome").value.trim(); if (!n) return toast("Digite o nome do modelo."); tenta(() => api.salvarModelo({ nome: n, marca: $("mmarca").value.trim() }), "Modelo adicionado."); };
   $$("[data-mativo]").forEach(b => b.onclick = () => { const m = S.modelos.find(x => x.id === +b.dataset.mativo); tenta(() => api.salvarModelo({ ...m, ativo: b.dataset.v === "1" })); });
-  $$("[data-tsalvar]").forEach(b => b.onclick = () => { const t = S.temas.find(x => x.pasta_id === b.dataset.tsalvar); const p = $$(`[data-tpref="${t.pasta_id}"]`)[0].value.toUpperCase().replace(/[^A-Z]/g, ""); if (p.length !== 3) return toast("Use 3 letras."); if (S.temas.some(x => x.prefixo === p && x.pasta_id !== t.pasta_id)) return toast("Outro tema já usa esse prefixo."); tenta(() => api.salvarTema({ ...t, prefixo: p }), "Prefixo salvo."); });
+  $$("[data-tsalvar]").forEach(b => b.onclick = () => { const t = S.temas.find(x => x.pasta_id === b.dataset.tsalvar); const p = $$(`[data-tpref="${t.pasta_id}"]`)[0].value.toUpperCase().replace(/[^A-Z]/g, ""); if (p.length !== 3) return toast("Use 3 letras."); if (S.temas.some(x => x.prefixo === p && x.pasta_id !== t.pasta_id)) return toast("Outro tema já usa esse prefixo."); const nome = $$(`[data-tnome="${t.pasta_id}"]`)[0].value.trim(); tenta(() => api.salvarTema({ ...t, prefixo: p, nome_exibicao: nome }), "Coleção salva."); });
   const acaoM = (id, acao, txt, fim) => { const b = $(id); if (b) b.onclick = async () => { const t = b.textContent; b.disabled = true; b.textContent = txt; try { const r = await api.manutencao(acao); await fim(r); } catch (e) { erroTela(e); } b.disabled = false; b.textContent = t; }; };
   acaoM("mlimpar", "limpar", "Limpando…", async r => { toast(r.fotos_apagadas ? `${r.fotos_apagadas} foto(s) antigas apagadas.` : "Nenhuma foto antiga para apagar."); telaAdmin(); });
   acaoM("mbackup", "backup", "Copiando…", async () => { toast("Cópia de segurança feita."); telaAdmin(); });
