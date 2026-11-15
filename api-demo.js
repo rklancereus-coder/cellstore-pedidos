@@ -42,41 +42,6 @@ function criarApiDemo() {
     return { seq: pedidos.length, seqRom: 0, lojas, usuarios, modelos, temas, precos: { foto: 45, nome: 35, catalogo: 30, popsocket: 20 }, pedidos, compras, romaneios: [], fotos: {}, sessao: null };
   }
 
-  // ---- metas (demonstração): vendedores, metas e fechamentos de exemplo do mês atual ----
-  function sementeMetas() {
-    let sd = 20261114; const rnd = () => { sd = sd + 0x6D2B79F5 | 0; let t = Math.imul(sd ^ sd >>> 15, 1 | sd); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
-    const PL = [[["Camila", 1.05, 1], ["Diego", .95, 1.02]], [["Juliana", 1.02, 1.1], ["Rafael", .8, .7]], [["Patrícia", 1.4, .8], ["Marcos", 1, 1]], [["Fernanda", 1.35, 1.4], ["Lucas", .9, .95]],
-      [["Aline", 1, 1.08], ["Gustavo", .85, .9], ["Thiago", .25, .3, 1]], [["Bruna", 1.1, 1], ["Felipe", .3, .35]], [["Larissa", 1, 1.05], ["Rodrigo", .95, .9]], [["Vanessa", 1, .95], ["Eduardo", 1.05, 1]]];
-    const atraso = { L5: 1, L7: 2 }, mes = hoje().slice(0, 7) + "-01";
-    const ant = (() => { const [a, b] = mes.split("-").map(Number), d = new Date(a, b - 2, 1); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-01`; })();
-    const m = { vendedores: [], metasLoja: [], metasVend: [], cal: [], calLoja: [], fech: [], valores: [], corr: [], vistos: [],
-      config: [["amarelo_pts", 10, "Até quantos pontos abaixo do ritmo ideal fica amarelo (acima disso, vermelho)"], ["risco_mult", 1.5, "Vendedor em risco: meta diária restante maior que X vezes a normal"], ["acima_pts", 15, "Vendedor muito acima: pontos acima do ritmo ideal"], ["acima_proj", 1.2, "Vendedor muito acima: projeção acima de X (1,2 = 120%)"], ["queda_fator", .5, "Queda de ritmo: média dos últimos 5 dias abaixo de X vezes a média anterior"], ["deseq_pts", 20, "Desequilíbrio: diferença em pontos entre Assistência e Vendas"], ["fora_media_mult", 4, "Possível erro de digitação: lançamento maior que X vezes a média"], ["silencio_dias", 5, "Sem alertas de ritmo nos primeiros X dias do mês"], ["proj_loja", .85, "Loja em vermelho: projeção abaixo de X"], ["proj_rede", .9, "Rede em vermelho: projeção abaixo de X"], ["reta_final_dias", 5, "Reta final: faltando X dias de venda"], ["repetir_dias", 7, "Aviso visto volta depois de X dias (ou antes, se piorar)"]].map(([chave, valor, descricao]) => ({ chave, valor, descricao })) };
-    const dias = []; for (let d = mes; d < hoje(); d = addDias(d, 1)) if (new Date(d + "T12:00:00").getDay() !== 0) dias.push(d);
-    PL.forEach((vs, li) => {
-      const loja_id = "L" + li;
-      [mes, ant].forEach(x => m.metasLoja.push({ mes: x, loja_id, assistencia: 40000, vendas: 80000 }));
-      const meus = dias.slice(0, Math.max(0, dias.length - (atraso[loja_id] || 0)));
-      vs.forEach(([nome, fa, fv, semMeta], i) => {
-        const v = { id: "V" + li + i, loja_id, nome, ordem: i, ativo: true }; m.vendedores.push(v);
-        if (!semMeta) [mes, ant].forEach(x => m.metasVend.push({ mes: x, vendedor_id: v.id, assistencia: 20000, vendas: 40000 }));
-        meus.forEach((dia, k) => {
-          const queda = nome === "Eduardo" && k >= meus.length - 5 ? .3 : 1;
-          const a = Math.round(20000 / 26 * fa * (.5 + rnd()) * queda / 10) * 10; let vv = Math.round(40000 / 26 * fv * (.5 + rnd()) * queda / 10) * 10;
-          if (nome === "Rodrigo" && k === meus.length - 3) vv *= 9;
-          m.valores.push({ fid: loja_id + dia, vendedor_id: v.id, assistencia: a, vendas: vv });
-        });
-      });
-      meus.forEach(dia => m.fech.push({ id: loja_id + dia, loja_id, dia, status: "fechado", fechado_em: dia + "T21:00:00Z", reaberto_em: null }));
-      if (li === 3 && meus.length > 3) {
-        const f = m.fech.find(x => x.id === loja_id + meus[meus.length - 3]); f.reaberto_em = new Date().toISOString();
-        const val = m.valores.find(x => x.fid === f.id && x.vendedor_id === "V31");
-        m.corr.push({ fechamento_id: f.id, vendedor_id: "V31", campo: "vendas", antes: val.vendas + 900, depois: val.vendas, em: new Date().toISOString() });
-      }
-    });
-    return m;
-  }
-  if (!db.metas) db.metas = sementeMetas();
-  if (!db.usuarios.some(u => u.papel === "dona")) db.usuarios.push({ id: uid(), usuario: "dona", senha: "dona", nome: "Dona da rede", papel: "dona", loja_id: null, ativo: true });
   const eu = () => db.usuarios.find(u => u.id === db.sessao && u.ativo) || null;
   const exigir = (...papeis) => { const u = eu(); if (!u) throw new Error("Faça login novamente."); if (papeis.length && !papeis.includes(u.papel)) throw new Error("Você não tem acesso a isso."); return u; };
   const perfil = u => u && ({ id: u.id, usuario: u.usuario, nome: u.nome, papel: u.papel, loja_id: u.loja_id });
@@ -87,7 +52,7 @@ function criarApiDemo() {
   return {
     modo: "demo",
     async sessao() { return perfil(eu()); },
-    async logins() { const o = { loja: 0, fabrica: 1, logistica: 2, dona: 3, admin: 4 }; return db.usuarios.filter(u => u.ativo).sort((a, b) => o[a.papel] - o[b.papel] || a.nome.localeCompare(b.nome, "pt-BR", { numeric: true })).map(u => ({ usuario: u.usuario, nome: u.nome, papel: u.papel })); },
+    async logins() { const o = { loja: 0, fabrica: 1, logistica: 2, admin: 3 }; return db.usuarios.filter(u => u.ativo).sort((a, b) => o[a.papel] - o[b.papel] || a.nome.localeCompare(b.nome, "pt-BR", { numeric: true })).map(u => ({ usuario: u.usuario, nome: u.nome, papel: u.papel })); },
     async entrar(usuario, senha) {
       const u = db.usuarios.find(x => x.usuario === String(usuario).trim().toLowerCase());
       if (!u || u.senha !== senha) throw new Error("Usuário ou senha incorretos.");
@@ -215,46 +180,6 @@ function criarApiDemo() {
     async usoEspaco() { exigir("admin"); return { banco_bytes: 9e6, fotos_bytes: 0, fotos_qtd: 0, backups_bytes: 0, ultimo_backup: null, fotos_para_limpar: 0 }; },
     async manutencao() { exigir("admin"); throw new Error("No modo demonstração não há servidor para limpar ou copiar."); },
     async sincronizarCatalogo() { exigir("admin"); await new Promise(r => setTimeout(r, 600)); return { temas: db.temas.length, estampas: window.DEMO_CATALOGO.itens.length, novas: 0, removidas: 0, demo: true }; },
-    // metas: mesmas regras do banco (metas.sql)
-    async metasMes(mes) {
-      const u = exigir("loja", "dona", "admin"), M = db.metas, fim = addDias(mtMesMais(mes, 1), -1), noMes = d => d >= mes && d <= fim;
-      const vejo = l => u.papel !== "loja" || l === u.loja_id, vendLoja = id => (M.vendedores.find(v => v.id === id) || {}).loja_id;
-      const fech = M.fech.filter(f => noMes(f.dia) && vejo(f.loja_id)), ids = new Set(fech.map(f => f.id));
-      return { vendedores: M.vendedores.filter(v => vejo(v.loja_id)), metasLoja: M.metasLoja.filter(x => x.mes === mes && vejo(x.loja_id)), metasVend: M.metasVend.filter(x => x.mes === mes && vejo(vendLoja(x.vendedor_id))),
-        cal: M.cal.filter(c => noMes(c.dia)), calLoja: M.calLoja.filter(c => noMes(c.dia) && vejo(c.loja_id)), fech,
-        lanc: M.valores.filter(x => ids.has(x.fid)).map(x => { const f = fech.find(y => y.id === x.fid); return { loja_id: f.loja_id, dia: f.dia, status: f.status, vendedor_id: x.vendedor_id, assistencia: x.assistencia, vendas: x.vendas }; }),
-        corr: M.corr.filter(c => ids.has(c.fechamento_id)), config: M.config, vistos: M.vistos.filter(v => v.perfil_id === u.id), proximoTemMetas: M.metasLoja.some(x => x.mes === mtMesMais(mes, 1)) };
-    },
-    async fecharDia(loja, dia, valores) {
-      const u = exigir("loja", "dona", "admin"), rede = u.papel !== "loja", M = db.metas;
-      if (!rede && loja !== u.loja_id) throw new Error("Só dá para lançar o fechamento da sua loja.");
-      if (dia > hoje()) throw new Error("Esse dia ainda não chegou.");
-      let f = M.fech.find(x => x.loja_id === loja && x.dia === dia);
-      if (f && f.status === "fechado" && !rede) throw new Error("Esse dia já está fechado. Só a dona pode reabrir.");
-      const jaFechado = f && (f.status === "fechado" || f.reaberto_em);
-      if (!f) { f = { id: loja + dia, loja_id: loja, dia, status: "aberto", fechado_em: null, reaberto_em: null }; M.fech.push(f); }
-      for (const x of valores) {
-        if ((M.vendedores.find(v => v.id === x.vendedor_id) || {}).loja_id !== loja) throw new Error("Vendedor não é desta loja.");
-        let val = M.valores.find(y => y.fid === f.id && y.vendedor_id === x.vendedor_id);
-        if (jaFechado) ["assistencia", "vendas"].forEach(k => { const antes = val ? val[k] : 0; if (antes !== x[k]) M.corr.push({ fechamento_id: f.id, vendedor_id: x.vendedor_id, campo: k, antes, depois: x[k], em: new Date().toISOString() }); });
-        if (!val) { val = { fid: f.id, vendedor_id: x.vendedor_id }; M.valores.push(val); }
-        val.assistencia = x.assistencia; val.vendas = x.vendas;
-      }
-      f.status = "fechado"; f.fechado_em = new Date().toISOString(); avisar(); return f.id;
-    },
-    async reabrirDia(loja, dia) { exigir("dona", "admin"); const f = db.metas.fech.find(x => x.loja_id === loja && x.dia === dia && x.status === "fechado"); if (!f) throw new Error("Esse dia não está fechado."); f.status = "aberto"; f.reaberto_em = new Date().toISOString(); avisar(); },
-    async copiarMetas(de, para) {
-      exigir("dona", "admin"); const M = db.metas; let n = 0;
-      M.metasLoja.filter(x => x.mes === de).forEach(x => { if (!M.metasLoja.some(y => y.mes === para && y.loja_id === x.loja_id)) { M.metasLoja.push({ ...x, mes: para }); n++; } });
-      M.metasVend.filter(x => x.mes === de && (M.vendedores.find(v => v.id === x.vendedor_id) || {}).ativo).forEach(x => { if (!M.metasVend.some(y => y.mes === para && y.vendedor_id === x.vendedor_id)) { M.metasVend.push({ ...x, mes: para }); n++; } });
-      avisar(); return n;
-    },
-    async salvarVendedor(v) { exigir("dona", "admin"); const M = db.metas; if (v.id) Object.assign(M.vendedores.find(x => x.id === v.id), v); else M.vendedores.push({ id: "V" + uid().slice(0, 8), ativo: true, ordem: 0, ...v }); avisar(); },
-    async salvarMetaLoja(mes, loja_id, a, v) { exigir("dona", "admin"); const M = db.metas, x = M.metasLoja.find(y => y.mes === mes && y.loja_id === loja_id); if (x) { x.assistencia = a; x.vendas = v; } else M.metasLoja.push({ mes, loja_id, assistencia: a, vendas: v }); avisar(); },
-    async salvarMetaVendedor(mes, vendedor_id, m) { exigir("dona", "admin"); const M = db.metas; M.metasVend = M.metasVend.filter(y => !(y.mes === mes && y.vendedor_id === vendedor_id)); if (m) M.metasVend.push({ mes, vendedor_id, assistencia: m.a, vendas: m.v }); avisar(); },
-    async salvarCalendario(dia, aberto) { exigir("dona", "admin"); const M = db.metas; M.cal = M.cal.filter(c => c.dia !== dia); M.cal.push({ dia, aberto }); avisar(); },
-    async salvarConfigMetas(chave, valor) { exigir("dona", "admin"); db.metas.config.find(c => c.chave === chave).valor = valor; avisar(); },
-    async marcarVisto(chave, gravidade) { const u = exigir("loja", "dona", "admin"), M = db.metas; M.vistos = M.vistos.filter(v => !(v.perfil_id === u.id && v.chave === chave)); M.vistos.push({ perfil_id: u.id, chave, gravidade, visto_em: new Date().toISOString() }); gravar(); },
-    async zerarDemo() { db = semente(); db.metas = sementeMetas(); db.usuarios.push({ id: uid(), usuario: "dona", senha: "dona", nome: "Dona da rede", papel: "dona", loja_id: null, ativo: true }); db.sessao = null; gravar(); }
+    async zerarDemo() { db = semente(); db.sessao = null; gravar(); }
   };
 }

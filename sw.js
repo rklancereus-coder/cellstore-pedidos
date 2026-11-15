@@ -63,7 +63,7 @@ self.addEventListener("notificationclick", e => {
   const alvo = new URL(e.notification.data && e.notification.data.url || "./", self.registration.scope).href;
   e.waitUntil((async () => {
     const abertas = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
-    for (const c of abertas) if (c.url.startsWith(self.registration.scope)) { const h = new URL(alvo).hash; if (h) c.postMessage({ abrir: h }); await c.focus(); return; }
+    for (const c of abertas) if (c.url.startsWith(self.registration.scope)) { await c.focus(); return; }
     await self.clients.openWindow(alvo);
   })());
 });

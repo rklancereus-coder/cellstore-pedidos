@@ -135,43 +135,11 @@ function criarApiSupabase(cfg) {
         .on("postgres_changes", { event: "*", schema: "public", table: "romaneios" }, ev("romaneios"))
         .on("postgres_changes", { event: "*", schema: "public", table: "wa_conversas" }, ev("wa_conversas"))
         .on("postgres_changes", { event: "INSERT", schema: "public", table: "wa_mensagens" }, ev("wa_mensagens"))
-        .on("postgres_changes", { event: "*", schema: "public", table: "fechamentos" }, ev("fechamentos"))
         .subscribe(st => { if (st === "SUBSCRIBED") { if (conectou) chamar(null); conectou = true; } });
       // voltou para a aba depois de mais de 30 s (celular bloqueado, por exemplo): recarrega tudo uma vez
       let saiu = 0;
       document.addEventListener("visibilitychange", () => { if (document.hidden) saiu = Date.now(); else if (saiu && Date.now() - saiu > 30000) chamar(null); });
     },
-    // metas e fechamentos (metas.sql): o banco só entrega o que cada papel pode ver
-    async metasMes(mes) {
-      const fim = addDias(mtMesMais(mes, 1), -1), prox = mtMesMais(mes, 1);
-      const [vendedores, metasLoja, metasVend, cal, calLoja, fech, lanc, corr, config, vistos, proxMetas] = await Promise.all([
-        sb.from("vendedores").select("*"),
-        sb.from("metas_loja").select("*").eq("mes", mes),
-        sb.from("metas_vendedor").select("*").eq("mes", mes),
-        sb.from("calendario").select("*").gte("dia", mes).lte("dia", fim),
-        sb.from("calendario_loja").select("*").gte("dia", mes).lte("dia", fim),
-        sb.from("fechamentos").select("id, loja_id, dia, status, fechado_em, reaberto_em").gte("dia", mes).lte("dia", fim),
-        sb.from("metas_lancamentos").select("loja_id, dia, status, vendedor_id, assistencia, vendas").gte("dia", mes).lte("dia", fim).limit(10000),
-        sb.from("fechamento_correcoes").select("fechamento_id, vendedor_id, campo, antes, depois, em, fechamentos!inner(dia)").gte("fechamentos.dia", mes).lte("fechamentos.dia", fim),
-        sb.from("metas_config").select("*"),
-        sb.from("avisos_vistos").select("chave, gravidade, visto_em"),
-        sb.from("metas_loja").select("loja_id", { count: "exact", head: true }).eq("mes", prox),
-      ]);
-      return { vendedores: ok(vendedores), metasLoja: ok(metasLoja), metasVend: ok(metasVend), cal: ok(cal), calLoja: ok(calLoja), fech: ok(fech), lanc: ok(lanc),
-        corr: ok(corr).map(({ fechamentos, ...c }) => c), config: ok(config), vistos: ok(vistos), proximoTemMetas: (proxMetas.count || 0) > 0 };
-    },
-    async fecharDia(loja, dia, valores) { return ok(await sb.rpc("fechar_dia", { p_loja: loja, p_dia: dia, p_valores: valores })); },
-    async reabrirDia(loja, dia) { ok(await sb.rpc("reabrir_dia", { p_loja: loja, p_dia: dia })); },
-    async copiarMetas(de, para) { return ok(await sb.rpc("copiar_metas", { p_de: de, p_para: para })); },
-    async salvarVendedor(v) { const { id, ...d } = v; id ? ok(await sb.from("vendedores").update(d).eq("id", id)) : ok(await sb.from("vendedores").insert(d)); },
-    async salvarMetaLoja(mes, loja_id, a, v) { ok(await sb.from("metas_loja").upsert({ mes, loja_id, assistencia: a, vendas: v }, { onConflict: "mes,loja_id" })); },
-    async salvarMetaVendedor(mes, vendedor_id, m) {
-      if (!m) ok(await sb.from("metas_vendedor").delete().eq("mes", mes).eq("vendedor_id", vendedor_id));
-      else ok(await sb.from("metas_vendedor").upsert({ mes, vendedor_id, assistencia: m.a, vendas: m.v }, { onConflict: "mes,vendedor_id" }));
-    },
-    async salvarCalendario(dia, aberto) { ok(await sb.from("calendario").upsert({ dia, aberto }, { onConflict: "dia" })); },
-    async salvarConfigMetas(chave, valor) { ok(await sb.from("metas_config").update({ valor }).eq("chave", chave)); },
-    async marcarVisto(chave, gravidade) { ok(await sb.from("avisos_vistos").upsert({ perfil_id: S.perfil.id, chave, gravidade, visto_em: new Date().toISOString() }, { onConflict: "perfil_id,chave" })); },
     // administração (usuários passam pela função do servidor; o resto o banco protege)
     async usuarios(acao, d = {}) { const r = await funcao("admin-usuarios", { acao, ...d }); return acao === "listar" ? r.usuarios : r; },
     async salvarPreco(chave, valor) { ok(await sb.from("precos").update({ valor: Number(valor), atualizado_em: new Date().toISOString() }).eq("chave", chave)); },
