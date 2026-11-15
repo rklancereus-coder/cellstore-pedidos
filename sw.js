@@ -9,14 +9,39 @@ self.addEventListener("install", () => self.skipWaiting());
 self.addEventListener("activate", e => e.waitUntil((async () => {
   const manter = [PAGINAS, IMAGENS, EXTERNOS];
   for (const k of await caches.keys()) if (!manter.includes(k)) await caches.delete(k);
+  await limparVersoes();
   await self.clients.claim();
 })()));
+
+// Cada publicação gera arquivos com "?v=NOVA_VERSAO"; as cópias das versões antigas são apagadas
+// (roda ao atualizar o app e, no máximo 1 vez por hora, quando a página abre com internet).
+let ultimaLimpeza = 0;
+async function limparVersoes() {
+  try {
+    const v = String((await (await fetch("versao.json", { cache: "no-store" })).json()).v);
+    const c = await caches.open(PAGINAS);
+    for (const r of await c.keys()) {
+      const q = new URL(r.url).searchParams.get("v");
+      if (q && q !== v) await c.delete(r);
+    }
+    ultimaLimpeza = Date.now();
+  } catch (e) { } // sem internet: tenta na próxima vez
+}
+
+// Teto de imagens guardadas no celular: passando de MAX_IMAGENS, apaga as mais antigas.
+const MAX_IMAGENS = 400;
+let guardadasDesdeConferencia = 0;
+async function limitarImagens() {
+  const c = await caches.open(IMAGENS), k = await c.keys();
+  for (let i = 0; i < k.length - MAX_IMAGENS; i++) await c.delete(k[i]);
+}
 
 async function redePrimeiro(req) {
   const cache = await caches.open(PAGINAS);
   try {
     const r = await fetch(req);
     if (r.ok) cache.put(req, r.clone());
+    if (req.mode === "navigate" && Date.now() - ultimaLimpeza > 3600e3) limparVersoes();
     return r;
   } catch (e) {
     const c = await cache.match(req, { ignoreSearch: req.mode === "navigate" });
@@ -29,7 +54,10 @@ async function guardadoPrimeiro(req, nome) {
   const c = await cache.match(req);
   if (c) return c;
   const r = await fetch(req);
-  if (r.ok || r.type === "opaque") cache.put(req, r.clone());
+  if (r.ok || r.type === "opaque") {
+    const guardando = cache.put(req, r.clone()); // não segura a imagem esperando gravar
+    if (nome === IMAGENS && ++guardadasDesdeConferencia >= 25) { guardadasDesdeConferencia = 0; guardando.then(limitarImagens).catch(() => { }); }
+  }
   return r;
 }
 
