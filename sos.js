@@ -29,7 +29,7 @@ function novoSos() { sos = { passo: 1, marca: "", modelo: "", naoSei: false, mod
 
 async function abrirSos() {
   novoSos();
-  if (!S.modelos.length) { try { S.modelos = await api.modelosPublicos(); } catch (e) { } }
+  if (!S.modelos.length) { try { S.modelos = await api.modelosPublicos(); } catch (e) { registrarErro("lista de modelos do SOS", e); } }
   desenharSos();
 }
 const SOS_PASSOS = ["Qual é o seu celular?", "O que aconteceu?", "Conta um pouco mais", "Foto do estrago", "Onde e quando a gente busca?", "Confira e envie"];

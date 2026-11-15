@@ -37,7 +37,7 @@ async function recarregarConversas() {
   try { S.conversas = await api.conversas(); } catch (e) { S.conversas = []; }
   const agora = S.conversas.reduce((a, c) => a + c.nao_lidas, 0);
   if (idsConhecidos && agora > antes) { toast("Mensagem nova no WhatsApp esperando você", 4000); bip(); }
-  if (conversaAberta) { try { S.mensagens = await api.mensagens(conversaAberta); } catch (e) { } }
+  if (conversaAberta) { try { S.mensagens = await api.mensagens(conversaAberta); } catch (e) { registrarErro("mensagens da conversa", e); } }
 }
 // aplica só o que mudou (pedido por pedido), sem baixar a lista inteira de novo
 async function aplicarMudancas(lista) {
@@ -78,16 +78,27 @@ async function iniciarSessao() {
   try { await recarregar(true); } catch (e) { erroTela(e); }
   desenhar();
 }
-let ouvindo = false;
+let ouvindo = false, refazerTudo = null;
+// se a atualização em tempo real falhar, a tela não fica parada com dados velhos: tenta baixar tudo de novo em 15 s
+function falhaAtualizar(e) {
+  registrarErro("atualização em tempo real", e);
+  if (refazerTudo) return;
+  refazerTudo = setTimeout(async () => {
+    refazerTudo = null;
+    if (!S.perfil) return;
+    try { await recarregar(); if ($("modal").hidden && !(tela === "novo" && papel() === "loja")) desenhar(); }
+    catch (er) { registrarErro("recarregar depois da falha", er); }
+  }, 15000);
+}
 function ouvirMudancas() {
   if (ouvindo) return; ouvindo = true;
   api.ouvir(async lista => {
     if (!S.perfil) return;
-    if (tela === "novo" && papel() === "loja") { try { await aplicarMudancas(lista); } catch (e) { } return; } // não atrapalha quem está preenchendo
+    if (tela === "novo" && papel() === "loja") { try { await aplicarMudancas(lista); } catch (e) { falhaAtualizar(e); } return; } // não atrapalha quem está preenchendo
     const foco = document.activeElement && document.activeElement.id;
-    if (!$("modal").hidden) { try { await aplicarMudancas(lista); } catch (e) { } return; }
+    if (!$("modal").hidden) { try { await aplicarMudancas(lista); } catch (e) { falhaAtualizar(e); } return; }
     const rascunho = $("ctexto") ? $("ctexto").value : null; // resposta sendo digitada nas Conversas
-    try { await aplicarMudancas(lista); desenhar(); if (rascunho && $("ctexto")) $("ctexto").value = rascunho; if (foco && $(foco)) $(foco).focus(); } catch (e) { }
+    try { await aplicarMudancas(lista); desenhar(); if (rascunho && $("ctexto")) $("ctexto").value = rascunho; if (foco && $(foco)) $(foco).focus(); } catch (e) { falhaAtualizar(e); }
   });
 }
 
@@ -112,7 +123,7 @@ async function conferirVersao() {
     if (ls.get("versao-tentada") === v) return; // já tentou esta versão: evita ficar recarregando em volta
     ls.set("versao-tentada", v);
     location.replace(location.pathname + "?v=" + v);
-  } catch (e) { }
+  } catch (e) { registrarErro("conferir versão nova", e); }
 }
 conferirVersao();
 document.addEventListener("visibilitychange", () => { if (!document.hidden) conferirVersao(); });

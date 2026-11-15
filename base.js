@@ -1,6 +1,8 @@
 /* ---------- utilidades e dados compartilhados por todas as telas ---------- */
 const $ = id => document.getElementById(id);
 const $$ = sel => [...document.querySelectorAll(sel)];
+// erro que não precisa aparecer para o usuário, mas fica registrado no console (F12) para achar o problema
+function registrarErro(onde, e) { try { console.warn("[Portal] " + onde + ":", e); } catch (x) { } }
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const brl = v => Number(v || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 const hoje = () => { const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 10); };
@@ -137,7 +139,7 @@ function miniatura(p, cls = "thumb") {
 async function carregarFotos(raiz = document) {
   for (const img of raiz.querySelectorAll("img[data-foto]")) {
     const path = img.dataset.foto;
-    try { if (!S.fotos[path]) S.fotos[path] = await api.fotoUrl(path); img.src = S.fotos[path]; img.style.cursor = "zoom-in"; img.onclick = () => modal(`<img src="${S.fotos[path]}" alt="Foto do cliente"><button class="btn soft" onclick="fecharModal()">Fechar</button>`); } catch (e) { }
+    try { if (!S.fotos[path]) S.fotos[path] = await api.fotoUrl(path); img.src = S.fotos[path]; img.style.cursor = "zoom-in"; img.onclick = () => modal(`<img src="${S.fotos[path]}" alt="Foto do cliente"><button class="btn soft" onclick="fecharModal()">Fechar</button>`); } catch (e) { registrarErro("foto do pedido", e); }
   }
 }
 function linhaLisa(p) {
@@ -203,8 +205,9 @@ async function ativarAvisos() {
     const j = sub.toJSON();
     await api.inscreverPush({ endpoint: j.endpoint, chaves: j.keys, aparelho: navigator.userAgent.slice(0, 150) });
     ls.set("avisos-" + S.perfil.id, "1");
-    try { await api.testePush(); } catch (e) { }
-    toast("Avisos ligados! Mandei um aviso de teste para este aparelho.", 4500);
+    let testou = true;
+    try { await api.testePush(); } catch (e) { testou = false; registrarErro("aviso de teste", e); }
+    toast(testou ? "Avisos ligados! Mandei um aviso de teste para este aparelho." : "Avisos ligados! Só não consegui mandar o aviso de teste agora.", 4500);
     desenhar();
   } catch (e) { erroTela(e); }
 }

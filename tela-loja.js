@@ -146,6 +146,26 @@ function nomeColecao(pre, temaPasta) {
   return (t && (t.nome_exibicao || t.nome)) || temaPasta || pre;
 }
 let catTema = null, catBusca = "";
+// palavras que o cliente costuma digitar e que não estão no nome da coleção (busca sem acento, pelo começo da palavra)
+const SINONIMOS = [
+  [["gato", "gata", "gatinh", "cachorr", "cao", "caes", "dog", "cat", "bicho", "patinha"], ["PET"]],
+  [["onca", "oncinha", "zebra", "leopard", "tigr", "animal"], ["ANP", "PET"]],
+  [["amor", "coracao", "romant", "casal"], ["LOV", "COR", "NAM"]],
+  [["mae", "mamae", "maes"], ["MAE"]], [["pai", "papai"], ["PAI"]],
+  [["fruta"], ["FRU", "FRB"]], [["frase", "texto", "escrita"], ["FRA"]],
+  [["jogo", "game", "gamer", "video"], ["GAM", "POK"]], [["pikachu", "pokemon"], ["POK"]],
+  [["harry", "hogwarts", "bruxo"], ["HPT"]], [["jesus", "deus", "fe", "cruz", "biblia", "relig", "evangel", "catol"], ["REL"]],
+  [["signo", "horoscopo", "zodiaco"], ["SIG"]], [["banda", "rock", "metal"], ["ROC"]],
+  [["crianca", "infantil", "kids", "desenho"], ["CRI", "PER"]], [["natal", "papai noel", "noel"], ["NAT"]],
+  [["luxo", "chique", "dourad"], ["LUX", "MRB"]], [["sorriso", "carinha", "emoji"], ["SMI"]],
+  [["arco-iris", "arco iris", "orgulho", "pride"], ["LGB", "DIV"]], [["corrente", "cordao", "alca"], ["CRT"]],
+  [["dragao", "banguela"], ["DRA"]], [["wandinha", "wednesday", "addams"], ["WAN"]]
+];
+function prefixosDaBusca(q) {
+  const pal = q.split(/\s+/).filter(Boolean), r = new Set();
+  for (const [chaves, pres] of SINONIMOS) if (chaves.some(k => pal.some(w => w === k || (w.length >= 3 && k.startsWith(w)) || (k.length >= 4 && w.startsWith(k))) || q.includes(k) && k.includes(" "))) pres.forEach(x => r.add(x));
+  return r;
+}
 // coleções agrupadas pelo prefixo do código (assim "Pais" junta PAI-001 a PAI-020, mesmo vindo de duas pastas)
 function colecoesCatalogo() {
   const m = new Map();
@@ -172,23 +192,29 @@ function abrirCatalogo(aoEscolher, manter, opcoes = {}) {
   if (!manter) { catTema = atual ? atual.codigo.split("-")[0] : null; catBusca = ""; }
   if (!porId.has(catTema)) catTema = null;
   modal(`<div class="cat-topo"><button type="button" class="cat-voltar" id="catvoltar" hidden>‹ Coleções</button><h2 id="cattit">Catálogo de estampas</h2><button class="cat-x" id="catfechar" aria-label="Fechar">×</button></div>
-    <div class="busca">${ICON.lupa}<input id="catq" type="search" placeholder="Já sabe o código? Busque aqui (ex.: PET-012)" value="${esc(catBusca)}" autocomplete="off"></div>
+    <div class="busca">${ICON.lupa}<input id="catq" type="search" placeholder="Busque por tema ou código (ex.: flores, Stitch, PET-012)" aria-label="Buscar estampas" value="${esc(catBusca)}" autocomplete="off"></div>
     <div class="cat-corpo" id="catcorpo"></div>`, () => {
     const ehAdmin = papel() === "admin";
     const estampa = (c, comTema, capa) => `<div class="cat-cel"><button type="button" class="cat-item ${atual && atual.codigo === c.codigo ? "sel" : ""}" data-ccod="${esc(c.codigo)}"><img src="${imgDrive(c.arquivo_id, 300)}" alt="" loading="lazy"><b>${esc(c.codigo)}</b>${comTema ? `<small>${esc(nomeColecao(c.codigo.split("-")[0], c.tema))}</small>` : ""}</button>${capa ? `<button type="button" class="cat-estrela ${capa.includes(c) ? "on" : ""}" data-capa="${esc(c.codigo)}" title="Usar na capa da coleção" aria-label="Usar ${esc(c.codigo)} na capa">★</button>` : ""}</div>`;
+    const cartaoColecao = t => `<button type="button" class="cat-col" data-ctema="${esc(t.id)}"><span class="fan">${t.capa.map(c => `<img src="${imgDrive(c.arquivo_id, 130)}" alt="" loading="lazy">`).join("")}</span><span class="tx"><b>${esc(t.nome)}</b><small><span class="cat-pre">${esc(t.pre)}</span> ${t.itens.length} estampas</small></span></button>`;
     const desenharCat = () => {
       const q = semAcento(catBusca).trim(), qc = normCod(catBusca), corpo = $("catcorpo");
       let html, tit = "Catálogo de estampas";
       if (q) {
-        const R = itens.filter(c => normCod(c.codigo).startsWith(qc) || semAcento(c.tema).includes(q) || semAcento(nomeColecao(c.codigo.split("-")[0], c.tema)).includes(q)).slice(0, 150);
+        // primeiro as coleções cujo nome bate com a busca; depois as estampas soltas (por código ou tema)
+        const sin = prefixosDaBusca(q);
+        const C = L.filter(t => semAcento(t.nome).includes(q) || semAcento(t.tema || "").includes(q) || (qc.length >= 2 && normCod(t.pre).startsWith(qc)) || sin.has(t.pre));
+        const R = itens.filter(c => normCod(c.codigo).startsWith(qc) || semAcento(c.tema).includes(q) || semAcento(nomeColecao(c.codigo.split("-")[0], c.tema)).includes(q) || sin.has(c.codigo.split("-")[0]));
         tit = "Busca";
-        html = R.length ? `<div class="cat-grade">${R.map(c => estampa(c, true)).join("")}</div>` : `<p class="cat-vazio">Nada encontrado. Apague a busca para ver as coleções.</p>`;
+        html = (C.length ? `<p class="cat-sub">${C.length === 1 ? "1 coleção" : C.length + " coleções"}</p><div class="cat-cols">${C.map(cartaoColecao).join("")}</div>` : "")
+          + (R.length ? `<p class="cat-sub" ${C.length ? 'style="margin-top:16px"' : ""}>${R.length > 60 ? "Primeiras 60 de " + R.length.toLocaleString("pt-BR") + " estampas" : R.length === 1 ? "1 estampa" : R.length + " estampas"}</p><div class="cat-grade">${R.slice(0, 60).map(c => estampa(c, true)).join("")}</div>` : "")
+          || `<p class="cat-vazio">Nada encontrado para “${esc(catBusca.trim())}”. Tente outra palavra ou apague a busca para ver as coleções.</p>`;
       } else if (catTema) {
         const t = porId.get(catTema); tit = t.nome;
         html = `<p class="cat-sub"><span class="cat-pre">${esc(t.pre)}</span> ${t.itens.length} estampas · toque para escolher</p>${ehAdmin ? `<p class="hint" style="margin:-6px 0 10px">★ Administrador: toque na estrela para escolher as 3 estampas da capa desta coleção.</p>` : ""}<div class="cat-grade">${t.itens.map(c => estampa(c, false, ehAdmin ? t.capa : null)).join("")}</div>`;
       } else {
         const top = (S.maisPedidas || []).map(m => acharCat(m.codigo)).filter(Boolean);
-        html = (top.length >= 3 ? `<div class="cat-top"><h3>🔥 Mais pedidas</h3><div class="cat-faixa">${top.map(c => estampa(c, true)).join("")}</div></div>` : "") + `<p class="cat-sub">${L.length} coleções · ${itens.length.toLocaleString("pt-BR")} estampas · toque numa coleção</p><div class="cat-cols">${L.map(t => `<button type="button" class="cat-col" data-ctema="${esc(t.id)}"><span class="fan">${t.capa.map(c => `<img src="${imgDrive(c.arquivo_id, 130)}" alt="" loading="lazy">`).join("")}</span><span class="tx"><b>${esc(t.nome)}</b><small><span class="cat-pre">${esc(t.pre)}</span> ${t.itens.length} estampas</small></span></button>`).join("")}</div>`;
+        html = (top.length >= 3 ? `<div class="cat-top"><h3>🔥 Mais pedidas</h3><div class="cat-faixa">${top.map(c => estampa(c, true)).join("")}</div></div>` : "") + `<p class="cat-sub">${L.length} coleções · ${itens.length.toLocaleString("pt-BR")} estampas · toque numa coleção</p><div class="cat-cols">${L.map(cartaoColecao).join("")}</div>`;
       }
       $("cattit").textContent = tit;
       $("catvoltar").hidden = !catTema || !!q;
