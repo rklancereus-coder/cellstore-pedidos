@@ -63,11 +63,15 @@ function criarApiSupabase(cfg) {
     async temasCatalogo() { return ok(await sb.from("temas").select("pasta_id, nome, prefixo, ordem, nome_exibicao, ativo, capa").order("ordem")); },
     // SOS Celular (sem login): lista de modelos e envio da foto do estrago (depósito público "sos")
     async modelosPublicos() { return ok(await sb.from("modelos").select("id, nome, marca, ativo").eq("ativo", true).order("nome")); },
+    // a foto passa pela função "sos-foto", que limita os envios (5 por hora por pessoa) e guarda no depósito
     async enviarFotoSos(blob) {
-      const dia = new Date().toISOString().slice(0, 10).replace(/-/g, "");
-      const path = `${dia}/${crypto.randomUUID()}.jpg`;
-      ok(await sb.storage.from("sos").upload(path, blob, { contentType: "image/jpeg", upsert: false }));
-      return sb.storage.from("sos").getPublicUrl(path).data.publicUrl;
+      const r = await fetch(`${cfg.supabaseUrl}/functions/v1/sos-foto`, {
+        method: "POST", body: blob,
+        headers: { "Content-Type": "image/jpeg", apikey: cfg.supabaseAnonKey, Authorization: `Bearer ${cfg.supabaseAnonKey}` }
+      });
+      const d = await r.json().catch(() => ({}));
+      if (!r.ok || !d.url) throw new Error(d.erro || "Não consegui enviar a foto.");
+      return d.url;
     },
     async maisPedidas() { return ok(await sb.rpc("mais_pedidas", { limite: 12 })); },
     async salvarCapa(prefixo, capa) { ok(await sb.from("temas").update({ capa }).eq("prefixo", prefixo)); },

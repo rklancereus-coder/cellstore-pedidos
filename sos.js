@@ -108,7 +108,7 @@ function mensagemSos() {
     `🔧 *Problema:* ${prob ? prob[2] : ""}`,
     ...Q,
     sos.obs ? `📝 *Detalhes:* ${sos.obs}` : "",
-    sos.fotoUrl ? `📷 *Foto:* ${sos.fotoUrl}` : "📷 Sem foto",
+    sos.fotoUrl ? `📷 *Foto:* ${sos.fotoUrl}` : sos.foto ? "📷 Vou mandar a foto aqui na conversa" : "📷 Sem foto",
     `📍 *Busca em:* ${sos.cidade === "outra" ? sos.outraCidade : sos.cidade}${sos.bairro ? ", bairro " + sos.bairro : ""}`,
     `🕒 *Melhor horário:* ${per ? `${per[1]} (${per[2]})` : ""}`,
     `🙋 *Nome:* ${sos.nome}`,
