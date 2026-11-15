@@ -1,5 +1,10 @@
 /* ---------- partida do sistema ---------- */
-const api = (CONFIG.supabaseUrl && CONFIG.supabaseAnonKey && window.supabase) ? criarApiSupabase(CONFIG) : criarApiDemo();
+const api = !(CONFIG.supabaseUrl && CONFIG.supabaseAnonKey) ? criarApiDemo()
+  : window.supabase ? criarApiSupabase(CONFIG)
+  : (() => { // sem a biblioteca do banco (internet caiu no meio do carregamento): avisa em vez de abrir dados falsos
+      document.getElementById("app").innerHTML = '<div class="login"><p class="aviso">Não consegui carregar o Portal. Confira a internet e tente de novo.</p><button class="btn primary" onclick="location.reload()">Tentar de novo</button></div>';
+      throw new Error("Biblioteca do Supabase não carregou");
+    })();
 
 function desenhar() {
   $("top").hidden = !S.perfil;

@@ -607,3 +607,6 @@ a.cat-entrada{text-decoration:none}
 .inicio .cat-entrada small{font-size:clamp(12.5px,1.7vh,14px)}
 .inicio .cat-entrada .tag{font-size:clamp(11px,1.5vh,13px)}
 .inicio .cat-entrada .seta{width:clamp(34px,4.8vh,42px);height:clamp(34px,4.8vh,42px)}
+
+/* logo da Cell Store no topo da área da equipe (antes ficava embutido no logo.css) */
+.logo{-webkit-mask:url(logo-mascara.webp) center/contain no-repeat;mask:url(logo-mascara.webp) center/contain no-repeat}
