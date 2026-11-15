@@ -34,7 +34,7 @@ function abrirLogin() {
     const campo = $("ucampo");
     try {
       const L = await api.logins();
-      const grupos = [["loja", "Lojas"], ["fabrica", "Fábrica"], ["logistica", "Logística"], ["admin", "Administração"]];
+      const grupos = [["loja", "Lojas"], ["fabrica", "Fábrica"], ["logistica", "Logística"], ["dona", "Rede"], ["admin", "Administração"]];
       const ultimo = ls.get("ultimo-usuario") || "";
       if (!$("usuario")) return;
       campo.innerHTML = `<span>Quem está entrando?</span><select id="usuario"><option value="">Escolha na lista</option>${grupos.map(([p, n]) => { const g = L.filter(x => x.papel === p); return g.length ? `<optgroup label="${n}">${g.map(x => `<option value="${esc(x.usuario)}" ${x.usuario === ultimo ? "selected" : ""}>${esc(x.nome)}</option>`).join("")}</optgroup>` : ""; }).join("")}</select>`;
@@ -62,6 +62,7 @@ let abaLoja = "andamento", buscaLoja = "", tela = "inicio";
 function telaLoja() {
   if (tela === "novo") return renderPasso();
   if (tela === "enviado") return renderEnviado();
+  if (tela === "metas") return mtRender();
   const meus = S.pedidos.filter(p => p.loja_id === S.perfil.loja_id || p.retirada_loja_id === S.perfil.loja_id);
   const q = semAcento(buscaLoja).trim(), qn = soNumeros(buscaLoja);
   const bate = p => !q || semAcento(p.cliente).includes(q) || (qn.length >= 3 && soNumeros(p.whats).includes(qn)) || (qn && String(p.id) === qn);
@@ -75,6 +76,7 @@ function telaLoja() {
    <div class="hero">
     <button class="btn primary bigbtn" id="novo">${ICON.mais} Fazer novo pedido</button>
     ${zap ? `<a class="wpp" href="${zap}" target="_blank" rel="noopener">${ICON.chat}<span>Falar com a fábrica<small>pelo WhatsApp</small></span></a>` : `<button class="wpp" id="wpp">${ICON.chat}<span>Falar com a fábrica<small>pelo WhatsApp · em breve</small></span></button>`}
+    ${mtEntradaLoja()}
     ${botaoInstalar("soft mini instalar-loja")}
     <div class="atalhos">
      <div class="atalho-col"><button type="button" class="atalho" id="atcat"><span class="fan" aria-hidden="true"><img src="estampas/mini/PET-001.webp?r=2" alt=""><img src="estampas/mini/FLO-001.webp?r=2" alt=""><img src="estampas/mini/LUX-002.webp?r=2" alt=""></span><b>Catálogo de estampas</b></button><button type="button" class="copiar-link" data-copiar-link="estampas">${ICON_COPIAR_LINK}Copiar link</button></div>

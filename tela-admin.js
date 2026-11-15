@@ -1,6 +1,6 @@
 /* ---------- ADMINISTRAÇÃO: usuários, lojas, preços, modelos e catálogo ---------- */
 let secAdmin = "usuarios", usuariosCache = null;
-const PAPEL_NOME = { loja: "Loja", fabrica: "Fábrica", logistica: "Logística", admin: "Administrador" };
+const PAPEL_NOME = { loja: "Loja", fabrica: "Fábrica", logistica: "Logística", dona: "Dona da rede (metas)", admin: "Administrador" };
 
 async function telaAdmin() {
   const secs = [["usuarios", "Usuários e senhas"], ["lojas", "Lojas"], ["precos", "Preços"], ["modelos", "Modelos de celular"], ["catalogo", "Catálogo"], ["aparelhos", "Aparelhos"], ["manutencao", "Espaço e cópias"]];

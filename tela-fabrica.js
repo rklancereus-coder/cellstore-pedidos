@@ -4,7 +4,7 @@ const ABAS_FAB = [["pedidos", "Pedidos"], ["conversas", "Conversas"], ["producao
 
 function telaFabrica() {
   const novos = S.pedidos.filter(p => !p.visto_fabrica && ABERTOS.includes(p.status)).length;
-  const abas = [...ABAS_FAB, ...(papel() === "admin" ? [["admin", "Administração"]] : [])];
+  const abas = [...ABAS_FAB, ...(papel() === "admin" ? [["metas", "Metas das lojas"], ["admin", "Administração"]] : [])];
   let html = faixaAvisos() + `<div class="tabs noprint" style="margin-top:0">${abas.map(([k, n]) => `<button data-fab="${k}" class="${abaFab === k ? "on" : ""}">${n}${k === "pedidos" && novos ? ` · ${novos} novo${novos > 1 ? "s" : ""}` : ""}${k === "conversas" && naoLidas() ? ` · ${naoLidas()}` : ""}</button>`).join("")}</div>`;
   if (abaFab === "pedidos") html += abaPedidos();
   if (abaFab === "conversas") html += abaConversas();
@@ -12,6 +12,7 @@ function telaFabrica() {
   if (abaFab === "envios") html += abaEnvios();
   if (abaFab === "numeros") html += abaNumeros();
   if (abaFab === "fechamento") html += abaFechamento();
+  if (abaFab === "metas") html += `<div id="mtbox"></div>`;
   if (abaFab === "admin") html += `<div id="admin"><p class="carregando" style="margin-top:10vh">Carregando…</p></div>`;
   $("app").innerHTML = html;
   if ($("bavisos")) $("bavisos").onclick = ativarAvisos;
@@ -21,6 +22,7 @@ function telaFabrica() {
   if (abaFab === "conversas") ligarConversas();
   carregarFotos($("app"));
   if (abaFab === "admin") telaAdmin();
+  if (abaFab === "metas") mtRender();
 }
 
 /* ---- Pedidos ---- */

@@ -6,11 +6,12 @@ function desenhar() {
   if (!S.perfil) return telaLogin();
   const p = S.perfil.papel;
   $("app").className = "wrap" + (p === "loja" ? "" : " wide");
-  $("brand").innerHTML = `<span class="logo" role="img" aria-label="Cell Store"></span><span class="sep"></span><span style="min-width:0"><b>${esc(S.perfil.nome)}</b><small>${{ loja: "Pedidos de capinhas", fabrica: "Pedidos de todas as lojas", admin: "Fábrica · administrador", logistica: "Compra de capinhas lisas" }[p]}${api.modo === "demo" ? ` <span class="demo-tag">demo</span>` : ""}</small></span>`;
+  $("brand").innerHTML = `<span class="logo" role="img" aria-label="Cell Store"></span><span class="sep"></span><span style="min-width:0"><b>${esc(S.perfil.nome)}</b><small>${{ loja: "Pedidos de capinhas", fabrica: "Pedidos de todas as lojas", admin: "Fábrica · administrador", logistica: "Compra de capinhas lisas", dona: "Metas e fechamentos das lojas" }[p]}${api.modo === "demo" ? ` <span class="demo-tag">demo</span>` : ""}</small></span>`;
   const novos = p === "logistica" ? S.compras.filter(c => !c.visto && c.status_pedido !== "cancelado").length : p !== "loja" ? S.pedidos.filter(x => !x.visto_fabrica && ABERTOS.includes(x.status)).length : 0;
   document.title = (novos ? `(${novos}) ` : "") + "Cell Store Pedidos";
   if (p === "loja") { if (tela !== "inicio") marcarTelaNoHistorico(); return telaLoja(); }
   if (p === "logistica") return telaLogistica();
+  if (p === "dona") return mtRender();
   return telaFabrica();
 }
 
@@ -20,11 +21,13 @@ async function recarregar(tudo) {
   if (tudo) {
     const b = await api.base();
     S.lojas = b.lojas; S.precos = b.precos; S.modelos = b.modelos; S.temas = b.temas;
-    if (p !== "logistica") { S.catalogo = new Map(); (await api.catalogo()).forEach(c => S.catalogo.set(normCod(c.codigo), c)); }
+    if (p !== "logistica" && p !== "dona") { S.catalogo = new Map(); (await api.catalogo()).forEach(c => S.catalogo.set(normCod(c.codigo), c)); }
   }
+  if (p === "dona") { await mtRecarregarSeAberto(); return; }
   if (p === "logistica") S.compras = await api.comprasLogistica();
   else { [S.pedidos, S.romaneios] = await Promise.all([api.pedidos(), api.romaneios()]); }
   if (eFabrica()) await recarregarConversas();
+  await mtRecarregarSeAberto();
   avisarNovos();
 }
 async function recarregarConversas() {
@@ -52,6 +55,7 @@ async function aplicarMudancas(lista) {
   }
   if (p !== "logistica") S.pedidos.sort((a, b) => b.id - a.id);
   if (tabs.has("romaneios") && p !== "logistica") S.romaneios = await api.romaneios();
+  if (tabs.has("fechamentos")) await mtRecarregarSeAberto();
   if (eFabrica() && (tabs.has("wa_conversas") || tabs.has("wa_mensagens"))) await recarregarConversas();
   avisarNovos();
 }
@@ -69,6 +73,7 @@ function bip() { try { const c = new (window.AudioContext || window.webkitAudioC
 
 async function iniciarSessao() {
   idsConhecidos = null; tela = "inicio";
+  Object.assign(MT, { dados: null, aba: "painel", lojaAberta: null, rasc: {}, mes: hoje().slice(0, 7) + "-01" });
   $("app").innerHTML = `<p class="carregando">Carregando pedidos…</p>`;
   try { await recarregar(true); } catch (e) { erroTela(e); }
   desenhar();
