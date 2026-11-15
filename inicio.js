@@ -77,6 +77,7 @@ async function iniciarSessao() {
   $("app").innerHTML = `<p class="carregando">Carregando pedidos…</p>`;
   try { await recarregar(true); } catch (e) { erroTela(e); }
   desenhar();
+  if (MT.link) mtAbrirPorLink();
 }
 let ouvindo = false;
 function ouvirMudancas() {
@@ -99,6 +100,7 @@ $("sair").onclick = async () => { limparNavegacao(); await api.sair(); S.perfil 
   if (S.perfil) await iniciarSessao(); else desenhar();
   // link mandado ao cliente: .../#estampas abre direto o catálogo de estampas
   if (location.hash === "#estampas") { history.replaceState(null, "", location.pathname + location.search); catalogoPublico(); }
+  if (location.hash.startsWith("#metas")) { MT.link = location.hash; history.replaceState(null, "", location.pathname + location.search); if (S.perfil) mtAbrirPorLink(); }
   if (location.hash === "#sos") { history.replaceState(null, "", location.pathname + location.search); abrirSos(); }
 })();
 
